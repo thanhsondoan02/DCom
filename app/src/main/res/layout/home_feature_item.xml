@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="10dp">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginHorizontal="16dp"
+        app:cardCornerRadius="15dp"
+        app:cardPreventCornerOverlap="true">
+
+        <RelativeLayout
+            android:id="@+id/rlFeatureContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:minHeight="100dp"
+            android:background="@drawable/home_feature_gradient1"
+            android:padding="10dp">
+
+            <TextView
+                android:id="@+id/tvFeatureTitle"
+                android:text="Maths"
+                style="@style/viewParent.headerText.HomeCardTitle" />
+
+            <TextView
+                android:id="@+id/tvFeatureDes"
+                android:text="\nclose to nature"
+                style="@style/viewParent.headerText.homeCardContent"
+                android:layout_toStartOf="@id/ivFeatureIcon"
+                android:layout_alignParentStart="true"
+                android:layout_marginEnd="60dp"
+                android:layout_below="@id/tvFeatureTitle"/>
+
+            <ImageView
+                android:id="@+id/ivFeatureIcon"
+                android:maxHeight="90dp"
+                android:src="@drawable/home_ic_maths"
+                style="@style/homeCardImage" />
+
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+
+
+</RelativeLayout>

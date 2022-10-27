@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.home.HomeActivity">
+
+    <TextView
+        android:id="@+id/tvHomeAppName"
+        style="@style/viewParent.headerText"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/primaryTextColor"
+        android:text="@string/app_name" />
+
+    <TextView
+        android:id="@+id/tvHomeAppDes"
+        style="@style/viewParent.headerText.contentText"
+        android:layout_below="@id/tvHomeAppName"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="10dp"
+        android:text="@string/app_des" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvHomeContent"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_below="@id/tvHomeAppDes"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="20dp" />
+
+</RelativeLayout>

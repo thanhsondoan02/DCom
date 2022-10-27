@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">DCom</string>
+    <string name="app_des">Mô tả ứng dụng</string>
+    <string name="text_to_speech">Đọc văn bản</string>
+    <string name="text_to_speech_des">Chuyển văn bản thành âm thanh</string>
+    <string name="speech_to_text">Nhận diện âm thanh</string>
+    <string name="speech_to_text_des">Chuyển giọng nói của người đối diện thành văn bản</string>
+    <string name="fast_communication">Giao tiếp nhanh</string>
+    <string name="fast_communication_des">Các mẫu câu hay sử dụng</string>
+    <string name="fast_communication_setting">Tùy chỉnh mẫu câu giao tiếp nhanh</string>
+    <string name="fast_communication_setting_des">Tạo, sửa, xoá mẫu câu giao tiếp nhanh theo ý muốn của riêng mình</string>
+    <string name="conversation_history">Lịch sử hội thoại</string>
+    <string name="conversation_history_des">Xem lại một cuộc hội thoại được lưu</string>
+    <string name="emergency_signal">Tín hiệu khẩn cấp</string>
+    <string name="emergency_signal_des">Phát tín hiệu yêu hỗ trợ khẩn cấp</string>
+    <string name="speed">Tốc độ</string>
+    <string name="pitch">Độ cao</string>
+    <string name="volume">Âm lượng</string>
+</resources>
