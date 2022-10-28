@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="PhoneInputView">
+        <attr name="hintPhone" format="string" />
+        <attr name="hintColor" format="string" />
+        <attr name="background_input" format="string" />
+    </declare-styleable>
+
+    <declare-styleable name="CollectionView">
+        <attr name="rv_no_data_view" format="reference" />
+    </declare-styleable>
+
+    <declare-styleable name="ActionBarView">
+        <attr name="action_bar_left_icon" format="reference" />
+        <attr name="action_bar_left_icon_tint" format="color" />
+        <attr name="action_bar_left_icon_padding" format="dimension" />
+        <attr name="action_bar_left_font" format="reference" />
+        <attr name="action_bar_left_label" format="string" />
+        <attr name="action_bar_left_text_color" format="color" />
+        <attr name="action_bar_left_text_size" format="dimension" />
+        <attr name="action_bar_center_font" format="reference" />
+        <attr name="action_bar_center_label" format="string" />
+        <attr name="action_bar_center_text_color" format="color" />
+        <attr name="action_bar_center_text_size" format="dimension" />
+        <attr name="action_bar_right_icon" format="reference" />
+        <attr name="action_bar_right_icon_tint" format="color" />
+        <attr name="action_bar_right_icon_padding" format="dimension" />
+        <attr name="action_bar_right_icon_with_text" format="boolean" />
+        <attr name="action_bar_right_font" format="reference" />
+        <attr name="action_bar_right_label" format="string" />
+        <attr name="action_bar_right_text_color" format="color" />
+        <attr name="action_bar_right_text_size" format="dimension" />
+        <attr name="action_bar_show_divider" format="boolean" />
+    </declare-styleable>
+
+    <declare-styleable name="LeafCardView">
+        <attr name="corner_top_left" format="dimension" />
+        <attr name="corner_top_right" format="dimension" />
+        <attr name="corner_bottom_left" format="dimension" />
+        <attr name="corner_bottom_right" format="dimension" />
+    </declare-styleable>
+
+    <declare-styleable name="RoomRuleView">
+        <attr name="rrv_background_stroke" format="reference" />
+        <attr name="rrv_left_icon_drawable" format="reference" />
+        <attr name="rrv_title_text" format="string" />
+        <attr name="rrv_describe_text" format="string" />
+        <attr name="rrv_right_icon_color" format="color" />
+        <attr name="rrv_shadow_icon_drawable" format="reference" />
+        <attr name="rrv_access_range_type" format="enum">
+            <enum name="NONE" value="0" />
+            <enum name="PUBLIC" value="1" />
+            <enum name="PASSWORD" value="2" />/>
+        </attr>
+    </declare-styleable>
+
+    <declare-styleable name="RightIconView">
+        <attr name="riv_drawable_icon" format="reference" />
+        <attr name="riv_background_color" format="color" />
+    </declare-styleable>
+
+    <declare-styleable name="PinView">
+        <attr name="pv_parent_color" format="color" />
+        <attr name="pv_circle_color" format="color" />
+        <attr name="pv_circle_color_error" format="color" />
+        <attr name="pv_circle_color_using" format="color" />
+        <attr name="pv_item_count" format="integer" />
+        <attr name="pv_item_width" format="dimension" />
+        <attr name="pv_item_height" format="dimension" />
+        <attr name="pv_item_radius" format="dimension" />
+        <attr name="pv_item_spacing" format="dimension" />
+        <attr name="pv_line_width" format="dimension" />
+        <attr name="pv_line_color" format="reference|color" />
+        <attr name="pv_line_color_current_cursor" format="reference|color" />
+        <attr name="pv_view_type" format="enum">
+            <enum name="none" value="0" />
+            <enum name="rectangle" value="1" />
+            <enum name="circle" value="3" />
+        </attr>
+        <attr name="pv_mode" format="enum">
+            <enum name="six_item" value="6" />
+            <enum name="eight_item" value="8" />
+        </attr>
+        <attr name="android:cursorVisible" />
+        <attr name="pv_cursor_width" format="dimension" />
+        <attr name="pv_cursor_color" format="reference|color" />
+        <attr name="android:itemBackground" />
+        <attr name="pv_hide_line_when_filled" format="boolean" />
+        <attr name="pv_circle_item_radius" format="dimension" />
+    </declare-styleable>
+
+    <declare-styleable name="SearchView">
+        <attr name="search_view_hint" format="string" />
+    </declare-styleable>
+
+    <declare-styleable name="UserInfoView">
+        <attr name="uiv_user_type" format="enum">
+            <enum name="VIEWER" value="0" />
+            <enum name="STREAMER" value="1" />/>
+        </attr>
+    </declare-styleable>
+
+    <declare-styleable name="CoustomTextView">
+
+        <attr name="outerShadowRadius" format="dimension" />
+        <attr name="strokeWidth" format="dimension" />
+        <attr name="strokeMiter" format="dimension" />
+        <attr name="strokeColor" format="color" />
+        <attr name="strokeJoinStyle">
+            <enum name="miter" value="0" />
+            <enum name="bevel" value="1" />
+            <enum name="round" value="2" />
+        </attr>
+    </declare-styleable>
+
+</resources>

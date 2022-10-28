@@ -30,5 +30,9 @@
     <color name="gradientLightBlue">#376DF6</color>
     <color name="gradientLightGreen">#21E8AC</color>
     <color name="mainBlue">#1BA0E2</color>
+    <color name="gray_message">#f1f1f1</color>
+    <color name="black">#000000</color>
+    <color name="green_message">#effdde</color>
+    <color name="white">#FFFFFF</color>
 
 </resources>

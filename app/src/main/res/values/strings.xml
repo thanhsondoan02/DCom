@@ -16,4 +16,5 @@
     <string name="speed">Tốc độ</string>
     <string name="pitch">Độ cao</string>
     <string name="volume">Âm lượng</string>
+    <string name="message_example1">Đây là nội dung tin nhắn</string>
 </resources>
