@@ -1,12 +1,12 @@
-package com.example.dcom.ui.fastcom
+package com.example.dcom.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.dcom.R
 
-class FastCommunicationActivity : AppCompatActivity() {
+class EmergencyActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.fast_communication_communication)
+        setContentView(R.layout.emergency_activity)
     }
 }

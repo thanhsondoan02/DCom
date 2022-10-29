@@ -6,7 +6,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.dcom.R
-import com.example.dcom.ui.fastcom.FastCommunicationActivity
+import com.example.dcom.ui.EmergencyActivity
+import com.example.dcom.ui.fastcom.FastComActivity
 import com.example.dcom.ui.history.ConversationHistoryActivity
 import com.example.dcom.ui.speechtotext.SpeechToTextActivity
 import com.example.dcom.ui.texttospeech.TextToSpeechActivity
@@ -18,6 +19,7 @@ class HomeActivity : AppCompatActivity() {
         fun onSpeechToTextClick()
         fun onConversationHistoryClick()
         fun onFastCommunicationClick()
+        fun onEmergencyClick()
     }
 
     lateinit var listener: IListener
@@ -57,7 +59,11 @@ class HomeActivity : AppCompatActivity() {
             }
 
             override fun onFastCommunicationClick() {
-                startActivity(Intent(this@HomeActivity, FastCommunicationActivity::class.java))
+                startActivity(Intent(this@HomeActivity, FastComActivity::class.java))
+            }
+
+            override fun onEmergencyClick() {
+                startActivity(Intent(this@HomeActivity, EmergencyActivity::class.java))
             }
         }
     }

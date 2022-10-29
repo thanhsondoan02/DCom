@@ -84,6 +84,9 @@ class HomeAdapter(val activity: HomeActivity) : RecyclerView.Adapter<BaseVH>() {
                     activity.getString(R.string.fast_communication) -> {
                         activity.listener.onFastCommunicationClick()
                     }
+                    activity.getString(R.string.emergency_signal) -> {
+                        activity.listener.onEmergencyClick()
+                    }
                 }
             }
         }

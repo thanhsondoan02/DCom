@@ -34,5 +34,10 @@
     <color name="black">#000000</color>
     <color name="green_message">#effdde</color>
     <color name="white">#FFFFFF</color>
+    <color name="live_trans_background">#e2e0e5</color>
+    <color name="live_trans_blue">#415e9b</color>
+
+    <color name="transparent">#00000000</color>
+    <color name="emergency">#dd6f62</color>
 
 </resources>

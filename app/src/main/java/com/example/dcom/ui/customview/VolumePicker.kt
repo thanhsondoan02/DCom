@@ -22,7 +22,8 @@ class VolumePicker(context: Context?, attrs: AttributeSet?) :
 
     // Set default values
     private var mStrokeWidth = 10
-    private var paintColor = "#21E8AC"
+//    private var paintColor = "#21E8AC"
+    private var paintColor = "#1BA0E2"
     private var circleRadius = SMALL_CIRCLE_RADIUS
     private var circleCenterX: Float? = null
     private var circleCenterY: Float? = null
@@ -60,8 +61,6 @@ class VolumePicker(context: Context?, attrs: AttributeSet?) :
         canvas.drawCircle(circleCenterX!!, circleCenterY!!, circleRadius, mDrawPaint!!)
     }
 
-    private var oldX = 0f
-    private var oldY = 0f
     var isMoving = false
 
     override fun onTouchEvent(event: MotionEvent): Boolean {

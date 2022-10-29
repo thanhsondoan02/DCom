@@ -17,4 +17,19 @@
     <string name="pitch">Độ cao</string>
     <string name="volume">Âm lượng</string>
     <string name="message_example1">Đây là nội dung tin nhắn</string>
+    <string name="time_example">11:29 AM</string>
+    <string name="vietnamese_vietnam">Vietnamese (Vietnam)</string>
+    <string name="example_paragraph">Nhận diện âm thanh\nChuyển giọng nói của người đối diện thành văn bản\nTạo, sửa, xoá mẫu câu giao tiếp nhanh theo ý muốn của riêng mình\nXem lại một cuộc hội thoại được lưu</string>
+    <string name="example_paragraph2">Nhận diện âm thanh. Chuyển giọng nói của người đối diện thành văn bản. Tạo, sửa, xoá mẫu câu giao tiếp nhanh theo ý muốn của riêng mình. Xem lại một cuộc hội thoại được lưu</string>
+    <string name="emergency">Emergency</string>
+    <string name="name_example">Đoàn Thanh Sơn</string>
+    <string name="emergency_information">Thông tin khẩn cấp</string>
+    <string name="call_113">Gọi 113</string>
+    <string name="call_114">Gọi 114</string>
+    <string name="call_115">Gọi 115</string>
+    <string name="des_113">Cảnh sát</string>
+    <string name="des_114">Cứu hỏa</string>
+    <string name="des_115">Cấp cứu</string>
+    <string name="dial_pad">Quay số</string>
+    <string name="title">Title</string>
 </resources>

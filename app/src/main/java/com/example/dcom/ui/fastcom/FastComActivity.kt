@@ -1,24 +1,25 @@
-package com.example.dcom.ui.texttospeech
+package com.example.dcom.ui.fastcom
 
 import android.os.Bundle
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.dcom.R
-import com.example.dcom.ui.customview.VolumePicker
 
-class TextToSpeechActivity : AppCompatActivity() {
+class FastComActivity : AppCompatActivity() {
 
     private lateinit var tvActionBarTitle: TextView
     private lateinit var btnGoBack: ImageButton
-    private lateinit var vpPitch: VolumePicker
-    private lateinit var vpVolume: VolumePicker
+    private lateinit var rvListText: RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.text_to_speech_activity)
+        setContentView(R.layout.fast_communication_communication)
 
         initView()
+        initRecyclerView()
 
         btnGoBack.setOnClickListener { onBackPressed() }
     }
@@ -26,9 +27,14 @@ class TextToSpeechActivity : AppCompatActivity() {
     private fun initView() {
         tvActionBarTitle = findViewById(R.id.tvActionBarTitle)
         btnGoBack = findViewById(R.id.btnActionBarGoBack)
-        vpPitch = findViewById(R.id.vpTextToSpeechPitch)
-        vpVolume = findViewById(R.id.vpTextToSpeechVolume)
+        rvListText = findViewById(R.id.rvFastCom)
 
-        tvActionBarTitle.text = getString(R.string.text_to_speech)
+        tvActionBarTitle.text = getString(R.string.fast_communication)
     }
+
+    private fun initRecyclerView() {
+        rvListText.adapter = FastComAdapter(this)
+        rvListText.layoutManager = LinearLayoutManager(this)
+    }
+
 }

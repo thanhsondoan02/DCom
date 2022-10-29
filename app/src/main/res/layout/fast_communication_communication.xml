@@ -1,8 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:orientation="vertical"
     android:layout_height="match_parent"
-    tools:context=".ui.fastcom.FastCommunicationActivity">
+    tools:context=".ui.fastcom.FastComActivity">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <com.example.dcom.ui.customview.ActionBarView
+        android:layout_width="match_parent"
+        android:layout_height="55dp" >
+
+        <ImageButton
+            android:id="@+id/btnConversationHistoryDelete"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:adjustViewBounds="true"
+            android:layout_alignParentEnd="true"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_baseline_delete_24_white" />
+
+    </com.example.dcom.ui.customview.ActionBarView>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvFastCom"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</LinearLayout>

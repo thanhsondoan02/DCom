@@ -3,10 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context=".ui.texttospeech.TextToSpeechActivity">
 
     <com.example.dcom.ui.customview.ActionBarView
+        android:id="@+id/abvTextToSpeechActionBar"
         android:layout_width="match_parent"
         android:layout_height="55dp">
 
@@ -14,26 +16,16 @@
             android:id="@+id/btnTextToSpeechMenu"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:adjustViewBounds="true"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:background="@android:color/transparent"
-            android:paddingStart="10dp"
-            android:paddingEnd="15dp"
             android:src="@drawable/ic_baseline_menu_24" />
-
-        <androidx.appcompat.widget.AppCompatImageButton
-            android:id="@+id/btnTextToSpeechSpeak"
-            android:layout_width="40dp"
-            android:layout_height="match_parent"
-            android:layout_centerVertical="true"
-            android:layout_toStartOf="@id/btnTextToSpeechMenu"
-            android:background="@android:color/transparent"
-            android:paddingHorizontal="10dp"
-            android:src="@drawable/ic_baseline_volume_up_24" />
 
     </com.example.dcom.ui.customview.ActionBarView>
 
     <LinearLayout
+        android:paddingVertical="7dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@android:color/black"
@@ -42,9 +34,9 @@
 
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="35dp"
             android:gravity="center_vertical"
-            android:padding="10dp">
+            android:paddingHorizontal="10dp">
 
             <TextView
                 android:layout_width="140dp"
@@ -62,9 +54,9 @@
 
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="35dp"
             android:gravity="center_vertical"
-            android:padding="10dp">
+            android:paddingHorizontal="10dp">
 
             <TextView
                 android:layout_width="140dp"
@@ -82,9 +74,9 @@
 
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="35dp"
             android:gravity="center_vertical"
-            android:padding="10dp">
+            android:paddingHorizontal="10dp">
 
             <TextView
                 android:layout_width="140dp"
@@ -102,5 +94,57 @@
 
     </LinearLayout>
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_alignParentEnd="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="50dp" >
+
+            <ImageButton
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                android:src="@drawable/ic_baseline_volume_up_24"
+                android:background="@color/mainBlue" />
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <ImageButton
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:background="@android:color/transparent"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"
+            android:src="@drawable/ic_baseline_delete_24"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_height="wrap_content">
+
+            <ImageButton
+                android:layout_width="45dp"
+                android:layout_height="55dp"
+                android:background="@android:color/transparent"
+                android:src="@drawable/ic_baseline_mic_24"/>
+
+            <ImageButton
+                android:layout_width="45dp"
+                android:layout_marginEnd="5dp"
+                android:layout_height="55dp"
+                android:background="@android:color/transparent"
+                android:src="@drawable/ic_baseline_content_paste_24"/>
+
+        </LinearLayout>
+
+
+
+    </RelativeLayout>
 
 </LinearLayout>

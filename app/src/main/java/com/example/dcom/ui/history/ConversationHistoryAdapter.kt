@@ -101,6 +101,7 @@ class ConversationHistoryAdapter(private val activity: ConversationHistoryActivi
             type = MINE_MESSAGE
             message = activity.getString(R.string.app_des)
         })
+        list.addAll(list)
         return list
     }
 
