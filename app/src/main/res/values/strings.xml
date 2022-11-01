@@ -32,4 +32,7 @@
     <string name="des_115">Cấp cứu</string>
     <string name="dial_pad">Quay số</string>
     <string name="title">Title</string>
+    <string name="text_to_speech_hint">Enter text to be spoken here</string>
+    <string name="cancel">Cancel</string>
+    <string name="select">Select</string>
 </resources>

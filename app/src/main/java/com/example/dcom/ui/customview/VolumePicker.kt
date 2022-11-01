@@ -72,14 +72,13 @@ class VolumePicker(context: Context?, attrs: AttributeSet?) :
                 if (isTouchInCircle(touchX, touchY)) {
                     isMoving = true
                     circleRadius = BIG_CIRCLE_RADIUS
+                } else if (touchY < circleCenterY!! + TOUCH_RANGE && touchY > circleCenterY!! - TOUCH_RANGE) {
+                    moveToTouchX(touchX)
                 }
             }
             MotionEvent.ACTION_MOVE -> {
                 if (isMoving) {
-                    if (touchX >= minPoint!! && touchX <= maxPoint!!) {
-                        circleCenterX = touchX
-                        lineWidth = touchX
-                    }
+                    moveToTouchX(touchX)
                 }
             }
             MotionEvent.ACTION_UP -> {
@@ -93,6 +92,17 @@ class VolumePicker(context: Context?, attrs: AttributeSet?) :
         return true
     }
 
+    private fun isTouchXInRange(touchX: Float) : Boolean {
+        return touchX >= minPoint!! && touchX <= maxPoint!!
+    }
+
+    private fun moveToTouchX(touchX: Float) {
+        if (isTouchXInRange(touchX)) {
+            circleCenterX = touchX
+            lineWidth = touchX
+        }
+    }
+
     private fun isTouchInCircle(touchX: Float, touchY: Float): Boolean {
         val dx = touchX - circleCenterX!!
         val dy = touchY - circleCenterY!!
@@ -101,10 +111,15 @@ class VolumePicker(context: Context?, attrs: AttributeSet?) :
     }
 
 
-//    fun setPickerLength(percent: Int) {
-//        circleCenterX = (width.toFloat() - circleRadius) * percent / 100
-//        invalidate()
-//    }
+    fun setPickerLength(percent: Int) {
+        if (percent in 0..100) {
+            lineWidth = maxPoint!! * percent / 100
+            circleCenterX = lineWidth
+            invalidate()
+        } else {
+            throw IllegalArgumentException("Percent must be in range 0..100")
+        }
+    }
 
 }
 

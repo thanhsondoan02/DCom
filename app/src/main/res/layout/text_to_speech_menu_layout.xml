@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/llTextToSpeechSoundSetting"
+    android:paddingVertical="7dp"
+    android:layout_width="match_parent"
+    android:background="#fbfafa"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:gravity="center_vertical"
+        android:paddingHorizontal="10dp">
+
+        <TextView
+            android:layout_width="140dp"
+            android:layout_height="wrap_content"
+            android:text="@string/speed"
+            android:textColor="@color/mainBlue" />
+
+        <com.example.dcom.ui.customview.VolumePicker
+            android:id="@+id/vpTextToSpeechSpeed"
+            android:layout_marginEnd="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="25dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:gravity="center_vertical"
+        android:paddingHorizontal="10dp">
+
+        <TextView
+            android:layout_width="140dp"
+            android:layout_height="wrap_content"
+            android:text="@string/pitch"
+            android:textColor="@color/mainBlue" />
+
+        <com.example.dcom.ui.customview.VolumePicker
+            android:id="@+id/vpTextToSpeechPitch"
+            android:layout_width="match_parent"
+            android:layout_marginEnd="10dp"
+            android:layout_height="25dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:gravity="center_vertical"
+        android:paddingHorizontal="10dp">
+
+        <TextView
+            android:layout_width="140dp"
+            android:layout_height="wrap_content"
+            android:text="@string/volume"
+            android:textColor="@color/mainBlue" />
+
+        <com.example.dcom.ui.customview.VolumePicker
+            android:id="@+id/vpTextToSpeechVolume"
+            android:layout_width="match_parent"
+            android:layout_marginEnd="10dp"
+            android:layout_height="25dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:orientation="horizontal"
+        android:paddingVertical="6dp">
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginVertical="3dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="8dp"
+            android:layout_weight="1"
+            app:cardCornerRadius="5dp">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnDurationPickerCancel"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                android:text="@string/cancel"
+                android:textAllCaps="false"
+                android:textColor="@color/mainBlue" />
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginVertical="3dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="16dp"
+            android:layout_weight="1"
+            app:cardCornerRadius="5dp">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnDurationPickerSelect"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/mainBlue"
+                android:text="@string/select"
+                android:textAllCaps="false"
+                android:textColor="@color/white" />
+
+
+        </com.google.android.material.card.MaterialCardView>
+
+    </LinearLayout>
+
+</LinearLayout>

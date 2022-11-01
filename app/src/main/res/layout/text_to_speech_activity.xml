@@ -24,81 +24,12 @@
 
     </com.example.dcom.ui.customview.ActionBarView>
 
-    <LinearLayout
-        android:paddingVertical="7dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@android:color/black"
-        android:orientation="vertical">
-
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="35dp"
-            android:gravity="center_vertical"
-            android:paddingHorizontal="10dp">
-
-            <TextView
-                android:layout_width="140dp"
-                android:layout_height="wrap_content"
-                android:text="@string/speed"
-                android:textColor="@android:color/white" />
-
-            <com.example.dcom.ui.customview.VolumePicker
-                android:id="@+id/vpTextToSpeechPitchSpeed"
-                android:layout_marginEnd="10dp"
-                android:layout_width="match_parent"
-                android:layout_height="25dp" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="35dp"
-            android:gravity="center_vertical"
-            android:paddingHorizontal="10dp">
-
-            <TextView
-                android:layout_width="140dp"
-                android:layout_height="wrap_content"
-                android:text="@string/pitch"
-                android:textColor="@android:color/white" />
-
-            <com.example.dcom.ui.customview.VolumePicker
-                android:id="@+id/vpTextToSpeechPitch"
-                android:layout_width="match_parent"
-                android:layout_marginEnd="10dp"
-                android:layout_height="25dp" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="35dp"
-            android:gravity="center_vertical"
-            android:paddingHorizontal="10dp">
-
-            <TextView
-                android:layout_width="140dp"
-                android:layout_height="wrap_content"
-                android:text="@string/volume"
-                android:textColor="@android:color/white" />
-
-            <com.example.dcom.ui.customview.VolumePicker
-                android:id="@+id/vpTextToSpeechVolume"
-                android:layout_width="match_parent"
-                android:layout_marginEnd="10dp"
-                android:layout_height="25dp" />
-
-        </LinearLayout>
-
-    </LinearLayout>
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <com.google.android.material.card.MaterialCardView
+            android:id="@+id/mcvTextToSpeechSpeak"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:layout_alignParentEnd="true"
@@ -115,6 +46,7 @@
         </com.google.android.material.card.MaterialCardView>
 
         <ImageButton
+            android:id="@+id/btnTextToSpeechDelete"
             android:layout_width="55dp"
             android:layout_height="55dp"
             android:background="@android:color/transparent"
@@ -143,7 +75,15 @@
 
         </LinearLayout>
 
-
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/btnTextToSpeechDelete"
+            android:layout_below="@id/mcvTextToSpeechSpeak"
+            android:inputType="textMultiLine"
+            android:textAlignment="center"
+            android:hint="@string/text_to_speech_hint"
+            />
 
     </RelativeLayout>
 
