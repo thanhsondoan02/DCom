@@ -1,4 +1,4 @@
-package com.example.dcom.ui.fastcom
+package com.example.dcom.presentation.main.fastcom
 
 import android.util.Log
 import android.view.LayoutInflater
@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.dcom.R
-import com.example.dcom.base.BaseVH
+import com.example.dcom.presentation.common.recyclerview.BaseVH
 
 class FastComAdapter(private val activity: FastComActivity) : RecyclerView.Adapter<BaseVH>() {
 

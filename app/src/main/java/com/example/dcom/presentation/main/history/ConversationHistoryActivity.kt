@@ -1,4 +1,4 @@
-package com.example.dcom.ui.history
+package com.example.dcom.presentation.main.history
 
 import android.os.Bundle
 import android.widget.ImageButton

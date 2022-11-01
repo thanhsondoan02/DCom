@@ -1,4 +1,4 @@
-package com.example.dcom.ui.customview
+package com.example.dcom.presentation.widget
 
 import android.content.Context
 import android.util.AttributeSet

@@ -1,4 +1,4 @@
-package com.example.dcom.ui.home
+package com.example.dcom.presentation.main.home
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,11 +6,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.dcom.R
-import com.example.dcom.ui.EmergencyActivity
-import com.example.dcom.ui.fastcom.FastComActivity
-import com.example.dcom.ui.history.ConversationHistoryActivity
-import com.example.dcom.ui.speechtotext.SpeechToTextActivity
-import com.example.dcom.ui.texttospeech.TextToSpeechActivity
+import com.example.dcom.presentation.main.emergency.EmergencyActivity
+import com.example.dcom.presentation.main.fastcom.FastComActivity
+import com.example.dcom.presentation.main.history.ConversationHistoryActivity
+import com.example.dcom.presentation.main.speechtotext.SpeechToTextActivity
+import com.example.dcom.presentation.main.texttospeech.TextToSpeechActivity
 
 class HomeActivity : AppCompatActivity() {
 

@@ -21,7 +21,7 @@
             android:text="@string/speed"
             android:textColor="@color/mainBlue" />
 
-        <com.example.dcom.ui.customview.VolumePicker
+        <com.example.dcom.presentation.widget.VolumePicker
             android:id="@+id/vpTextToSpeechSpeed"
             android:layout_marginEnd="10dp"
             android:layout_width="match_parent"
@@ -41,7 +41,7 @@
             android:text="@string/pitch"
             android:textColor="@color/mainBlue" />
 
-        <com.example.dcom.ui.customview.VolumePicker
+        <com.example.dcom.presentation.widget.VolumePicker
             android:id="@+id/vpTextToSpeechPitch"
             android:layout_width="match_parent"
             android:layout_marginEnd="10dp"
@@ -61,7 +61,7 @@
             android:text="@string/volume"
             android:textColor="@color/mainBlue" />
 
-        <com.example.dcom.ui.customview.VolumePicker
+        <com.example.dcom.presentation.widget.VolumePicker
             android:id="@+id/vpTextToSpeechVolume"
             android:layout_width="match_parent"
             android:layout_marginEnd="10dp"

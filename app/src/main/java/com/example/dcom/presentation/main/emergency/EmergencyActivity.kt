@@ -1,4 +1,4 @@
-package com.example.dcom.ui
+package com.example.dcom.presentation.main.emergency
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity

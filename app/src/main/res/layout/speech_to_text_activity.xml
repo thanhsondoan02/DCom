@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.speechtotext.SpeechToTextActivity">
+    tools:context=".presentation.main.speechtotext.SpeechToTextActivity">
 
     <RelativeLayout
         android:id="@+id/rlTemp1"
@@ -40,7 +40,7 @@
         android:textColor="@color/black"
         android:textSize="18sp" />
 
-    <com.example.dcom.ui.customview.QuarterCircle
+    <com.example.dcom.presentation.widget.QuarterCircle
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_alignParentEnd="true" />

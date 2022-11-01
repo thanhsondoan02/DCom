@@ -4,9 +4,9 @@
     android:layout_width="match_parent"
     android:orientation="vertical"
     android:layout_height="match_parent"
-    tools:context=".ui.fastcom.FastComActivity">
+    tools:context=".presentation.main.fastcom.FastComActivity">
 
-    <com.example.dcom.ui.customview.ActionBarView
+    <com.example.dcom.presentation.widget.ActionBarView
         android:layout_width="match_parent"
         android:layout_height="55dp" >
 
@@ -19,7 +19,7 @@
             android:background="@android:color/transparent"
             android:src="@drawable/ic_baseline_delete_24_white" />
 
-    </com.example.dcom.ui.customview.ActionBarView>
+    </com.example.dcom.presentation.widget.ActionBarView>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvFastCom"

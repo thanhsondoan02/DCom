@@ -1,4 +1,4 @@
-package com.example.dcom.ui.texttospeech
+package com.example.dcom.presentation.main.texttospeech
 
 import android.annotation.SuppressLint
 import android.app.Dialog
@@ -10,7 +10,7 @@ import android.widget.ImageButton
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.dcom.R
-import com.example.dcom.ui.customview.VolumePicker
+import com.example.dcom.presentation.widget.VolumePicker
 
 class TextToSpeechActivity : AppCompatActivity() {
 

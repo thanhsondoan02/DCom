@@ -1,4 +1,4 @@
-package com.example.dcom.base
+package com.example.dcom.presentation.common.recyclerview
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView

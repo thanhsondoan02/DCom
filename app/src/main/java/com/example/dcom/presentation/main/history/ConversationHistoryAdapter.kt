@@ -1,4 +1,4 @@
-package com.example.dcom.ui.history
+package com.example.dcom.presentation.main.history
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.dcom.R
-import com.example.dcom.base.BaseVH
+import com.example.dcom.presentation.common.recyclerview.BaseVH
 
 class ConversationHistoryAdapter(private val activity: ConversationHistoryActivity) : RecyclerView.Adapter<BaseVH>() {
 

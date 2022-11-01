@@ -5,9 +5,9 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    tools:context=".ui.texttospeech.TextToSpeechActivity">
+    tools:context=".presentation.main.texttospeech.TextToSpeechActivity">
 
-    <com.example.dcom.ui.customview.ActionBarView
+    <com.example.dcom.presentation.widget.ActionBarView
         android:id="@+id/abvTextToSpeechActionBar"
         android:layout_width="match_parent"
         android:layout_height="55dp">
@@ -22,7 +22,7 @@
             android:background="@android:color/transparent"
             android:src="@drawable/ic_baseline_menu_24" />
 
-    </com.example.dcom.ui.customview.ActionBarView>
+    </com.example.dcom.presentation.widget.ActionBarView>
 
     <RelativeLayout
         android:layout_width="match_parent"

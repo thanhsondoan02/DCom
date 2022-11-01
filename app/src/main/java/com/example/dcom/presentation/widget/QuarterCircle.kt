@@ -1,4 +1,4 @@
-package com.example.dcom.ui.customview
+package com.example.dcom.presentation.widget
 
 import android.content.Context
 import android.graphics.Canvas
@@ -28,8 +28,12 @@ class QuarterCircle(context: Context?, attrs: AttributeSet?) :
     }
 
     override fun onDraw(canvas: Canvas) {
-        canvas.drawCircle(width.toFloat(), 0f, width.toFloat(), mDrawPaint!!.apply { color = Color.parseColor(CIRCLE_STROKE_COLOR) })
-        canvas.drawCircle(width.toFloat(), 0f, width.toFloat() * 8 / 10, mDrawPaint!!.apply { color = Color.parseColor(CIRCLE_COLOR) })
+        canvas.drawCircle(width.toFloat(), 0f, width.toFloat(), mDrawPaint!!.apply { color = Color.parseColor(
+            CIRCLE_STROKE_COLOR
+        ) })
+        canvas.drawCircle(width.toFloat(), 0f, width.toFloat() * 8 / 10, mDrawPaint!!.apply { color = Color.parseColor(
+            CIRCLE_COLOR
+        ) })
     }
 
 }

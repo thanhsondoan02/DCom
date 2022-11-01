@@ -1,4 +1,4 @@
-package com.example.dcom.extension
+package com.example.dcom.presentation.common
 
 import android.content.Context
 import android.content.res.Resources

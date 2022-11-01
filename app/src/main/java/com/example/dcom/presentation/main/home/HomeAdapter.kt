@@ -1,4 +1,4 @@
-package com.example.dcom.ui.home
+package com.example.dcom.presentation.main.home
 
 import android.view.LayoutInflater
 import android.view.View
@@ -8,7 +8,7 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.dcom.R
-import com.example.dcom.base.BaseVH
+import com.example.dcom.presentation.common.recyclerview.BaseVH
 
 class HomeAdapter(val activity: HomeActivity) : RecyclerView.Adapter<BaseVH>() {
 

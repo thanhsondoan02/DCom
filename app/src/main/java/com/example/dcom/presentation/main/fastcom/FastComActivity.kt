@@ -1,4 +1,4 @@
-package com.example.dcom.ui.fastcom
+package com.example.dcom.presentation.main.fastcom
 
 import android.os.Bundle
 import android.widget.ImageButton
