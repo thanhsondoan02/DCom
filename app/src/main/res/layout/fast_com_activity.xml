@@ -11,7 +11,7 @@
         android:layout_height="55dp" >
 
         <ImageButton
-            android:id="@+id/btnConversationHistoryDelete"
+            android:id="@+id/btnFastComDelete"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:adjustViewBounds="true"

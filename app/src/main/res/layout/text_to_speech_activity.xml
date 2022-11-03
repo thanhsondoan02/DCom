@@ -82,6 +82,7 @@
             android:layout_below="@id/mcvTextToSpeechSpeak"
             android:inputType="textMultiLine"
             android:textAlignment="center"
+            android:backgroundTint="@color/transparent"
             android:hint="@string/text_to_speech_hint"
             />
 

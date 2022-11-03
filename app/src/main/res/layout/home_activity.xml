@@ -1,33 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".presentation.main.home.HomeActivity">
+    android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/tvHomeAppName"
-        style="@style/viewParent.headerText"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="10dp"
-        android:textColor="@color/primaryTextColor"
-        android:text="@string/app_name" />
 
-    <TextView
-        android:id="@+id/tvHomeAppDes"
-        style="@style/viewParent.headerText.contentText"
-        android:layout_below="@id/tvHomeAppName"
-        android:layout_marginHorizontal="16dp"
-        android:layout_marginTop="10dp"
-        android:text="@string/app_des" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvHomeContent"
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/vpHomePager"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_below="@id/tvHomeAppDes"
+        android:layout_above="@id/ivHomeDivider"
+        android:layout_alignParentTop="true"
+        android:overScrollMode="never" />
+
+    <ImageView
+        android:id="@+id/ivHomeDivider"
+        android:background="@color/gray_message"
+        android:layout_above="@id/bnvHomeNavigator"
+        android:layout_width="match_parent"
+        android:layout_height="2dp" />
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bnvHomeNavigator"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
         android:layout_alignParentBottom="true"
-        android:layout_marginTop="20dp" />
+        android:background="@color/white"
+        app:menu="@menu/bottom_navigation_menu" />
 
 </RelativeLayout>

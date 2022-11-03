@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/itmCommunication"
+        android:icon="@drawable/ic_volume_white_24"
+        android:title="@string/text_to_speech"/>
+    <item
+        android:id="@+id/itmConversationHistory"
+        android:icon="@drawable/ic_baseline_history_24"
+        android:title="@string/conversation_history_short"/>
+    <item
+        android:id="@+id/itmFastCom"
+        android:icon="@drawable/ic_baseline_save_24"
+        android:title="@string/fast_communication_short"/>
+</menu>

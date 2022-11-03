@@ -16,7 +16,7 @@ class FastComActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.fast_communication_communication)
+        setContentView(R.layout.fast_com_activity)
 
         initView()
         initRecyclerView()
