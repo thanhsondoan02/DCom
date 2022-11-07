@@ -2,14 +2,20 @@ package com.example.dcom.presentation.main.home
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.viewpager.widget.ViewPager
 import com.example.dcom.R
+import com.example.dcom.presentation.widget.CustomViewPager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class HomeActivity : AppCompatActivity() {
 
     private lateinit var bnvNavigator: BottomNavigationView
-    private lateinit var vpHomePager: ViewPager
+    private lateinit var cvpHomePager: CustomViewPager
+
+    private lateinit var adapter: HomeAdapter
+    private val fragmentList = mutableListOf<BaseFragment>()
+    private var communicationFragment = CommunicationFragment()
+    private var fastComFragment = FastComFragment()
+    private var history = HistoryFragment()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,7 +28,9 @@ class HomeActivity : AppCompatActivity() {
 
     private fun initView() {
         bnvNavigator = findViewById(R.id.bnvHomeNavigator)
-        vpHomePager = findViewById(R.id.vpHomePager)
+        cvpHomePager = findViewById(R.id.cvpHomePager)
+
+        initViewPager()
     }
 
     private fun setNavigatorListener() {
@@ -42,4 +50,16 @@ class HomeActivity : AppCompatActivity() {
         }
     }
 
+    private fun initViewPager() {
+        adapter = HomeAdapter(supportFragmentManager)
+
+        cvpHomePager.setPagingEnabled(false)
+        fragmentList.add(communicationFragment)
+        fragmentList.add(fastComFragment)
+        adapter.addListFragment(fragmentList)
+        cvpHomePager.adapter = adapter
+        binding.vpMain.offscreenPageLimit = adapter.count
+        binding.vpMain.currentItem = 0
+
+    }
 }
