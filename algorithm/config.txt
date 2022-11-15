@@ -1,0 +1,6 @@
+Speech to Text:
+    pip install SpeechRecognition
+    pip install pyaudio
+Text to Speech
+    pip install gTTS
+    pip install playsound
