@@ -39,5 +39,7 @@
 
     <color name="transparent">#00000000</color>
     <color name="emergency">#dd6f62</color>
+    <color name="bg_custom_edit_text">#f2f0f5</color>
+    <color name="text_color_custom_edit_text">#596885</color>
 
 </resources>

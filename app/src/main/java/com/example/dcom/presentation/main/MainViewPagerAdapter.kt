@@ -1,12 +1,13 @@
 @file:Suppress("DEPRECATION")
 
-package com.example.dcom.presentation.main.home
+package com.example.dcom.presentation.main
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
+import com.example.dcom.presentation.common.BaseFragment
 
-class HomeAdapter(fragmentManager: FragmentManager) : FragmentPagerAdapter(fragmentManager) {
+class MainViewPagerAdapter(fragmentManager: FragmentManager) : FragmentPagerAdapter(fragmentManager) {
 
     private var fragmentList = mutableListOf<BaseFragment>()
 

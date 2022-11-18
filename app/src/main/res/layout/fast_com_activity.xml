@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:orientation="vertical"
     android:layout_height="match_parent"
-    tools:context=".presentation.main.fastcom.FastComActivity">
+    tools:context=".presentation.main.temp.fastcom.FastComActivity">
 
     <com.example.dcom.presentation.widget.ActionBarView
         android:layout_width="match_parent"

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_custom_edit_text"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/ivCustomEditTextDivider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentTop="true"
+        android:background="#c8c8ca" />
+
+    <EditText
+        android:id="@+id/edtCustomEditTextInput"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_above="@id/mcvCustomEditTextClear"
+        android:layout_below="@id/ivCustomEditTextDivider"
+        android:gravity="top"
+        android:background="@color/bg_custom_edit_text"
+        android:hint="@string/type_your_reply_here"
+        android:inputType="textMultiLine"
+        android:paddingHorizontal="10dp"
+        android:paddingVertical="20dp" />
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/mcvCustomEditTextClear"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        app:cardCornerRadius="50dp"
+        app:strokeColor="#e1dfe4"
+        app:strokeWidth="1dp">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnCustomEditTextClear"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/transparent"
+            android:paddingHorizontal="16dp"
+            android:text="@string/clear_type_text"
+            android:textAllCaps="false"
+            android:textColor="@color/text_color_custom_edit_text" />
+
+    </com.google.android.material.card.MaterialCardView>
+
+
+</RelativeLayout>

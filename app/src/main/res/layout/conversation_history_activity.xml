@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".presentation.main.history.ConversationHistoryActivity">
+    tools:context=".presentation.main.temp.history.ConversationHistoryActivity">
 
     <com.example.dcom.presentation.widget.ActionBarView
         android:layout_width="match_parent"

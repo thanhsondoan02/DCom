@@ -1,4 +1,4 @@
-package com.example.dcom.presentation.main.texttospeech
+package com.example.dcom.presentation.main.temp.texttospeech
 
 import android.annotation.SuppressLint
 import android.app.Dialog
