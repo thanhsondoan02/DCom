@@ -43,4 +43,6 @@
     <string name="setting">Cài đặt</string>
     <string name="favorite">Yêu thích</string>
     <string name="history">Lịch sử</string>
+    <string name="type_your_reply_here">Nhập câu trả lời của bạn vào đây…</string>
+    <string name="clear_type_text">Clear type text</string>
 </resources>

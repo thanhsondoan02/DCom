@@ -1,4 +1,4 @@
-package com.example.dcom.presentation.main.fastcom
+package com.example.dcom.presentation.main.temp.fastcom
 
 import android.util.Log
 import android.view.LayoutInflater

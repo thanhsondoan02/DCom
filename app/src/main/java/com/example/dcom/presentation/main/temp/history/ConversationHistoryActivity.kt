@@ -1,4 +1,4 @@
-package com.example.dcom.presentation.main.fastcom
+package com.example.dcom.presentation.main.temp.history
 
 import android.os.Bundle
 import android.widget.ImageButton
@@ -8,15 +8,15 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.dcom.R
 
-class FastComActivity : AppCompatActivity() {
+class ConversationHistoryActivity : AppCompatActivity() {
 
     private lateinit var tvActionBarTitle: TextView
     private lateinit var btnGoBack: ImageButton
-    private lateinit var rvListText: RecyclerView
+    private lateinit var rvListMessage: RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.fast_com_activity)
+        setContentView(R.layout.conversation_history_activity)
 
         initView()
         initRecyclerView()
@@ -27,14 +27,13 @@ class FastComActivity : AppCompatActivity() {
     private fun initView() {
         tvActionBarTitle = findViewById(R.id.tvActionBarTitle)
         btnGoBack = findViewById(R.id.btnActionBarGoBack)
-        rvListText = findViewById(R.id.rvFastCom)
+        rvListMessage = findViewById(R.id.rvConversationHistory)
 
-        tvActionBarTitle.text = getString(R.string.fast_communication)
+        tvActionBarTitle.text = getString(R.string.conversation_history)
     }
 
     private fun initRecyclerView() {
-        rvListText.adapter = FastComAdapter(this)
-        rvListText.layoutManager = LinearLayoutManager(this)
+        rvListMessage.adapter = ConversationHistoryAdapter(this@ConversationHistoryActivity)
+        rvListMessage.layoutManager = LinearLayoutManager(this@ConversationHistoryActivity)
     }
-
 }

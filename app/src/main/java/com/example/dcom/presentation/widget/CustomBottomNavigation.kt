@@ -30,6 +30,7 @@ class CustomBottomNavigation @JvmOverloads constructor(
         cvItem2 = view.findViewById(R.id.cvCustomBottomNavigationItem2)
         cvItem3 = view.findViewById(R.id.cvCustomBottomNavigationItem3)
 
+        setActiveItem(0)
         setOnClickItem()
     }
 

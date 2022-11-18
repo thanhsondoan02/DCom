@@ -13,42 +13,42 @@
         android:theme="@style/AppTheme"
         tools:targetApi="31">
         <activity
-            android:name=".presentation.main.emergency.EmergencyActivity"
+            android:name=".presentation.main.temp.emergency.EmergencyActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".presentation.main.history.ConversationHistoryActivity"
+            android:name=".presentation.main.temp.history.ConversationHistoryActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".presentation.main.fastcom.FastComActivity"
+            android:name=".presentation.main.temp.fastcom.FastComActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".presentation.main.speechtotext.SpeechToTextActivity"
+            android:name=".presentation.main.temp.speechtotext.SpeechToTextActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".presentation.main.texttospeech.TextToSpeechActivity"
+            android:name=".presentation.main.temp.texttospeech.TextToSpeechActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".presentation.main.home.MainActivity"
+            android:name=".presentation.main.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

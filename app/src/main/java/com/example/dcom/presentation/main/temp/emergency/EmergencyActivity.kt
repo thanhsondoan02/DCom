@@ -1,4 +1,4 @@
-package com.example.dcom.presentation.main.emergency
+package com.example.dcom.presentation.main.temp.emergency
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity

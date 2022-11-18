@@ -1,4 +1,4 @@
-package com.example.dcom.presentation.main.speechtotext
+package com.example.dcom.presentation.main.temp.speechtotext
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
