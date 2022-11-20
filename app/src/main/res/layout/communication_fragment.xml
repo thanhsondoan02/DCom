@@ -47,15 +47,6 @@
             android:background="@color/transparent"
             android:src="@drawable/ic_baseline_keyboard_24" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center_vertical"
-            android:paddingHorizontal="10dp"
-            android:text="@string/vietnamese_vietnam"
-            android:textColor="@color/live_trans_blue"
-            android:textStyle="bold" />
-
     </LinearLayout>
 
     <com.example.dcom.presentation.widget.CustomEditText

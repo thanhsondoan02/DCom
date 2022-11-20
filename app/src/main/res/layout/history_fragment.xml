@@ -6,7 +6,7 @@
     android:orientation="vertical"
     tools:context=".presentation.main.temp.history.ConversationHistoryActivity">
 
-    <TextView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvHistoryListChat"
         android:layout_width="match_parent"
         android:gravity="center"
