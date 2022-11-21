@@ -169,27 +169,102 @@ class GiaoTiepNhanh:
     def __init__(self, link):
         self.link = link
 
+    def loadFile(self):
+        _input = ""
+        with open(self.link, encoding="utf-8") as fj:
+            _input = json.load(fj)
+        return _input
+    
+    def writeFile(self, _input):
+        dataaa = json.dumps(_input, indent=2, ensure_ascii=False)
+
+        myjsonfile = open(self.link, "w", encoding="utf-8")
+        myjsonfile.write(dataaa)
+        myjsonfile.close()
+
     def addTopic(self, topic):
+        _input =  self.loadFile()
+        dataaaa = {
+            "topic": topic,
+            "content": [],
+            "link": [],
+        }
+
+        _input.append(dataaaa)
+
+        self.writeFile(_input)
+
+    def searchTopic(self, topic):
+        _input = self.loadFile()
+        for i in range(len(_input)):
+            _topic = _input[i]["topic"]
+            if _topic == topic:
+                return i
+
+    def delTopic(self, locationTopic):
+        _input = self.loadFile()
+        
+        _input.pop(locationTopic)
+
+        self.writeFile(_input)
+
         return
 
-    def delTopic(self, topic):
-        return
-    
     def moveTopic(self, topic):
         return
     
     def addContent(self, topic, content):
+        _input = self.loadFile()
+        for i in range(len(_input)):
+            _topic = _input[i]["topic"]
+            if _topic == topic:
+                _input[i]["content"].append(content)
+                _input[i]["link"].append(content + ".mp3")
+
+        self.writeFile(_input)
+        return
+
+    def searchAllContent(self, content):
+        lsOut = {}
+        _input = self.loadFile()
+
+        for i in range(len(_input)):
+            temp = _input[i]["content"]
+            for j in range(len(temp)):
+                if temp[j] == content:
+                    lsOut.update({i:j})
+
+        return lsOut
+
+    def searchContentByTopic(self, topic, content):
+        _input = self.loadFile()
+        for i in range(len(_input)):
+            _topic = _input[i]["topic"]
+            if _topic == topic:
+                temp = _input[i]["content"]
+                for j in range(len(temp)):
+                    if temp[j] == content:
+                        return {i:j}
+
+    def delLocationContent(self, locationTopic, locationContent):
+        _input = self.loadFile()
+        
+        _input[locationTopic]['content'].pop(locationContent)
+        _input[locationTopic]['link'].pop(locationContent)
+
+        self.writeFile(_input)
+
         return
 
     def delContent(self, topic, content):
+        
         return
     
     def moveContent(self, topic, content):
         return
     
     def setup(self, topic):
-        with open(self.link, encoding="utf-8") as fj:
-            _input = json.load(fj)
+        _input =  self.loadFile()
 
         ls = ["Có chuyện gì vậy", "Tôi ổn", "Cảm ơn", "Không vấn đề gì cả", "Đừng lo lắng", "Tôi phải đi đây"]
         lsL = ["Có chuyện gì vậy.mp3", "Tôi ổn.mp3", "Cảm ơn.mp3", "Không vấn đề gì cả.mp3", "Đừng lo lắng.mp3", "Tôi phải đi đây.mp3"]
@@ -204,9 +279,5 @@ class GiaoTiepNhanh:
 
         # print(_input)
 
-        dataaa = json.dumps(_input, indent=2, ensure_ascii=False)
-
-        myjsonfile = open(self.link, "w", encoding="utf-8")
-        myjsonfile.write(dataaa)
-        myjsonfile.close()
+        self.writeFile(_input)
         return 
