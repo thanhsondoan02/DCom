@@ -51,6 +51,20 @@ class CommunicationFragment: BaseFragment(R.layout.communication_fragment) {
         }
     }
 
+    private fun setUpRecyclerView() {
+        rvConversation.layoutManager = LinearLayoutManager(requireContext())
+        setAdapterListener()
+        rvConversation.adapter = communicationAdapter
+    }
+
+    private fun setAdapterListener() {
+        communicationAdapter.listener = object : CommunicationAdapter.IListener {
+            override fun onClickItem(index: Int) {
+                hideInputBox()
+            }
+        }
+    }
+
     private fun showInputBox() {
         llBottomBar.hide()
         cedtInput.show()
@@ -72,20 +86,6 @@ class CommunicationFragment: BaseFragment(R.layout.communication_fragment) {
         rvConversation.postDelayed({
             rvConversation.scrollToPosition(rvConversation.adapter!!.itemCount - 1)
         }, 1000)
-    }
-
-    private fun setUpRecyclerView() {
-        rvConversation.layoutManager = LinearLayoutManager(requireContext())
-        setAdapterListener()
-        rvConversation.adapter = communicationAdapter
-    }
-
-    private fun setAdapterListener() {
-        communicationAdapter.listener = object : CommunicationAdapter.IListener {
-            override fun onClickItem(index: Int) {
-                hideInputBox()
-            }
-        }
     }
 
     private fun mockConversationData(): MutableList<Any> {
