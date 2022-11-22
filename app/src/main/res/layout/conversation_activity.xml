@@ -7,10 +7,8 @@
     tools:context=".presentation.main.temp.history.ConversationHistoryActivity">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvHistoryContent"
+        android:id="@+id/rvConversationHistory"
         android:layout_width="match_parent"
-        android:gravity="center"
-        android:layout_height="match_parent"
-        android:text="@string/history" />
+        android:layout_height="match_parent" />
 
 </LinearLayout>
