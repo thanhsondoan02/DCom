@@ -45,4 +45,6 @@
     <string name="history">Lịch sử</string>
     <string name="type_your_reply_here">Nhập câu trả lời của bạn vào đây…</string>
     <string name="clear_type_text">Clear type text</string>
+    <string name="start_typing">Start typing</string>
+    <string name="search_note">Search note</string>
 </resources>

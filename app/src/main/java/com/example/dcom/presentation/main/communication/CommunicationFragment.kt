@@ -3,13 +3,12 @@ package com.example.dcom.presentation.main.communication
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.LinearLayout
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.dcom.R
 import com.example.dcom.extension.hide
+import com.example.dcom.extension.hideKeyboard
 import com.example.dcom.extension.show
 import com.example.dcom.presentation.common.BaseFragment
 import com.example.dcom.presentation.widget.CustomEditText
@@ -74,7 +73,7 @@ class CommunicationFragment: BaseFragment(R.layout.communication_fragment) {
     }
 
     private fun hideInputBox() {
-        hideKeyboard()
+        hideKeyboard(requireView())
         cedtInput.hide()
         llBottomBar.show()
         ivBottomPlaceHolder.updateLayoutParams {
@@ -121,9 +120,5 @@ class CommunicationFragment: BaseFragment(R.layout.communication_fragment) {
         cedtInput.updateLayoutParams {
             height = 100
         }
-    }
-
-    private fun hideKeyboard() {
-        ViewCompat.getWindowInsetsController(requireView())?.hide(WindowInsetsCompat.Type.ime())
     }
 }

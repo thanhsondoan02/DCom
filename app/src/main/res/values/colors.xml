@@ -42,4 +42,13 @@
     <color name="bg_custom_edit_text">#f2f0f5</color>
     <color name="text_color_custom_edit_text">#596885</color>
 
+    // favorite fragment
+    <color name="favoriteBackground">#f6f6f6</color>
+    <color name="favoriteSearchBackground">#ececec</color>
+    <color name="favoriteSearchIcon">#8c8c8c</color>
+    <color name="favoriteSearchText">#a0a0a0</color>
+    <color name="favoriteNoteTitle">#202020</color>
+    <color name="favoriteNoteContent">#6a6a6a</color>
+    <color name="favoriteNoteBackground">#fefefe</color>
+
 </resources>

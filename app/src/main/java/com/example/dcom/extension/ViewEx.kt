@@ -8,6 +8,8 @@ import android.util.DisplayMetrics
 import android.view.View
 import android.view.WindowInsets
 import android.widget.TextView
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 
 fun View.show() {
     this.visibility = View.VISIBLE
@@ -132,4 +134,10 @@ fun Activity.getScreenHeight(): Int {
 //    return context?.resources.getAnimation(animRes) ?: -1
 //}
 
+fun hideKeyboard(view: View) {
+    ViewCompat.getWindowInsetsController(view)?.hide(WindowInsetsCompat.Type.ime())
+}
 
+fun showKeyboard(view: View) {
+    ViewCompat.getWindowInsetsController(view)?.show(WindowInsetsCompat.Type.ime())
+}
