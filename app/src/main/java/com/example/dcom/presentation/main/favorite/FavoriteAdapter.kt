@@ -18,7 +18,11 @@ class FavoriteAdapter : RecyclerView.Adapter<BaseVH>() {
 
     var listener: IListener? = null
 
-    private val mData = mutableListOf<Note>()
+    private val mData = mutableListOf<Any>()
+
+    init {
+//        mData.add(Unit)
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseVH {
         return when (viewType) {
@@ -29,26 +33,23 @@ class FavoriteAdapter : RecyclerView.Adapter<BaseVH>() {
     }
 
     override fun onBindViewHolder(holder: BaseVH, position: Int) {
-        if (getItemViewType(position) == NOTE){
-            holder.bind(mData[position-1])
-        } else {
-            holder.bind()
-        }
+        holder.bind(mData[position])
     }
 
     override fun getItemCount(): Int {
-        return mData.size + 1
+        return mData.size
     }
 
     override fun getItemViewType(position: Int): Int {
-        return when (position) {
-            0 -> SEARCH
-            else -> NOTE
+        return when (mData[position]) {
+            is Unit -> SEARCH
+            is Note -> NOTE
+            else -> throw IllegalArgumentException("Invalid data type")
         }
     }
 
     fun update(position: Int, note: Note) {
-        mData[position-1] = note
+        mData[position] = note
         notifyItemChanged(position)
     }
 
@@ -62,8 +63,12 @@ class FavoriteAdapter : RecyclerView.Adapter<BaseVH>() {
         notifyItemRangeInserted(mData.size, data.size)
     }
 
-    inner class SearchVH(itemView: View): BaseVH(itemView) {
+    fun remove(position: Int) {
+        mData.removeAt(position-1)
+        notifyItemRemoved(position)
+    }
 
+    inner class SearchVH(itemView: View): BaseVH(itemView) {
 
         init {
         }
@@ -79,7 +84,7 @@ class FavoriteAdapter : RecyclerView.Adapter<BaseVH>() {
 
         init {
             itemView.setOnClickListener {
-                listener?.onNoteClick(mData[adapterPosition-1].id, adapterPosition)
+                listener?.onNoteClick((mData[adapterPosition] as? Note)?.id, adapterPosition)
             }
         }
 
@@ -90,15 +95,8 @@ class FavoriteAdapter : RecyclerView.Adapter<BaseVH>() {
         }
     }
 
-//    class Note {
-//        var id: String? = null
-//        var title: String? = null
-//        var content: String? = null
-//        var lastEdit: String? = null
-//    }
-
     interface IListener {
-        fun onNoteClick(noteId: Int, position: Int)
+        fun onNoteClick(noteId: Int?, position: Int)
     }
 
 }

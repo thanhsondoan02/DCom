@@ -35,8 +35,7 @@
         android:background="@color/white"
         android:layout_height="wrap_content"
         android:textSize="20sp"
-        android:maxLines="1"
-        android:inputType=""
+        android:inputType="text"
         android:layout_below="@id/btnNoteBack"
         android:layout_marginHorizontal="16dp"
         android:hint="@string/title" />

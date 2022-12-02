@@ -3,6 +3,7 @@ package com.example.dcom.presentation.main.favorite
 import android.content.Intent
 import android.widget.ImageButton
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.dcom.R
 import com.example.dcom.base.event.EventBusManager
 import com.example.dcom.base.event.IEvent
@@ -11,7 +12,6 @@ import com.example.dcom.base.event.NoteEvent
 import com.example.dcom.database.AppDatabase
 import com.example.dcom.presentation.common.BaseFragment
 import com.example.dcom.presentation.main.favorite.note.NoteActivity
-import com.example.dcom.presentation.widget.CustomGridLayoutManager
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 
@@ -37,10 +37,16 @@ class FavoriteFragment : BaseFragment(R.layout.favorite_fragment), IEventHandler
     override fun onEvent(event: IEvent) {
         when (event) {
             is NoteEvent -> {
-                if (event.position == null) {
-                    favoriteAdapter.add(database.iNoteDao().get(event.noteId))
-                } else {
-                    favoriteAdapter.update(event.position, database.iNoteDao().get(event.noteId))
+                when (event.status) {
+                    NoteEvent.STATUS.ADD -> {
+                        favoriteAdapter.add(database.iNoteDao().get(event.noteId!!))
+                    }
+                    NoteEvent.STATUS.EDIT -> {
+                        favoriteAdapter.update(event.position!!, database.iNoteDao().get(event.noteId!!))
+                    }
+                    NoteEvent.STATUS.DELETE -> {
+                        favoriteAdapter.remove(event.position!!)
+                    }
                 }
                 EventBusManager.instance?.removeSticky(event)
             }
@@ -69,7 +75,7 @@ class FavoriteFragment : BaseFragment(R.layout.favorite_fragment), IEventHandler
 
     private fun setUpOnClick() {
         favoriteAdapter.listener = object: FavoriteAdapter.IListener {
-            override fun onNoteClick(noteId: Int, position: Int) {
+            override fun onNoteClick(noteId: Int?, position: Int) {
                 val intent = Intent(requireContext(), NoteActivity::class.java)
                 intent.putExtra(NoteActivity.NOTE_ID, noteId)
                 intent.putExtra(NoteActivity.NOTE_POSITION, position)
@@ -83,19 +89,21 @@ class FavoriteFragment : BaseFragment(R.layout.favorite_fragment), IEventHandler
     }
 
     private fun setUpRecyclerView() {
-        rvContent.layoutManager = object: CustomGridLayoutManager() {
-            override fun getMaxItemHorizontalByViewType(viewType: Int): Int {
-                return when (viewType) {
-                    FavoriteAdapter.SEARCH -> 1
-                    FavoriteAdapter.NOTE -> 2
-                    else -> throw IllegalArgumentException("Invalid view type")
-                }
-            }
+//        rvContent.layoutManager = object: CustomGridLayoutManager() {
+//            override fun getMaxItemHorizontalByViewType(viewType: Int): Int {
+//                return when (viewType) {
+//                    FavoriteAdapter.SEARCH -> 1
+//                    FavoriteAdapter.NOTE -> 2
+//                    else -> throw IllegalArgumentException("Invalid view type")
+//                }
+//            }
+//
+//            override fun getItemViewType(adapterPosition: Int): Int {
+//                return favoriteAdapter.getItemViewType(adapterPosition)
+//            }
+//        }.getGridLayoutManager(requireContext())
 
-            override fun getItemViewType(adapterPosition: Int): Int {
-                return favoriteAdapter.getItemViewType(adapterPosition)
-            }
-        }.getGridLayoutManager(requireContext())
+        rvContent.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
 
         rvContent.adapter = favoriteAdapter
     }
