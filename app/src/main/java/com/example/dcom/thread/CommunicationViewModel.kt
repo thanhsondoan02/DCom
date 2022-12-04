@@ -1,5 +1,6 @@
 package com.example.dcom.thread
 
+import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.dcom.extension.loading
@@ -18,8 +19,8 @@ class CommunicationViewModel: ViewModel() {
     val speechToTextState = _speechToTextState.asStateFlow()
 
 
-    fun textToSpeech(text: String) {
-        val rv = TextToSpeechUseCase.SendGiftRV(text)
+    fun textToSpeech(text: String, context: Context) {
+        val rv = TextToSpeechUseCase.TextToSpeechRV(text, context)
         viewModelScope.launch {
             TextToSpeechUseCase().invoke(rv)
                 .onStart {
@@ -30,9 +31,10 @@ class CommunicationViewModel: ViewModel() {
         }
     }
 
-    fun speechToText() {
+    fun speechToText(context: Context) {
         viewModelScope.launch {
-            SpeechToTextUseCase().invoke(BaseUseCase.VoidRequest())
+            val rv = SpeechToTextUseCase.SpeechToTextRV(context)
+            SpeechToTextUseCase().invoke(rv)
                 .onStart {
                     _speechToTextState.loading()
                 }.collect {

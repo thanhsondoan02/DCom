@@ -46,7 +46,7 @@ class CommunicationFragment: BaseFragment(R.layout.communication_fragment) {
         setState(STATE.DEFAULT)
 
         if (isListen) {
-            viewModel.speechToText()
+            viewModel.speechToText(requireContext())
         }
     }
 
@@ -69,7 +69,7 @@ class CommunicationFragment: BaseFragment(R.layout.communication_fragment) {
                     override fun onSuccess() {
                         if (isListen) {
                             addOtherMessage(it.data)
-                            viewModel.speechToText()
+                            viewModel.speechToText(requireContext())
                         }
                     }
                 })
@@ -96,14 +96,14 @@ class CommunicationFragment: BaseFragment(R.layout.communication_fragment) {
             override fun onSpeak() {
                 val inputText = getInputText()
                 addMineMessage(inputText)
-                viewModel.textToSpeech(inputText)
+                viewModel.textToSpeech(inputText, requireContext())
             }
         }
 
         activity?.findViewById<MaterialSwitch>(R.id.btnMainRight3)?.setOnCheckedChangeListener { _, isChecked ->
             isListen = isChecked
             if (isListen) {
-                viewModel.speechToText()
+                viewModel.speechToText(requireContext())
             }
         }
 
