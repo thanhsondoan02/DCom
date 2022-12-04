@@ -1,5 +1,6 @@
 package com.example.dcom.presentation.main.favorite
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -66,6 +67,12 @@ class FavoriteAdapter : RecyclerView.Adapter<BaseVH>() {
     fun remove(position: Int) {
         mData.removeAt(position-1)
         notifyItemRemoved(position)
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun clear() {
+        mData.clear()
+        notifyDataSetChanged()
     }
 
     inner class SearchVH(itemView: View): BaseVH(itemView) {

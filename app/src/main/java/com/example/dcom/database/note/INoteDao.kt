@@ -16,10 +16,12 @@ interface INoteDao {
     @Insert
     fun insert(vararg users: Note)
 
+    @Insert
+    fun insertAll(notes: List<Note>)
+
     @Query("UPDATE note SET title = :title, content = :content WHERE id = :id")
     fun update(title: String, content: String, id: Int)
 
-    // get note by id
     @Query("SELECT * FROM note WHERE id = :id")
     fun get(id: Int): Note
 
@@ -29,14 +31,19 @@ interface INoteDao {
     @Query("SELECT id FROM note ORDER BY id DESC LIMIT 1")
     fun getLatestNoteId(): Int
 
+    @Query("SELECT * FROM note ORDER BY id DESC LIMIT :size")
+    fun getLatestNotes(size: Int): List<Note>
+
     @Delete
     fun delete(user: Note)
 
     @Query("DELETE FROM note WHERE id = :id")
     fun deleteById(id: Int)
 
-    // delete all note
     @Query("DELETE FROM note")
     fun deleteAll()
+
+    @Query("SELECT * FROM note WHERE title LIKE '%' || :keyword || '%' OR content LIKE '%' || :keyword || '%'")
+    fun search(keyword: String): List<Note>
 
 }
