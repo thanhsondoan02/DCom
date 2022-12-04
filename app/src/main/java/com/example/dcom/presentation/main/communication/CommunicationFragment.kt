@@ -3,17 +3,18 @@ package com.example.dcom.presentation.main.communication
 import android.widget.Button
 import android.widget.Toast
 import androidx.core.view.updateLayoutParams
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.dcom.R
 import com.example.dcom.database.message.Message
-import com.example.dcom.extension.hide
-import com.example.dcom.extension.hideKeyboard
-import com.example.dcom.extension.show
+import com.example.dcom.extension.*
 import com.example.dcom.presentation.common.BaseFragment
 import com.example.dcom.presentation.main.MainActivity
 import com.example.dcom.presentation.main.history.conversation.ConversationAdapter
 import com.example.dcom.presentation.widget.CustomEditText
+import com.example.dcom.thread.CommunicationViewModel
 
 class CommunicationFragment: BaseFragment(R.layout.communication_fragment) {
 
@@ -26,6 +27,8 @@ class CommunicationFragment: BaseFragment(R.layout.communication_fragment) {
     }
 
     private var state: STATE = STATE.DEFAULT
+    private val viewModel by viewModels<CommunicationViewModel>()
+
 
     override fun onInitView() {
         super.onInitView()
@@ -34,6 +37,33 @@ class CommunicationFragment: BaseFragment(R.layout.communication_fragment) {
         setUpOnClick()
         setUpRecyclerView()
         setState(STATE.DEFAULT)
+
+        viewModel.speechToText()
+    }
+
+    override fun onObserverViewModel() {
+        super.onObserverViewModel()
+
+        lifecycleScope.launchWhenCreated {
+            viewModel.textToSpeechState.collect {
+                handleUiState(it, object : IViewListener {
+                    override fun onSuccess() {
+                        Toast.makeText(requireContext(), "Speak success", Toast.LENGTH_SHORT).show()
+                    }
+                })
+            }
+        }
+
+        lifecycleScope.launchWhenCreated {
+            viewModel.speechToTextState.collect {
+                handleUiState(it, object : IViewListener {
+                    override fun onSuccess() {
+                        addOtherMessage(it.data)
+                        viewModel.speechToText()
+                    }
+                })
+            }
+        }
     }
 
     private fun setUpVariables() {
@@ -52,8 +82,9 @@ class CommunicationFragment: BaseFragment(R.layout.communication_fragment) {
             }
 
             override fun onSpeak() {
-                Toast.makeText(requireContext(), "Gáy: " + getInputText(), Toast.LENGTH_SHORT).show()
-                addMineMessage(getInputText())
+                val inputText = getInputText()
+                addMineMessage(inputText)
+                viewModel.textToSpeech(inputText)
             }
         }
     }
@@ -120,14 +151,18 @@ class CommunicationFragment: BaseFragment(R.layout.communication_fragment) {
         return cedtInput.getText()
     }
 
-    private fun addMineMessage(message: String) {
-        scrollRecyclerViewToLastItem()
-        communicationAdapter.add(Message(true, message, getCurrentTime()))
+    private fun addMineMessage(message: String?) {
+        message?.let {
+            scrollRecyclerViewToLastItem()
+            communicationAdapter.add(Message(true, it, getCurrentTime()))
+        }
     }
 
-    private fun addOtherMessage(message: Message) {
-        scrollRecyclerViewToLastItem()
-        communicationAdapter.add(message)
+    private fun addOtherMessage(message: String?) {
+        message?.let {
+            scrollRecyclerViewToLastItem()
+            communicationAdapter.add(Message(false, it, getCurrentTime()))
+        }
     }
 
     private fun getCurrentTime(): Long {
