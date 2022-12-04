@@ -10,7 +10,7 @@ import android.widget.RelativeLayout
 import androidx.core.view.updateLayoutParams
 import com.example.dcom.R
 
-class CustomEditText @JvmOverloads constructor( //TODO padding edit text
+class CustomEditText @JvmOverloads constructor(
     ctx: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : RelativeLayout(ctx, attrs, defStyleAttr) {
 

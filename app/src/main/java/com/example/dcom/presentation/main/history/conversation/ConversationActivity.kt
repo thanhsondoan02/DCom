@@ -23,7 +23,7 @@ class ConversationActivity : AppCompatActivity() {
     }
 
     private fun initRecyclerView() {
-        rvListMessage.adapter = ConversationAdapter(this)
+        rvListMessage.adapter = ConversationAdapter()
         rvListMessage.layoutManager = LinearLayoutManager(this)
     }
 }

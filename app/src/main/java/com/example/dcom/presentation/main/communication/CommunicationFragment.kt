@@ -6,11 +6,13 @@ import androidx.core.view.updateLayoutParams
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.dcom.R
+import com.example.dcom.database.message.Message
 import com.example.dcom.extension.hide
 import com.example.dcom.extension.hideKeyboard
 import com.example.dcom.extension.show
 import com.example.dcom.presentation.common.BaseFragment
 import com.example.dcom.presentation.main.MainActivity
+import com.example.dcom.presentation.main.history.conversation.ConversationAdapter
 import com.example.dcom.presentation.widget.CustomEditText
 
 class CommunicationFragment: BaseFragment(R.layout.communication_fragment) {
@@ -20,7 +22,7 @@ class CommunicationFragment: BaseFragment(R.layout.communication_fragment) {
     private lateinit var rvConversation: RecyclerView
 
     private val communicationAdapter by lazy {
-        CommunicationAdapter()
+        ConversationAdapter()
     }
 
     private var state: STATE = STATE.DEFAULT
@@ -31,10 +33,6 @@ class CommunicationFragment: BaseFragment(R.layout.communication_fragment) {
         setUpVariables()
         setUpOnClick()
         setUpRecyclerView()
-
-        // fake data
-        communicationAdapter.addData(mockConversationData())
-
         setState(STATE.DEFAULT)
     }
 
@@ -46,19 +44,16 @@ class CommunicationFragment: BaseFragment(R.layout.communication_fragment) {
 
     private fun setUpOnClick() {
         btnKeyboard.setOnClickListener {
-//            showInputBox()
             setState(STATE.INPUT)
         }
 
         cedtInput.listener = object : CustomEditText.IListener {
             override fun onHeightChange(height: Int) {
-//                ivBottomPlaceHolder.updateLayoutParams {
-//                    this.height = height
-//                }
             }
 
             override fun onSpeak() {
                 Toast.makeText(requireContext(), "Gáy: " + getInputText(), Toast.LENGTH_SHORT).show()
+                addMineMessage(getInputText())
             }
         }
     }
@@ -67,11 +62,14 @@ class CommunicationFragment: BaseFragment(R.layout.communication_fragment) {
         rvConversation.layoutManager = LinearLayoutManager(requireContext())
         setAdapterListener()
         rvConversation.adapter = communicationAdapter
+
+        communicationAdapter.addList(mockConversationData())
+        scrollRecyclerViewToLastItem()
     }
 
     private fun setAdapterListener() {
-        communicationAdapter.listener = object : CommunicationAdapter.IListener {
-            override fun onClickItem(index: Int) {
+        communicationAdapter.listener = object : ConversationAdapter.IListener {
+            override fun onRecyclerViewClick() {
                 when (state) {
                     STATE.INPUT -> {
                         setState(STATE.DEFAULT)
@@ -91,8 +89,8 @@ class CommunicationFragment: BaseFragment(R.layout.communication_fragment) {
         }, 1000)
     }
 
-    private fun mockConversationData(): MutableList<Any> {
-        val ans = mutableListOf<Any>()
+    private fun mockConversationData(): MutableList<Message> {
+        val ans = mutableListOf<Message>()
 
         val list = mutableListOf(
             getString(R.string.speech_to_text_des),
@@ -103,20 +101,12 @@ class CommunicationFragment: BaseFragment(R.layout.communication_fragment) {
             getString(R.string.example_paragraph2),
         )
 
-        val listNumber = listOf(0, 0, 0, 0, 1)
-        var count = 0
+        val isMine = mutableListOf(true, false)
 
-        for (i in 0 until 20) {
-            if (i == 0 || listNumber.random() == 1) {
-                ans.add(CommunicationAdapter.TimeDateData().apply {
-                    timeDate = "11:28 AM $count"
-                })
-                count++
-            }
-            ans.add(CommunicationAdapter.MessageData().apply {
-                message = list.random()
-            })
+        for (i in 0 until 100) {
+            ans.add(Message(isMine.random(), list.random(), 1000L))
         }
+
         return ans
     }
 
@@ -128,6 +118,20 @@ class CommunicationFragment: BaseFragment(R.layout.communication_fragment) {
 
     private fun getInputText(): String {
         return cedtInput.getText()
+    }
+
+    private fun addMineMessage(message: String) {
+        scrollRecyclerViewToLastItem()
+        communicationAdapter.add(Message(true, message, getCurrentTime()))
+    }
+
+    private fun addOtherMessage(message: Message) {
+        scrollRecyclerViewToLastItem()
+        communicationAdapter.add(message)
+    }
+
+    private fun getCurrentTime(): Long {
+        return System.currentTimeMillis()
     }
 
     private fun setState(state: STATE) {
