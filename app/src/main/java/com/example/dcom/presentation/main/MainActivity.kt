@@ -9,13 +9,13 @@ import com.example.dcom.presentation.main.communication.CommunicationFragment
 import com.example.dcom.presentation.main.favorite.FavoriteFragment
 import com.example.dcom.presentation.main.history.HistoryFragment
 import com.example.dcom.presentation.main.setting.SettingFragment
-import com.example.dcom.presentation.widget.CustomBottomNavigation
 import com.example.dcom.presentation.widget.CustomViewPager
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity(), BaseView {
 
     private lateinit var cvpHomePager: CustomViewPager
-    private lateinit var bnvNavigator: CustomBottomNavigation
+    private lateinit var bnvMenu: BottomNavigationView
 
     private lateinit var pagerAdapter: MainViewPagerAdapter
     private val fragmentList = mutableListOf<BaseFragment>()
@@ -26,28 +26,40 @@ class MainActivity : AppCompatActivity(), BaseView {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.home_activity)
+        setContentView(R.layout.main_activity)
 
         onInitView()
 
-        setNavigationListener()
+        initBottomNavigation()
     }
 
     override fun onInitView() {
         setUpVariables()
         initViewPager()
-        setNavigationListener()
+        initBottomNavigation()
     }
 
     private fun setUpVariables() {
-        cvpHomePager = findViewById(R.id.cvpHomePager)
-        bnvNavigator = findViewById(R.id.cbnHomeNavigation)
+        cvpHomePager = findViewById(R.id.cvpMainPager)
+        bnvMenu = findViewById(R.id.bnvMainMenu)
     }
 
-    private fun setNavigationListener() {
-        bnvNavigator.listener = object : CustomBottomNavigation.IListener {
-            override fun onClickItem(index: Int) {
-                cvpHomePager.currentItem = index
+    private fun initBottomNavigation() {
+        bnvMenu.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.itmCommunication -> {
+                    cvpHomePager.setCurrentItem(0, false)
+                    true
+                }
+                R.id.itmFavorite -> {
+                    cvpHomePager.setCurrentItem(1, false)
+                    true
+                }
+                R.id.itmHistory -> {
+                    cvpHomePager.setCurrentItem(2, false)
+                    true
+                }
+                else -> throw IllegalArgumentException("Invalid item id")
             }
         }
     }
