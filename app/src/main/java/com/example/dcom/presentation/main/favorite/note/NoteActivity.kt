@@ -46,17 +46,6 @@ class NoteActivity : AppCompatActivity(), BaseView {
         onInitView()
     }
 
-//    override fun onStart() {
-//        super.onStart()
-//        EventBusManager.instance?.register(this)
-//    }
-//
-    override fun onStop() {
-        save()
-        super.onStop()
-//        EventBusManager.instance?.unregister(this)
-    }
-
     override fun onPrepareInitView() {
         super.onPrepareInitView()
         noteId = intent.getIntExtra(NOTE_ID, -1)

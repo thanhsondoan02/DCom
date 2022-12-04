@@ -1,0 +1,23 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/edit"
+        android:title="@string/history"
+        android:contentDescription="@string/example_paragraph"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/favorite"
+        android:icon="@drawable/ic_outline_favorite_border_24"
+        android:title="@string/favorite"
+        android:contentDescription="@string/example_paragraph"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/more"
+        android:title="@string/history"
+        android:contentDescription="@string/example_paragraph"
+        app:showAsAction="never" />
+
+</menu>

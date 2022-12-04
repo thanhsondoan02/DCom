@@ -2,7 +2,10 @@ package com.example.dcom.presentation.main
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import com.example.dcom.R
+import com.example.dcom.extension.gone
+import com.example.dcom.extension.show
 import com.example.dcom.presentation.common.BaseFragment
 import com.example.dcom.presentation.common.BaseView
 import com.example.dcom.presentation.main.communication.CommunicationFragment
@@ -16,6 +19,7 @@ class MainActivity : AppCompatActivity(), BaseView {
 
     private lateinit var cvpHomePager: CustomViewPager
     private lateinit var bnvMenu: BottomNavigationView
+    private lateinit var constTopBar: ConstraintLayout
 
     private lateinit var pagerAdapter: MainViewPagerAdapter
     private val fragmentList = mutableListOf<BaseFragment>()
@@ -39,9 +43,26 @@ class MainActivity : AppCompatActivity(), BaseView {
         initBottomNavigation()
     }
 
+    fun hideBottomNav() {
+        bnvMenu.gone()
+    }
+
+    fun showBottomNav() {
+        bnvMenu.show()
+    }
+
+    fun hideTopBar() {
+        constTopBar.gone()
+    }
+
+    fun showTopBar() {
+        constTopBar.show()
+    }
+
     private fun setUpVariables() {
         cvpHomePager = findViewById(R.id.cvpMainPager)
         bnvMenu = findViewById(R.id.bnvMainMenu)
+        constTopBar = findViewById(R.id.constMainTopBar)
     }
 
     private fun initBottomNavigation() {

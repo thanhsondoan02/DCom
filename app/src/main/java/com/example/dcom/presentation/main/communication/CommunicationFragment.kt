@@ -1,8 +1,7 @@
 package com.example.dcom.presentation.main.communication
 
-import android.widget.ImageButton
-import android.widget.ImageView
-import android.widget.LinearLayout
+import android.widget.Button
+import android.widget.Toast
 import androidx.core.view.updateLayoutParams
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -11,19 +10,20 @@ import com.example.dcom.extension.hide
 import com.example.dcom.extension.hideKeyboard
 import com.example.dcom.extension.show
 import com.example.dcom.presentation.common.BaseFragment
+import com.example.dcom.presentation.main.MainActivity
 import com.example.dcom.presentation.widget.CustomEditText
 
 class CommunicationFragment: BaseFragment(R.layout.communication_fragment) {
 
-    private lateinit var btnKeyBoard: ImageButton
+    private lateinit var btnKeyboard: Button
     private lateinit var cedtInput: CustomEditText
     private lateinit var rvConversation: RecyclerView
-    private lateinit var llBottomBar: LinearLayout
-    private lateinit var ivBottomPlaceHolder: ImageView
 
     private val communicationAdapter by lazy {
         CommunicationAdapter()
     }
+
+    private var state: STATE = STATE.DEFAULT
 
     override fun onInitView() {
         super.onInitView()
@@ -34,19 +34,32 @@ class CommunicationFragment: BaseFragment(R.layout.communication_fragment) {
 
         // fake data
         communicationAdapter.addData(mockConversationData())
+
+        setState(STATE.DEFAULT)
     }
 
     private fun setUpVariables() {
-        btnKeyBoard = requireView().findViewById(R.id.btnCommunicationKeyboard)
+        btnKeyboard = requireView().findViewById(R.id.btnCommunicationKeyboard)
         cedtInput = requireView().findViewById(R.id.cedtCommunicationInput)
         rvConversation = requireView().findViewById(R.id.rvCommunicationConversation)
-        llBottomBar = requireView().findViewById(R.id.llCommunicationBottomBar)
-        ivBottomPlaceHolder = requireView().findViewById(R.id.ivCommunicationBottomPlaceHolder)
     }
 
     private fun setUpOnClick() {
-        btnKeyBoard.setOnClickListener {
-            showInputBox()
+        btnKeyboard.setOnClickListener {
+//            showInputBox()
+            setState(STATE.INPUT)
+        }
+
+        cedtInput.listener = object : CustomEditText.IListener {
+            override fun onHeightChange(height: Int) {
+//                ivBottomPlaceHolder.updateLayoutParams {
+//                    this.height = height
+//                }
+            }
+
+            override fun onSpeak() {
+                Toast.makeText(requireContext(), "Gáy: " + getInputText(), Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
@@ -59,25 +72,16 @@ class CommunicationFragment: BaseFragment(R.layout.communication_fragment) {
     private fun setAdapterListener() {
         communicationAdapter.listener = object : CommunicationAdapter.IListener {
             override fun onClickItem(index: Int) {
-                hideInputBox()
+                when (state) {
+                    STATE.INPUT -> {
+                        setState(STATE.DEFAULT)
+                    }
+                    STATE.FULL -> {
+                    }
+                    STATE.DEFAULT -> {
+                    }
+                }
             }
-        }
-    }
-
-    private fun showInputBox() {
-        llBottomBar.hide()
-        cedtInput.show()
-        ivBottomPlaceHolder.updateLayoutParams {
-            height = cedtInput.height
-        }
-    }
-
-    private fun hideInputBox() {
-        hideKeyboard(requireView())
-        cedtInput.hide()
-        llBottomBar.show()
-        ivBottomPlaceHolder.updateLayoutParams {
-            height = llBottomBar.height
         }
     }
 
@@ -120,5 +124,38 @@ class CommunicationFragment: BaseFragment(R.layout.communication_fragment) {
         cedtInput.updateLayoutParams {
             height = 100
         }
+    }
+
+    private fun getInputText(): String {
+        return cedtInput.getText()
+    }
+
+    private fun setState(state: STATE) {
+        when (state) {
+            STATE.DEFAULT -> {
+                hideKeyboard(requireView())
+                cedtInput.changeHeight(CustomEditText.HIDE_HEIGHT)
+                (activity as MainActivity).showBottomNav()
+                btnKeyboard.show()
+                this@CommunicationFragment.state = STATE.DEFAULT
+            }
+            STATE.INPUT -> {
+                (activity as MainActivity).hideBottomNav()
+                btnKeyboard.hide()
+                cedtInput.changeHeight(CustomEditText.DEFAULT_HEIGHT)
+                this@CommunicationFragment.state = STATE.INPUT
+            }
+            STATE.FULL -> { // hide all
+                hideKeyboard(requireView())
+                cedtInput.changeHeight(CustomEditText.HIDE_HEIGHT)
+                (activity as MainActivity).hideBottomNav()
+                btnKeyboard.hide()
+                this@CommunicationFragment.state = STATE.FULL
+            }
+        }
+    }
+
+    enum class STATE {
+        INPUT, DEFAULT, FULL
     }
 }

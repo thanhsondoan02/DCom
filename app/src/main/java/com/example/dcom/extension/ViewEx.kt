@@ -1,15 +1,18 @@
 package com.example.dcom.extension
 
 import android.app.Activity
+import android.content.Context
 import android.graphics.Insets
 import android.graphics.drawable.Drawable
 import android.os.Build
 import android.util.DisplayMetrics
 import android.view.View
 import android.view.WindowInsets
+import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+
 
 fun View.show() {
     this.visibility = View.VISIBLE
@@ -140,4 +143,9 @@ fun hideKeyboard(view: View) {
 
 fun showKeyboard(view: View) {
     ViewCompat.getWindowInsetsController(view)?.show(WindowInsetsCompat.Type.ime())
+}
+
+fun showKeyboard2(context: Context) {
+    val imm = context.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+    imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0)
 }
