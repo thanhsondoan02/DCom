@@ -65,7 +65,7 @@ class FavoriteAdapter : RecyclerView.Adapter<BaseVH>() {
     }
 
     fun remove(position: Int) {
-        mData.removeAt(position-1)
+        mData.removeAt(position)
         notifyItemRemoved(position)
     }
 

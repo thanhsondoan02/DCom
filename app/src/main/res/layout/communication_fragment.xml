@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/constCommunicationRoot"
     tools:context=".presentation.main.temp.speechtotext.SpeechToTextActivity">
 
     <androidx.recyclerview.widget.RecyclerView

@@ -12,6 +12,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.recyclerview.widget.RecyclerView
 
 
 fun View.show() {
@@ -149,3 +150,14 @@ fun showKeyboard2(context: Context) {
     val imm = context.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
     imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0)
 }
+
+fun RecyclerView.scrollToBot() {
+    this.scrollToPosition(this.adapter?.itemCount ?: 0)
+}
+
+fun RecyclerView.scrollToBot2() {
+    this.adapter?.itemCount?.let {
+        scrollToPosition(it - 1)
+    }
+}
+

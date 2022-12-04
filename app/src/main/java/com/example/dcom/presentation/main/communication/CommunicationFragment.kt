@@ -1,7 +1,11 @@
 package com.example.dcom.presentation.main.communication
 
+import android.view.MotionEvent
+import android.view.View
+import android.view.View.OnTouchListener
 import android.widget.Button
 import android.widget.Toast
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.updateLayoutParams
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -15,12 +19,14 @@ import com.example.dcom.presentation.main.MainActivity
 import com.example.dcom.presentation.main.history.conversation.ConversationAdapter
 import com.example.dcom.presentation.widget.CustomEditText
 import com.example.dcom.thread.CommunicationViewModel
+import com.google.android.material.materialswitch.MaterialSwitch
 
 class CommunicationFragment: BaseFragment(R.layout.communication_fragment) {
 
     private lateinit var btnKeyboard: Button
     private lateinit var cedtInput: CustomEditText
     private lateinit var rvConversation: RecyclerView
+    private lateinit var constRoot: ConstraintLayout
 
     private val communicationAdapter by lazy {
         ConversationAdapter()
@@ -28,7 +34,8 @@ class CommunicationFragment: BaseFragment(R.layout.communication_fragment) {
 
     private var state: STATE = STATE.DEFAULT
     private val viewModel by viewModels<CommunicationViewModel>()
-
+    private var isListen: Boolean = true
+    private var isTouching: Boolean = false
 
     override fun onInitView() {
         super.onInitView()
@@ -38,7 +45,9 @@ class CommunicationFragment: BaseFragment(R.layout.communication_fragment) {
         setUpRecyclerView()
         setState(STATE.DEFAULT)
 
-        viewModel.speechToText()
+        if (isListen) {
+            viewModel.speechToText()
+        }
     }
 
     override fun onObserverViewModel() {
@@ -58,8 +67,10 @@ class CommunicationFragment: BaseFragment(R.layout.communication_fragment) {
             viewModel.speechToTextState.collect {
                 handleUiState(it, object : IViewListener {
                     override fun onSuccess() {
-                        addOtherMessage(it.data)
-                        viewModel.speechToText()
+                        if (isListen) {
+                            addOtherMessage(it.data)
+                            viewModel.speechToText()
+                        }
                     }
                 })
             }
@@ -70,6 +81,7 @@ class CommunicationFragment: BaseFragment(R.layout.communication_fragment) {
         btnKeyboard = requireView().findViewById(R.id.btnCommunicationKeyboard)
         cedtInput = requireView().findViewById(R.id.cedtCommunicationInput)
         rvConversation = requireView().findViewById(R.id.rvCommunicationConversation)
+        constRoot = requireView().findViewById(R.id.constCommunicationRoot)
     }
 
     private fun setUpOnClick() {
@@ -87,15 +99,28 @@ class CommunicationFragment: BaseFragment(R.layout.communication_fragment) {
                 viewModel.textToSpeech(inputText)
             }
         }
+
+        activity?.findViewById<MaterialSwitch>(R.id.btnMainRight3)?.setOnCheckedChangeListener { _, isChecked ->
+            isListen = isChecked
+            if (isListen) {
+                viewModel.speechToText()
+            }
+        }
+
+        rvConversation.setOnTouchListener(RVClickHandler(rvConversation))
+        rvConversation.setOnClickListener {
+            setState(STATE.DEFAULT)
+        }
+
+        activity?.findViewById<Button>(R.id.btnMainRight)?.setOnClickListener {
+            communicationAdapter.clear()
+        }
     }
 
     private fun setUpRecyclerView() {
         rvConversation.layoutManager = LinearLayoutManager(requireContext())
         setAdapterListener()
         rvConversation.adapter = communicationAdapter
-
-        communicationAdapter.addList(mockConversationData())
-        scrollRecyclerViewToLastItem()
     }
 
     private fun setAdapterListener() {
@@ -115,9 +140,7 @@ class CommunicationFragment: BaseFragment(R.layout.communication_fragment) {
     }
 
     private fun scrollRecyclerViewToLastItem() {
-        rvConversation.postDelayed({
-            rvConversation.scrollToPosition(rvConversation.adapter!!.itemCount - 1)
-        }, 1000)
+        rvConversation.scrollToBot()
     }
 
     private fun mockConversationData(): MutableList<Message> {
@@ -153,14 +176,14 @@ class CommunicationFragment: BaseFragment(R.layout.communication_fragment) {
 
     private fun addMineMessage(message: String?) {
         message?.let {
-            scrollRecyclerViewToLastItem()
+            if (!isTouching) scrollRecyclerViewToLastItem()
             communicationAdapter.add(Message(true, it, getCurrentTime()))
         }
     }
 
     private fun addOtherMessage(message: String?) {
         message?.let {
-            scrollRecyclerViewToLastItem()
+            if (!isTouching) scrollRecyclerViewToLastItem()
             communicationAdapter.add(Message(false, it, getCurrentTime()))
         }
     }
@@ -172,6 +195,7 @@ class CommunicationFragment: BaseFragment(R.layout.communication_fragment) {
     private fun setState(state: STATE) {
         when (state) {
             STATE.DEFAULT -> {
+                if (this@CommunicationFragment.state == STATE.DEFAULT) return
                 hideKeyboard(requireView())
                 cedtInput.changeHeight(CustomEditText.HIDE_HEIGHT)
                 (activity as MainActivity).showBottomNav()
@@ -197,4 +221,39 @@ class CommunicationFragment: BaseFragment(R.layout.communication_fragment) {
     enum class STATE {
         INPUT, DEFAULT, FULL
     }
+
+    inner class RVClickHandler(private val mRecyclerView: RecyclerView) : OnTouchListener {
+        private var mStartX = 0f
+        private var mStartY = 0f
+        override fun onTouch(v: View?, event: MotionEvent): Boolean {
+            var isConsumed = false
+            when (event.action) {
+                MotionEvent.ACTION_DOWN -> {
+                    mStartX = event.x
+                    mStartY = event.y
+                }
+                MotionEvent.ACTION_UP -> {
+                    val endX = event.x
+                    val endY = event.y
+                    if (detectClick(mStartX, mStartY, endX, endY)) {
+                        //Ideally it would never be called when a child View is clicked.
+                        //I am not so sure about this.
+                        val itemView: View? = mRecyclerView.findChildViewUnder(endX, endY)
+                        if (itemView == null) {
+                            //RecyclerView clicked
+                            mRecyclerView.performClick()
+                            isConsumed = true
+                        }
+                    }
+                }
+            }
+            return isConsumed
+        }
+
+        private fun detectClick(startX: Float, startY: Float, endX: Float, endY: Float): Boolean {
+            return Math.abs(startX - endX) < 3.0 && Math.abs(startY - endY) < 3.0
+        }
+
+    }
+
 }

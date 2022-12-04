@@ -1,8 +1,8 @@
 package com.example.dcom.presentation.main.favorite
 
 import android.content.Intent
+import android.widget.Button
 import android.widget.EditText
-import android.widget.ImageView
 import androidx.core.widget.doOnTextChanged
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
@@ -18,11 +18,11 @@ import com.example.dcom.presentation.main.favorite.note.NoteActivity
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 
-class FavoriteFragment : BaseFragment(R.layout.favorite_fragment), IEventHandler {
+class FavoriteFragment : BaseFragment(R.layout.favorite_fragment), IEventHandler { // TODO scroll when add note
 
     private lateinit var rvContent: RecyclerView
-    private lateinit var btnAdd: ImageView
-    private lateinit var btnFastGen: ImageView
+    private lateinit var btnAdd: Button
+    private lateinit var btnFastGen: Button
     private lateinit var edtSearch: EditText
 
     private val favoriteAdapter by lazy { FavoriteAdapter() }

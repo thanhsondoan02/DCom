@@ -1,5 +1,6 @@
 package com.example.dcom.presentation.main.history.conversation
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -34,6 +35,9 @@ class ConversationAdapter : RecyclerView.Adapter<BaseVH>() {
 
     override fun onBindViewHolder(holder: BaseVH, position: Int) {
         holder.bind(mData[position])
+        holder.itemView.setOnClickListener {
+            listener?.onRecyclerViewClick()
+        }
     }
 
     override fun getItemCount(): Int {
@@ -68,16 +72,16 @@ class ConversationAdapter : RecyclerView.Adapter<BaseVH>() {
         notifyItemRemoved(position)
     }
 
+    @SuppressLint("NotifyDataSetChanged")
+    fun clear() {
+        mData.clear()
+        notifyDataSetChanged()
+    }
+
     inner class MineMessageVH(itemView: View): BaseVH(itemView) {
 
         private val tvMessage = itemView.findViewById<TextView>(R.id.tvMineMessage)
         private val rlContainer = itemView.findViewById<View>(R.id.rlMineMessageContainer)
-
-        init {
-            itemView.setOnClickListener {
-                listener?.onRecyclerViewClick()
-            }
-        }
 
         override fun bind(data: Any?) {
             val mData = data as Message
@@ -107,12 +111,6 @@ class ConversationAdapter : RecyclerView.Adapter<BaseVH>() {
 
         private val tvMessage = itemView.findViewById<TextView>(R.id.tvOtherMessage)
         private val rlContainer = itemView.findViewById<View>(R.id.rlOtherMessageContainer)
-
-        init {
-            itemView.setOnClickListener {
-                listener?.onRecyclerViewClick()
-            }
-        }
 
         override fun bind(data: Any?) {
             val mData = data as Message

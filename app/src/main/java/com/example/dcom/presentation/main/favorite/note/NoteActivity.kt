@@ -35,6 +35,7 @@ class NoteActivity : AppCompatActivity(), BaseView {
     private var notePosition: Int? = null
     private lateinit var database: AppDatabase
     private var dialog: Dialog? = null
+    private var isDelete = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,6 +51,11 @@ class NoteActivity : AppCompatActivity(), BaseView {
         super.onPrepareInitView()
         noteId = intent.getIntExtra(NOTE_ID, -1)
         notePosition = intent.getIntExtra(NOTE_POSITION, -1)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        if (!isDelete) save()
     }
 
     override fun onInitView() {
@@ -142,6 +148,7 @@ class NoteActivity : AppCompatActivity(), BaseView {
     private fun deleteNote() {
         database.iNoteDao().deleteById(noteId)
         EventBusManager.instance?.postPending(NoteEvent(NoteEvent.STATUS.DELETE, notePosition, null))
+        isDelete = true
     }
 
     @SuppressLint("InflateParams")
@@ -153,6 +160,7 @@ class NoteActivity : AppCompatActivity(), BaseView {
 
             val btnYes = inflateView.findViewById<Button>(R.id.btnConfirmDialogYes)
             btnYes.setOnClickListener {
+                confirmDialog().hide()
                 deleteNote()
                 onBackPressed()
             }
