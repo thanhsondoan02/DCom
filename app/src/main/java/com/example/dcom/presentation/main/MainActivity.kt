@@ -1,8 +1,11 @@
 package com.example.dcom.presentation.main
 
+import android.content.Intent
 import android.os.Bundle
+import android.speech.RecognizerIntent
 import android.widget.Button
 import android.widget.TextView
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.example.dcom.R
@@ -43,6 +46,7 @@ class MainActivity : AppCompatActivity(), BaseView {
         onInitView()
 
         initBottomNavigation()
+
     }
 
     override fun onInitView() {

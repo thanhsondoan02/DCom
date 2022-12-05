@@ -1,5 +1,10 @@
 package com.example.dcom.presentation.main.communication
 
+import android.content.Intent
+import android.os.Bundle
+import android.speech.RecognitionListener
+import android.speech.RecognizerIntent
+import android.speech.SpeechRecognizer
 import android.view.MotionEvent
 import android.view.View
 import android.view.View.OnTouchListener
@@ -20,6 +25,7 @@ import com.example.dcom.presentation.main.history.conversation.ConversationAdapt
 import com.example.dcom.presentation.widget.CustomEditText
 import com.example.dcom.thread.CommunicationViewModel
 import com.google.android.material.materialswitch.MaterialSwitch
+import java.util.*
 
 class CommunicationFragment: BaseFragment(R.layout.communication_fragment) {
 
@@ -37,6 +43,9 @@ class CommunicationFragment: BaseFragment(R.layout.communication_fragment) {
     private var isListen: Boolean = true
     private var isTouching: Boolean = false
 
+    var formattedSpeech: StringBuffer = StringBuffer()
+    var resultSpeech: String? = null
+
     override fun onInitView() {
         super.onInitView()
 
@@ -47,6 +56,7 @@ class CommunicationFragment: BaseFragment(R.layout.communication_fragment) {
 
         if (isListen) {
             viewModel.speechToText(requireContext())
+            startListening()
         }
     }
 
@@ -68,6 +78,7 @@ class CommunicationFragment: BaseFragment(R.layout.communication_fragment) {
                 handleUiState(it, object : IViewListener {
                     override fun onSuccess() {
                         if (isListen) {
+                            startListening()
                             addOtherMessage(it.data)
                             viewModel.speechToText(requireContext())
                         }
@@ -75,6 +86,62 @@ class CommunicationFragment: BaseFragment(R.layout.communication_fragment) {
                 })
             }
         }
+    }
+
+    private fun startListening() {
+        val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale("vi", "VN"))
+        val recognizer = SpeechRecognizer.createSpeechRecognizer(context)
+        val listener: RecognitionListener = object : RecognitionListener {
+            override fun onResults(result: Bundle?) {
+                val voiceResult = result?.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)
+                if(voiceResult == null){
+                    println("No voice results")
+                } else {
+                    println("Printing matches: ")
+                    for (match in voiceResult) {
+                        formattedSpeech.append(String.format("\n- %s",match.toString()))
+                        resultSpeech = formattedSpeech.toString()
+                        print(resultSpeech)
+                    }
+                }
+            }
+
+            override fun onReadyForSpeech(p0: Bundle?) {
+                TODO("Not yet implemented")
+            }
+
+            override fun onBeginningOfSpeech() {
+                TODO("Not yet implemented")
+            }
+
+            override fun onRmsChanged(p0: Float) {
+                TODO("Not yet implemented")
+            }
+
+            override fun onBufferReceived(p0: ByteArray?) {
+                TODO("Not yet implemented")
+            }
+
+            override fun onEndOfSpeech() {
+                TODO("Not yet implemented")
+            }
+
+            override fun onError(p0: Int) {
+                System.err.println("Error listening for speech: $p0")
+            }
+
+            override fun onPartialResults(p0: Bundle?) {
+                TODO("Not yet implemented")
+            }
+
+            override fun onEvent(p0: Int, p1: Bundle?) {
+                TODO("Not yet implemented")
+            }
+        }
+        recognizer.setRecognitionListener(listener)
+        recognizer.startListening(intent)
     }
 
     private fun setUpVariables() {

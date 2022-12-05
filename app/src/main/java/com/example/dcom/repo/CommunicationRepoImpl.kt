@@ -2,14 +2,21 @@ package com.example.dcom.repo
 
 import android.content.Context
 import android.speech.tts.TextToSpeech
+import android.content.Intent
+import android.os.Bundle
+import android.speech.RecognitionListener
+import android.speech.RecognizerIntent
+import android.speech.SpeechRecognizer
+import com.example.dcom.presentation.main.MainActivity
 import java.util.*
 
 class CommunicationRepoImpl: ICommunicationRepo {
 
     private var tts: TextToSpeech? = null
+    var resultSpeech: String? = null
+
 
     override fun speak(text: String, context: Context) {
-        // TODO
         if(tts == null){
             tts = TextToSpeech(context) { status ->
                 if (status != TextToSpeech.ERROR) {
@@ -24,9 +31,8 @@ class CommunicationRepoImpl: ICommunicationRepo {
     }
 
     override fun listen(context: Context): String {
-        // TODO
         Thread.sleep(5000)
-        val listString =  listOf("Hello", "How are you", "I am fine", "Thank you")
-        return listString.random()
+        return resultSpeech.toString()
     }
+
 }
