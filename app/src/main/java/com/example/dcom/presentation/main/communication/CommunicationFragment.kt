@@ -109,23 +109,23 @@ class CommunicationFragment: BaseFragment(R.layout.communication_fragment) {
             }
 
             override fun onReadyForSpeech(p0: Bundle?) {
-                TODO("Not yet implemented")
+//                TODO("Not yet implemented")
             }
 
             override fun onBeginningOfSpeech() {
-                TODO("Not yet implemented")
+//                TODO("Not yet implemented")
             }
 
             override fun onRmsChanged(p0: Float) {
-                TODO("Not yet implemented")
+//                TODO("Not yet implemented")
             }
 
             override fun onBufferReceived(p0: ByteArray?) {
-                TODO("Not yet implemented")
+//                TODO("Not yet implemented")
             }
 
             override fun onEndOfSpeech() {
-                TODO("Not yet implemented")
+//                TODO("Not yet implemented")
             }
 
             override fun onError(p0: Int) {
@@ -133,11 +133,11 @@ class CommunicationFragment: BaseFragment(R.layout.communication_fragment) {
             }
 
             override fun onPartialResults(p0: Bundle?) {
-                TODO("Not yet implemented")
+//                TODO("Not yet implemented")
             }
 
             override fun onEvent(p0: Int, p1: Bundle?) {
-                TODO("Not yet implemented")
+//                TODO("Not yet implemented")
             }
         }
         recognizer.setRecognitionListener(listener)
@@ -167,12 +167,22 @@ class CommunicationFragment: BaseFragment(R.layout.communication_fragment) {
             }
         }
 
-        activity?.findViewById<MaterialSwitch>(R.id.btnMainRight3)?.setOnCheckedChangeListener { _, isChecked ->
-            isListen = isChecked
-            if (isListen) {
-                viewModel.speechToText(requireContext())
+        val switch = activity?.findViewById<MaterialSwitch>(R.id.btnMainRight3)
+//        if (!(activity as MainActivity).isRecordGranted) {
+//            switch?.isChecked = false
+//            isListen = false
+//            switch?.setOnClickListener {
+//                switch.isChecked = false
+//                Toast.makeText(requireContext(), "Bạn cần cấp quyền ghi âm để sử dụng chức năng này", Toast.LENGTH_SHORT).show()
+//            }
+//        } else {
+            switch?.setOnCheckedChangeListener { _, isChecked ->
+                isListen = isChecked
+                if (isListen) {
+                    viewModel.speechToText(requireContext())
+                }
             }
-        }
+//        }
 
         rvConversation.setOnTouchListener(RVClickHandler(rvConversation))
         rvConversation.setOnClickListener {

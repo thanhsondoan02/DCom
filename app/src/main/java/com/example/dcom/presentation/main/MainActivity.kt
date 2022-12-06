@@ -1,13 +1,13 @@
 package com.example.dcom.presentation.main
 
-import android.content.Intent
+import android.Manifest
+import android.content.pm.PackageManager
 import android.os.Bundle
-import android.speech.RecognizerIntent
 import android.widget.Button
 import android.widget.TextView
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.app.ActivityCompat
 import com.example.dcom.R
 import com.example.dcom.extension.gone
 import com.example.dcom.extension.hide
@@ -23,6 +23,8 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.materialswitch.MaterialSwitch
 
 class MainActivity : AppCompatActivity(), BaseView {
+
+    var isRecordGranted = false
 
     private lateinit var cvpHomePager: CustomViewPager
     private lateinit var bnvMenu: BottomNavigationView
@@ -42,11 +44,11 @@ class MainActivity : AppCompatActivity(), BaseView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_activity)
+        askRecordAudioPermission()
 
         onInitView()
 
         initBottomNavigation()
-
     }
 
     override fun onInitView() {
@@ -128,5 +130,18 @@ class MainActivity : AppCompatActivity(), BaseView {
             offscreenPageLimit = pagerAdapter.count
             currentItem = 0
         }
+    }
+
+    private fun askRecordAudioPermission() {
+        if (!isRecordAudioPermissionGranted()) {
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.RECORD_AUDIO), 1)
+        }
+        isRecordGranted = isRecordAudioPermissionGranted()
+    }
+
+    fun isRecordAudioPermissionGranted(): Boolean {
+        return (ActivityCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO)
+            == PackageManager.PERMISSION_GRANTED
+        )
     }
 }
