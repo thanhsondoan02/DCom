@@ -27,6 +27,7 @@ import com.example.dcom.thread.CommunicationViewModel
 import com.google.android.material.materialswitch.MaterialSwitch
 import java.util.*
 
+
 class CommunicationFragment: BaseFragment(R.layout.communication_fragment) {
 
     private lateinit var btnKeyboard: Button
@@ -42,9 +43,7 @@ class CommunicationFragment: BaseFragment(R.layout.communication_fragment) {
     private val viewModel by viewModels<CommunicationViewModel>()
     private var isListen: Boolean = true
     private var isTouching: Boolean = false
-
-    var formattedSpeech: StringBuffer = StringBuffer()
-    var resultSpeech: String? = null
+    private var isRecording: Boolean = false
 
     override fun onInitView() {
         super.onInitView()
@@ -55,8 +54,8 @@ class CommunicationFragment: BaseFragment(R.layout.communication_fragment) {
         setState(STATE.DEFAULT)
 
         if (isListen) {
-            viewModel.speechToText(requireContext())
             startListening()
+            viewModel.speechToText(requireContext())
         }
     }
 
@@ -73,75 +72,57 @@ class CommunicationFragment: BaseFragment(R.layout.communication_fragment) {
             }
         }
 
-        lifecycleScope.launchWhenCreated {
-            viewModel.speechToTextState.collect {
-                handleUiState(it, object : IViewListener {
-                    override fun onSuccess() {
-                        if (isListen) {
-                            startListening()
-                            addOtherMessage(it.data)
-                            viewModel.speechToText(requireContext())
-                        }
-                    }
-                })
-            }
-        }
+//        lifecycleScope.launchWhenCreated {
+//            viewModel.speechToTextState.collect {
+//                handleUiState(it, object : IViewListener {
+//                    override fun onSuccess() {
+//                        if (isListen) {
+//                            addOtherMessage(it.data)
+//                            viewModel.speechToText(requireContext())
+//                        }
+//                    }
+//                })
+//            }
+//        }
     }
 
     private fun startListening() {
-        val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale("vi", "VN"))
-        val recognizer = SpeechRecognizer.createSpeechRecognizer(context)
-        val listener: RecognitionListener = object : RecognitionListener {
-            override fun onResults(result: Bundle?) {
-                val voiceResult = result?.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)
-                if(voiceResult == null){
-                    println("No voice results")
-                } else {
-                    println("Printing matches: ")
-                    for (match in voiceResult) {
-                        formattedSpeech.append(String.format("\n- %s",match.toString()))
-                        resultSpeech = formattedSpeech.toString()
-                        print(resultSpeech)
-                    }
+        isRecording = true
+        val speechRecognizer = SpeechRecognizer.createSpeechRecognizer(context)
+        val speechRecognizerIntent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
+        speechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_WEB_SEARCH)
+        speechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "vi")
+        speechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, context?.packageName)
+
+        speechRecognizer.setRecognitionListener(object : RecognitionListener {
+            override fun onReadyForSpeech(bundle: Bundle) {}
+
+            override fun onBeginningOfSpeech() {}
+
+            override fun onRmsChanged(v: Float) {}
+
+            override fun onBufferReceived(bytes: ByteArray) {}
+
+            override fun onEndOfSpeech() {}
+
+            override fun onError(i: Int) {
+                speechRecognizer.startListening(speechRecognizerIntent)
+            }
+
+            override fun onResults(bundle: Bundle) {
+                val matches = bundle.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)//getting all the matches
+                //displaying the first match
+                if (matches != null) {
+                    addOtherMessage(matches[0])
+                    speechRecognizer.startListening(speechRecognizerIntent)
                 }
             }
 
-            override fun onReadyForSpeech(p0: Bundle?) {
-//                TODO("Not yet implemented")
-            }
+            override fun onPartialResults(bundle: Bundle) {}
 
-            override fun onBeginningOfSpeech() {
-//                TODO("Not yet implemented")
-            }
-
-            override fun onRmsChanged(p0: Float) {
-//                TODO("Not yet implemented")
-            }
-
-            override fun onBufferReceived(p0: ByteArray?) {
-//                TODO("Not yet implemented")
-            }
-
-            override fun onEndOfSpeech() {
-//                TODO("Not yet implemented")
-            }
-
-            override fun onError(p0: Int) {
-                System.err.println("Error listening for speech: $p0")
-            }
-
-            override fun onPartialResults(p0: Bundle?) {
-//                TODO("Not yet implemented")
-            }
-
-            override fun onEvent(p0: Int, p1: Bundle?) {
-//                TODO("Not yet implemented")
-            }
-        }
-        recognizer.setRecognitionListener(listener)
-        recognizer.startListening(intent)
+            override fun onEvent(i: Int, bundle: Bundle) {}
+        })
+        speechRecognizer.startListening(speechRecognizerIntent)
     }
 
     private fun setUpVariables() {
@@ -179,6 +160,7 @@ class CommunicationFragment: BaseFragment(R.layout.communication_fragment) {
             switch?.setOnCheckedChangeListener { _, isChecked ->
                 isListen = isChecked
                 if (isListen) {
+                    startListening()
                     viewModel.speechToText(requireContext())
                 }
             }
