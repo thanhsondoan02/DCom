@@ -1,5 +1,6 @@
 package com.example.dcom.presentation.main
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -7,6 +8,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import com.example.dcom.R
 import com.example.dcom.extension.gone
 import com.example.dcom.extension.show
+import com.example.dcom.presentation.SettingActivity
 import com.example.dcom.presentation.common.BaseFragment
 import com.example.dcom.presentation.common.BaseView
 import com.example.dcom.presentation.main.communication.CommunicationFragment
@@ -15,6 +17,7 @@ import com.example.dcom.presentation.main.history.HistoryFragment
 import com.example.dcom.presentation.main.setting.SettingFragment
 import com.example.dcom.presentation.widget.CustomViewPager
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.button.MaterialButton
 
 class MainActivity : AppCompatActivity(), BaseView {
 
@@ -22,6 +25,7 @@ class MainActivity : AppCompatActivity(), BaseView {
     private lateinit var bnvMenu: BottomNavigationView
     private lateinit var constTopBar: ConstraintLayout
     private lateinit var tvTitle: TextView
+    private lateinit var btnSetting: MaterialButton
 
     private lateinit var pagerAdapter: MainViewPagerAdapter
     private val fragmentList = mutableListOf<BaseFragment>()
@@ -41,6 +45,7 @@ class MainActivity : AppCompatActivity(), BaseView {
 
     override fun onInitView() {
         setUpVariables()
+        setUpOnClick()
         initViewPager()
         initBottomNavigation()
     }
@@ -66,6 +71,14 @@ class MainActivity : AppCompatActivity(), BaseView {
         bnvMenu = findViewById(R.id.bnvMainMenu)
         constTopBar = findViewById(R.id.constMainTopBar)
         tvTitle = findViewById(R.id.tvMainTitle)
+        btnSetting = findViewById(R.id.btnMainSetting)
+    }
+
+    private fun setUpOnClick() {
+        btnSetting.setOnClickListener {
+            val intent = Intent(this, SettingActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     private fun initBottomNavigation() {

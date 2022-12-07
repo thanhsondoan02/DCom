@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.dcom.R
 import com.example.dcom.database.AppDatabase
-import com.example.dcom.database.conversation.Conversation
 import com.example.dcom.database.message.Message
 import com.example.dcom.extension.*
 import com.example.dcom.presentation.common.BaseFragment
@@ -61,6 +60,9 @@ class CommunicationFragment: BaseFragment(R.layout.communication_fragment) {
             viewModel.textToSpeechState.collect {
                 handleUiState(it, object : IViewListener {
                     override fun onSuccess() {
+                        if (viewModel.createdTime == null) {
+                            viewModel.createdTime = System.currentTimeMillis()
+                        }
                         Toast.makeText(requireContext(), getString(R.string.speak_success), Toast.LENGTH_SHORT).show()
                     }
                 })
@@ -71,6 +73,9 @@ class CommunicationFragment: BaseFragment(R.layout.communication_fragment) {
             viewModel.speechToTextState.collect {
                 handleUiState(it, object : IViewListener {
                     override fun onSuccess() {
+                        if (viewModel.createdTime == null) {
+                            viewModel.createdTime = System.currentTimeMillis()
+                        }
                         addOtherMessage(it.data)
                         viewModel.speechToText(requireContext())
                     }
@@ -222,8 +227,8 @@ class CommunicationFragment: BaseFragment(R.layout.communication_fragment) {
         MaterialAlertDialogBuilder(requireContext())
             .setTitle(resources.getString(R.string.delete_conversation_title))
             .setMessage(resources.getString(R.string.delete_conversation_des))
-            .setNegativeButton(resources.getString(R.string.delete)) { _, _ -> showSaveDialog() }
-            .setPositiveButton(resources.getString(R.string.save)) { _, _ -> tempDelete() }
+            .setPositiveButton(resources.getString(R.string.delete)) { _, _ -> tempDelete() }
+            .setNegativeButton(resources.getString(R.string.save)) { _, _ -> showSaveDialog() }
             .show()
     }
 
@@ -250,19 +255,9 @@ class CommunicationFragment: BaseFragment(R.layout.communication_fragment) {
 
     private fun save(title: String) {
         val list = communicationAdapter.getAllData()
-        viewModel.database?.iConversationDao()?.insertConversation(Conversation(title, -1))
-        val conversationId = viewModel.database?.iConversationDao()?.getLatestConversation()?.id
-        if (conversationId != null) {
-            list.forEach {
-                it.conversationId = conversationId
-            }
-            viewModel.database?.iConversationDao()?.insertMessages(list)
-            viewModel.database?.iConversationDao()?.updateConversation(conversationId, list.last().id)
-            communicationAdapter.clear()
-            Toast.makeText(requireContext(), getString(R.string.saved), Toast.LENGTH_SHORT).show()
-        } else {
-            Toast.makeText(requireContext(), getString(R.string.save_fail), Toast.LENGTH_SHORT).show()
-        }
+        viewModel.saveNewConversation(list, title)
+        communicationAdapter.clear()
+        Toast.makeText(requireContext(), getString(R.string.saved), Toast.LENGTH_SHORT).show()
     }
 
     enum class STATE {

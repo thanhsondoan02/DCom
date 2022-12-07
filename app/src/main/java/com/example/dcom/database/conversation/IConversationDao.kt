@@ -11,7 +11,7 @@ interface IConversationDao {
     fun getByConversationId(conversationId: Int): List<Message>
 
     @Query("SELECT * FROM message WHERE conversation_id = :conversationId ORDER BY id DESC LIMIT 1")
-    fun getLatestMessage(conversationId: Int): Message
+    fun getLatestMessageInConversation(conversationId: Int): Message
 
     @Insert
     fun insert(vararg messages: Message)
@@ -34,9 +34,10 @@ interface IConversationDao {
     @Query("SELECT * FROM message WHERE conversation_id = :conversationId AND id < :lastMessageId ORDER BY id DESC LIMIT 100")
     fun getLatest100Messages(conversationId: Int, lastMessageId: Int): List<Message>
 
-    @Query("UPDATE conversation SET latest_message_id = :lastMessageId WHERE id = :conversationId")
-    fun updateConversation(conversationId: Int, lastMessageId: Int)
-
     @Query("SELECT * FROM conversation ORDER BY id DESC LIMIT 1")
     fun getLatestConversation(): Conversation
+
+    @Query("SELECT * FROM message WHERE conversation_id = :conversationId")
+    fun getAllMessageInConversation(conversationId: Int): List<Message>
+
 }

@@ -13,10 +13,11 @@
         android:elevation="100dp"
         app:layout_constraintTop_toTopOf="parent">
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnMainSetting"
             style="?attr/materialIconButtonStyle"
             android:layout_width="wrap_content"
+            android:contentDescription="@string/setting"
             android:layout_height="wrap_content"
             app:icon="@drawable/ic_baseline_settings_24"
             app:layout_constraintBottom_toBottomOf="parent"

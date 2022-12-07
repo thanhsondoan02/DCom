@@ -25,6 +25,7 @@ class CommunicationViewModel: ViewModel() {
     val speechToTextState = _speechToTextState.asStateFlow()
 
     var database: AppDatabase? = null
+    var createdTime: Long? = null
 
     fun textToSpeech(text: String, context: Context) {
         val rv = TextToSpeechUseCase.TextToSpeechRV(text, context)
@@ -55,15 +56,12 @@ class CommunicationViewModel: ViewModel() {
     }
 
     fun saveNewConversation(list: List<Message>, name: String) {
-        database?.iConversationDao()?.insertMessages(list)
-        database?.iConversationDao()?.insertConversation(Conversation(name, list.last().id))
-    }
-
-    fun saveExistConversation(list: List<Message>, id: Int) {
-        list.forEach {
-            it.conversationId = id
+        database?.iConversationDao()?.apply {
+            insertConversation(Conversation(name, createdTime ?: System.currentTimeMillis()))
+            list.forEach {
+                it.conversationId = getLatestConversation().id
+            }
+            insertMessages(list)
         }
-        database?.iConversationDao()?.insertMessages(list)
-        database?.iConversationDao()?.updateConversation(id, list.last().id)
     }
 }

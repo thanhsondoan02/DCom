@@ -61,4 +61,9 @@
     <string name="conversation_title">Tiêu đề hội thoại</string>
     <string name="save_fail">Lưu không thành không. Vui lòng thử lại sau</string>
     <string name="speak_success">Phát thành công</string>
+    <string name="settings">Cài đặt</string>
+    <string name="go_back">Trở lại</string>
+    <string name="delete_conversation">Xóa đoạn hội thoại này</string>
+    <string name="save_conversation">Lưu đoạn hội thoại này</string>
+    <string name="cant_find_conversation">Không tìm thấy hội thoại, vui lòng thử lại sau</string>
 </resources>

@@ -7,9 +7,10 @@ import androidx.room.PrimaryKey
 @Entity
 data class Conversation(
     @PrimaryKey(autoGenerate = true) val id: Int,
-    @ColumnInfo(name = "conversation_id") val name: String,
-    @ColumnInfo(name = "latest_message_id") val lastMessageId: Int,
+    @ColumnInfo(name = "name") val name: String,
+    @ColumnInfo(name = "created_time") val createdTime: Long,
+
 ) {
-    constructor(name: String, lastMessageId: Int) : this(0, name, lastMessageId)
+    constructor(name: String, createdTime: Long) : this(0, name, createdTime)
 }
 
