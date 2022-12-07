@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -10,64 +11,30 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:elevation="100dp"
-        android:padding="8dp"
         app:layout_constraintTop_toTopOf="parent">
 
         <Button
             android:id="@+id/btnMainSetting"
+            style="?attr/materialIconButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="?attr/materialIconButtonFilledTonalStyle"
-            app:layout_constraintTop_toTopOf="parent"
             app:icon="@drawable/ic_baseline_settings_24"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvMainTitle"
-            app:layout_constraintStart_toEndOf="@id/btnMainSetting"
             android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/communication"
             android:textSize="20sp"
-            android:layout_marginStart="10dp"
             android:textStyle="bold"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_height="wrap_content"
-            android:text="@string/communication" />
-
-        <Button
-            android:id="@+id/btnMainRight"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            style="?attr/materialIconButtonFilledTonalStyle"
-            app:layout_constraintTop_toTopOf="parent"
-            app:icon="@drawable/ic_round_delete_24"
-            app:layout_constraintBottom_toBottomOf="parent" />
-
-        <Button
-            android:id="@+id/btnMainRight2"
-            android:layout_width="wrap_content"
-            android:layout_marginEnd="3dp"
-            android:layout_height="wrap_content"
-            style="?attr/materialIconButtonFilledTonalStyle"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/btnMainRight"
-            app:icon="@drawable/ic_baseline_save_24"
-            app:layout_constraintBottom_toBottomOf="parent" />
-
-        <com.google.android.material.materialswitch.MaterialSwitch
-            android:id="@+id/btnMainRight3"
-            android:layout_width="wrap_content"
-            app:layout_constraintEnd_toStartOf="@id/btnMainRight2"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_height="wrap_content"
-            android:checked="true"
-            android:layout_marginEnd="6dp"/>
+            app:layout_constraintStart_toEndOf="@id/btnMainSetting"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 
     <com.example.dcom.presentation.widget.CustomViewPager
         android:id="@+id/cvpMainPager"
@@ -76,38 +43,40 @@
         android:layout_above="@id/bnvMainMenu"
         android:layout_below="@+id/constMainTopBar"
         android:overScrollMode="never"
+        app:layout_constraintBottom_toTopOf="@id/bnvMainMenu"
         app:layout_constraintTop_toBottomOf="@id/constMainTopBar"
-        app:layout_constraintBottom_toTopOf="@id/bnvMainMenu" />
+        app:layout_constraintVertical_bias="1.0"
+        tools:layout_editor_absoluteX="194dp" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bnvMainMenu"
         android:layout_width="match_parent"
-        android:background="?attr/colorSurface"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:background="?attr/colorSurface"
         app:layout_constraintBottom_toBottomOf="parent"
         app:menu="@menu/bottom_navigation_menu" />
 
     <Button
         android:id="@+id/btnMainBot1"
+        style="?attr/materialIconButtonFilledStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
         android:layout_marginEnd="16dp"
-        style="?attr/materialIconButtonFilledStyle"
-        app:icon="@drawable/ic_baseline_save_24"
+        android:layout_marginBottom="16dp"
         android:visibility="gone"
+        app:icon="@drawable/ic_baseline_save_24"
         app:layout_constraintBottom_toTopOf="@id/bnvMainMenu"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <Button
         android:id="@+id/btnMainBot2"
+        style="?attr/materialIconButtonFilledStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="gone"
-        android:layout_marginBottom="10dp"
         android:layout_marginEnd="16dp"
-        style="?attr/materialIconButtonFilledStyle"
+        android:layout_marginBottom="10dp"
+        android:visibility="gone"
         app:icon="@drawable/ic_baseline_save_24"
         app:layout_constraintBottom_toTopOf="@id/btnMainBot1"
         app:layout_constraintEnd_toEndOf="parent" />

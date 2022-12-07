@@ -2,9 +2,9 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/constCommunicationRoot"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/constCommunicationRoot"
     tools:context=".presentation.main.temp.speechtotext.SpeechToTextActivity">
 
     <androidx.recyclerview.widget.RecyclerView
@@ -33,6 +33,30 @@
         app:cardCornerRadius="100dp"
         app:icon="@drawable/ic_baseline_keyboard_24"
         app:layout_constraintBottom_toBottomOf="@id/rvCommunicationConversation"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/btnCommunicationSave"
+        style="?attr/materialIconButtonFilledStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="6dp"
+        app:cardCornerRadius="100dp"
+        app:icon="@drawable/ic_baseline_save_24"
+        app:layout_constraintBottom_toTopOf="@id/btnCommunicationKeyboard"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/btnCommunicationDelete"
+        style="?attr/materialIconButtonFilledStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="6dp"
+        app:cardCornerRadius="100dp"
+        app:icon="@drawable/ic_round_delete_24"
+        app:layout_constraintBottom_toTopOf="@id/btnCommunicationSave"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <com.example.dcom.presentation.widget.QuarterCircle

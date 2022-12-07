@@ -1,8 +1,10 @@
 package com.example.dcom.presentation.main.communication
 
+import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.View.OnTouchListener
+import android.view.WindowManager
 import android.widget.Button
 import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -12,18 +14,23 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.dcom.R
+import com.example.dcom.database.AppDatabase
+import com.example.dcom.database.conversation.Conversation
 import com.example.dcom.database.message.Message
 import com.example.dcom.extension.*
 import com.example.dcom.presentation.common.BaseFragment
 import com.example.dcom.presentation.main.MainActivity
 import com.example.dcom.presentation.main.history.conversation.ConversationAdapter
 import com.example.dcom.presentation.widget.CustomEditText
-import com.example.dcom.thread.CommunicationViewModel
-import com.google.android.material.materialswitch.MaterialSwitch
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.textfield.TextInputEditText
 
 class CommunicationFragment: BaseFragment(R.layout.communication_fragment) {
 
     private lateinit var btnKeyboard: Button
+    private lateinit var btnDelete: Button
+    private lateinit var btnSave: Button
     private lateinit var cedtInput: CustomEditText
     private lateinit var rvConversation: RecyclerView
     private lateinit var constRoot: ConstraintLayout
@@ -34,7 +41,6 @@ class CommunicationFragment: BaseFragment(R.layout.communication_fragment) {
 
     private var state: STATE = STATE.DEFAULT
     private val viewModel by viewModels<CommunicationViewModel>()
-    private var isListen: Boolean = true
     private var isTouching: Boolean = false
 
     override fun onInitView() {
@@ -45,9 +51,7 @@ class CommunicationFragment: BaseFragment(R.layout.communication_fragment) {
         setUpRecyclerView()
         setState(STATE.DEFAULT)
 
-        if (isListen) {
-            viewModel.speechToText(requireContext())
-        }
+        viewModel.speechToText(requireContext())
     }
 
     override fun onObserverViewModel() {
@@ -57,7 +61,7 @@ class CommunicationFragment: BaseFragment(R.layout.communication_fragment) {
             viewModel.textToSpeechState.collect {
                 handleUiState(it, object : IViewListener {
                     override fun onSuccess() {
-                        Toast.makeText(requireContext(), "Speak success", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(), getString(R.string.speak_success), Toast.LENGTH_SHORT).show()
                     }
                 })
             }
@@ -67,21 +71,35 @@ class CommunicationFragment: BaseFragment(R.layout.communication_fragment) {
             viewModel.speechToTextState.collect {
                 handleUiState(it, object : IViewListener {
                     override fun onSuccess() {
-                        if (isListen) {
-                            addOtherMessage(it.data)
-                            viewModel.speechToText(requireContext())
-                        }
+                        addOtherMessage(it.data)
+                        viewModel.speechToText(requireContext())
                     }
                 })
             }
         }
     }
 
+    override fun onPause() {
+        super.onPause()
+        saveTempConversation()
+    }
+
+    private fun saveTempConversation() {
+        val list = communicationAdapter.getAllData()
+        if (list.isNotEmpty()) {
+            viewModel.saveTempConversation(list)
+        }
+    }
+
     private fun setUpVariables() {
         btnKeyboard = requireView().findViewById(R.id.btnCommunicationKeyboard)
+        btnDelete = requireView().findViewById(R.id.btnCommunicationDelete)
+        btnSave = requireView().findViewById(R.id.btnCommunicationSave)
         cedtInput = requireView().findViewById(R.id.cedtCommunicationInput)
         rvConversation = requireView().findViewById(R.id.rvCommunicationConversation)
         constRoot = requireView().findViewById(R.id.constCommunicationRoot)
+
+        viewModel.database = AppDatabase.getInstance(requireContext())
     }
 
     private fun setUpOnClick() {
@@ -100,20 +118,17 @@ class CommunicationFragment: BaseFragment(R.layout.communication_fragment) {
             }
         }
 
-        activity?.findViewById<MaterialSwitch>(R.id.btnMainRight3)?.setOnCheckedChangeListener { _, isChecked ->
-            isListen = isChecked
-            if (isListen) {
-                viewModel.speechToText(requireContext())
-            }
-        }
-
         rvConversation.setOnTouchListener(RVClickHandler(rvConversation))
         rvConversation.setOnClickListener {
             setState(STATE.DEFAULT)
         }
 
-        activity?.findViewById<Button>(R.id.btnMainRight)?.setOnClickListener {
-            communicationAdapter.clear()
+        btnDelete.setOnClickListener {
+            showConfirmDeleteDialog()
+        }
+
+        btnSave.setOnClickListener {
+            showSaveDialog()
         }
     }
 
@@ -143,27 +158,6 @@ class CommunicationFragment: BaseFragment(R.layout.communication_fragment) {
         rvConversation.scrollToBot()
     }
 
-    private fun mockConversationData(): MutableList<Message> {
-        val ans = mutableListOf<Message>()
-
-        val list = mutableListOf(
-            getString(R.string.speech_to_text_des),
-            getString(R.string.emergency_signal_des),
-            getString(R.string.text_to_speech_des),
-            getString(R.string.fast_communication_des),
-            getString(R.string.example_paragraph),
-            getString(R.string.example_paragraph2),
-        )
-
-        val isMine = mutableListOf(true, false)
-
-        for (i in 0 until 100) {
-            ans.add(Message(isMine.random(), list.random(), 1000L))
-        }
-
-        return ans
-    }
-
     private fun changeInputBoxHeight() {
         cedtInput.updateLayoutParams {
             height = 100
@@ -177,14 +171,14 @@ class CommunicationFragment: BaseFragment(R.layout.communication_fragment) {
     private fun addMineMessage(message: String?) {
         message?.let {
             if (!isTouching) scrollRecyclerViewToLastItem()
-            communicationAdapter.add(Message(true, it, getCurrentTime()))
+            communicationAdapter.add(Message(-1, true, it, getCurrentTime()))
         }
     }
 
     private fun addOtherMessage(message: String?) {
         message?.let {
             if (!isTouching) scrollRecyclerViewToLastItem()
-            communicationAdapter.add(Message(false, it, getCurrentTime()))
+            communicationAdapter.add(Message(-1, false, it, getCurrentTime()))
         }
     }
 
@@ -200,11 +194,15 @@ class CommunicationFragment: BaseFragment(R.layout.communication_fragment) {
                 cedtInput.changeHeight(CustomEditText.HIDE_HEIGHT)
                 (activity as MainActivity).showBottomNav()
                 btnKeyboard.show()
+                btnSave.show()
+                btnDelete.show()
                 this@CommunicationFragment.state = STATE.DEFAULT
             }
             STATE.INPUT -> {
                 (activity as MainActivity).hideBottomNav()
                 btnKeyboard.hide()
+                btnSave.hide()
+                btnDelete.hide()
                 cedtInput.changeHeight(CustomEditText.DEFAULT_HEIGHT)
                 this@CommunicationFragment.state = STATE.INPUT
             }
@@ -213,8 +211,57 @@ class CommunicationFragment: BaseFragment(R.layout.communication_fragment) {
                 cedtInput.changeHeight(CustomEditText.HIDE_HEIGHT)
                 (activity as MainActivity).hideBottomNav()
                 btnKeyboard.hide()
+                btnSave.hide()
+                btnDelete.hide()
                 this@CommunicationFragment.state = STATE.FULL
             }
+        }
+    }
+
+    private fun showConfirmDeleteDialog() {
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(resources.getString(R.string.delete_conversation_title))
+            .setMessage(resources.getString(R.string.delete_conversation_des))
+            .setNegativeButton(resources.getString(R.string.delete)) { _, _ -> showSaveDialog() }
+            .setPositiveButton(resources.getString(R.string.save)) { _, _ -> tempDelete() }
+            .show()
+    }
+
+    private fun tempDelete() {
+        val deletedMessages = mutableListOf<Message>()
+        deletedMessages.addAll(communicationAdapter.getAllData())
+        communicationAdapter.clear()
+        Snackbar.make(constRoot, getString(R.string.deleted), Snackbar.LENGTH_LONG)
+            .setAction(getString(R.string.undo)) {
+                communicationAdapter.addList(deletedMessages, 0)
+            }
+            .show()
+    }
+
+    private fun showSaveDialog() {
+        activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+        val view = LayoutInflater.from(requireContext()).inflate(R.layout.save_conversation_dialog, null, false)
+        val edtTitle = view.findViewById<TextInputEditText>(R.id.edtSaveConversationTitle)
+        MaterialAlertDialogBuilder(requireContext()).setView(view)
+            .setTitle(resources.getString(R.string.save_conversation_title))
+            .setPositiveButton(resources.getString(R.string.save)) { _, _ -> save(edtTitle.text.toString()) }
+            .show()
+    }
+
+    private fun save(title: String) {
+        val list = communicationAdapter.getAllData()
+        viewModel.database?.iConversationDao()?.insertConversation(Conversation(title, -1))
+        val conversationId = viewModel.database?.iConversationDao()?.getLatestConversation()?.id
+        if (conversationId != null) {
+            list.forEach {
+                it.conversationId = conversationId
+            }
+            viewModel.database?.iConversationDao()?.insertMessages(list)
+            viewModel.database?.iConversationDao()?.updateConversation(conversationId, list.last().id)
+            communicationAdapter.clear()
+            Toast.makeText(requireContext(), getString(R.string.saved), Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(requireContext(), getString(R.string.save_fail), Toast.LENGTH_SHORT).show()
         }
     }
 

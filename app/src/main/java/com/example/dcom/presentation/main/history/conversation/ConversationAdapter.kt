@@ -52,6 +52,10 @@ class ConversationAdapter : RecyclerView.Adapter<BaseVH>() {
         }
     }
 
+    fun getAllData(): List<Message> {
+        return mData
+    }
+
     fun update(position: Int, note: Message) {
         mData[position] = note
         notifyItemChanged(position)
@@ -65,6 +69,11 @@ class ConversationAdapter : RecyclerView.Adapter<BaseVH>() {
     fun addList(data: List<Message>) {
         mData.addAll(data)
         notifyItemRangeInserted(mData.size, data.size)
+    }
+
+    fun addList(data: List<Message>, position: Int) {
+        mData.addAll(position, data)
+        notifyItemRangeInserted(position, data.size)
     }
 
     fun remove(position: Int) {
