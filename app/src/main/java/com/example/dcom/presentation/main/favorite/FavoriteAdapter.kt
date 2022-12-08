@@ -8,7 +8,6 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.dcom.R
 import com.example.dcom.database.note.Note
-import com.example.dcom.extension.getAppDimensionPixel
 import com.example.dcom.presentation.common.recyclerview.BaseVH
 import com.google.android.material.card.MaterialCardView
 
@@ -179,7 +178,6 @@ class FavoriteAdapter : RecyclerView.Adapter<BaseVH>() {
         private fun onSelect(): Boolean {
             mtcNoteCard.isChecked = !mtcNoteCard.isChecked
             if (mtcNoteCard.isChecked) {
-                mtcNoteCard.strokeWidth = getAppDimensionPixel(R.dimen.checked_note_stroke_width, itemView.context)
                 if (countSelected == 0) {
                     state = STATE.SELECTING
                     listener?.onInitSelect()
@@ -187,7 +185,6 @@ class FavoriteAdapter : RecyclerView.Adapter<BaseVH>() {
                 countSelected++
                 (mData[adapterPosition] as? NoteDisplay)?.isSelected = true
             } else {
-                mtcNoteCard.strokeWidth = getAppDimensionPixel(R.dimen.unchecked_note_stroke_width, itemView.context)
                 countSelected--
                 if (countSelected == 0) {
                     state = STATE.NORMAL

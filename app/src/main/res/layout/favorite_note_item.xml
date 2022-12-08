@@ -46,7 +46,7 @@
         app:strokeColor="@color/note_card_color_selector"
         android:checkable="true"
         android:clickable="true"
-        app:strokeWidth="@dimen/unchecked_note_stroke_width"
+        app:strokeWidth="2dp"
         android:focusable="true"
         android:layout_height="wrap_content"
         android:layout_margin="4dp">
