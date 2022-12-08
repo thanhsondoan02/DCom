@@ -1,25 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
     <RelativeLayout
         android:id="@+id/rlMineMessageContainer"
         android:layout_width="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:background="@drawable/mine_message_left"
         android:layout_height="wrap_content"
-        android:layout_marginStart="80dp"
+        android:layout_alignParentEnd="true"
         android:layout_marginTop="2dp"
         android:layout_marginEnd="16dp"
-        android:padding="10dp">
+        android:background="@drawable/mine_message_full"
+        android:paddingHorizontal="11dp"
+        android:paddingVertical="8dp">
 
         <TextView
             android:id="@+id/tvMineMessage"
             android:layout_width="wrap_content"
-            android:textColor="@color/black"
             android:layout_height="wrap_content"
-            android:text="@string/message_example1" />
+            android:justificationMode="inter_word"
+            android:maxEms="15"
+            android:textColor="?attr/colorOnPrimary"
+            android:textSize="15sp"
+            tools:targetApi="o"
+            tools:text="@string/message_example1" />
 
     </RelativeLayout>
 

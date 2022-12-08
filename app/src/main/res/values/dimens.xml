@@ -10,5 +10,7 @@
     <dimen name="headerMoreTextSize">18sp</dimen>
     <dimen name="card_margin">5dp</dimen>
     <dimen name="frutorial_title">15sp</dimen>
+    <dimen name="checked_note_stroke_width">2dp</dimen>
+    <dimen name="unchecked_note_stroke_width">2sp</dimen>
 
 </resources>

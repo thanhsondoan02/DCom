@@ -37,6 +37,9 @@ interface IConversationDao {
     @Query("SELECT * FROM conversation ORDER BY id DESC LIMIT 1")
     fun getLatestConversation(): Conversation
 
+    @Query("SELECT * FROM message WHERE conversation_id = :conversationId ORDER BY id DESC")
+    fun getAllMessageInConversationSortByLatest(conversationId: Int): List<Message>
+
     @Query("SELECT * FROM message WHERE conversation_id = :conversationId")
     fun getAllMessageInConversation(conversationId: Int): List<Message>
 

@@ -3,8 +3,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context=".presentation.main.temp.history.ConversationHistoryActivity">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/mtbConversationTopBar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        app:navigationIcon="@drawable/ic_round_arrow_back_24"
+        app:navigationContentDescription="@string/go_back" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvConversationHistory"

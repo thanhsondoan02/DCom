@@ -3,7 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bg_custom_edit_text"
     android:orientation="vertical">
 
     <ImageView
@@ -11,7 +10,6 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_alignParentTop="true"
-        android:background="#c8c8ca"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
@@ -19,7 +17,6 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginBottom="10dp"
-        android:background="@color/bg_custom_edit_text"
         android:gravity="top"
         android:hint="@string/type_your_reply_here"
         android:inputType="textMultiLine"

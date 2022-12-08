@@ -2,6 +2,7 @@ package com.example.dcom.presentation.main
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -16,6 +17,8 @@ import com.example.dcom.presentation.main.favorite.FavoriteFragment
 import com.example.dcom.presentation.main.history.HistoryFragment
 import com.example.dcom.presentation.main.setting.SettingFragment
 import com.example.dcom.presentation.widget.CustomViewPager
+import com.google.android.material.appbar.AppBarLayout
+import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.button.MaterialButton
 
@@ -26,6 +29,9 @@ class MainActivity : AppCompatActivity(), BaseView {
     private lateinit var constTopBar: ConstraintLayout
     private lateinit var tvTitle: TextView
     private lateinit var btnSetting: MaterialButton
+    private lateinit var tabSelectBar: MaterialToolbar
+    private lateinit var ablNormalTopBar: AppBarLayout
+    private lateinit var btnOptions: Button
 
     private lateinit var pagerAdapter: MainViewPagerAdapter
     private val fragmentList = mutableListOf<BaseFragment>()
@@ -66,18 +72,37 @@ class MainActivity : AppCompatActivity(), BaseView {
         constTopBar.show()
     }
 
+    fun getMainTopBar(): AppBarLayout {
+        return ablNormalTopBar
+    }
+
+    fun getSelectBar(): MaterialToolbar {
+        return tabSelectBar
+    }
+
     private fun setUpVariables() {
         cvpHomePager = findViewById(R.id.cvpMainPager)
         bnvMenu = findViewById(R.id.bnvMainMenu)
         constTopBar = findViewById(R.id.constMainTopBar)
         tvTitle = findViewById(R.id.tvMainTitle)
         btnSetting = findViewById(R.id.btnMainSetting)
+        tabSelectBar = findViewById(R.id.mtbMainSelectTopBar)
+        ablNormalTopBar = findViewById(R.id.ablMainNormalTopBar)
+        btnOptions = findViewById(R.id.btnMainOptions)
     }
 
     private fun setUpOnClick() {
         btnSetting.setOnClickListener {
             val intent = Intent(this, SettingActivity::class.java)
             startActivity(intent)
+        }
+        btnOptions.setOnClickListener {
+            startActivity(Intent(this, SettingActivity::class.java))
+        }
+        btnOptions.setOnLongClickListener {
+            // show content description
+
+            true
         }
     }
 

@@ -3,7 +3,11 @@ package com.example.dcom.presentation.main.favorite
 import android.content.Intent
 import android.widget.Button
 import android.widget.EditText
+import android.widget.Toast
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.widget.doOnTextChanged
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.dcom.R
@@ -13,20 +17,30 @@ import com.example.dcom.base.event.IEventHandler
 import com.example.dcom.base.event.NoteEvent
 import com.example.dcom.database.AppDatabase
 import com.example.dcom.database.note.Note
+import com.example.dcom.extension.IViewListener
+import com.example.dcom.extension.handleUiState
+import com.example.dcom.extension.hide
+import com.example.dcom.extension.show
 import com.example.dcom.presentation.common.BaseFragment
+import com.example.dcom.presentation.main.MainActivity
 import com.example.dcom.presentation.main.favorite.note.NoteActivity
+import com.google.android.material.appbar.AppBarLayout
+import com.google.android.material.appbar.MaterialToolbar
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.snackbar.Snackbar
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 
-class FavoriteFragment : BaseFragment(R.layout.favorite_fragment), IEventHandler { // TODO scroll when add note
+class FavoriteFragment : BaseFragment(R.layout.favorite_fragment), IEventHandler {
 
     private lateinit var rvContent: RecyclerView
     private lateinit var btnAdd: Button
     private lateinit var btnFastGen: Button
     private lateinit var edtSearch: EditText
+    private lateinit var constRoot: ConstraintLayout
 
     private val favoriteAdapter by lazy { FavoriteAdapter() }
-    private lateinit var database: AppDatabase
+    private val viewModel by viewModels<FavoriteViewModel>()
 
     override fun onStart() {
         super.onStart()
@@ -44,10 +58,10 @@ class FavoriteFragment : BaseFragment(R.layout.favorite_fragment), IEventHandler
             is NoteEvent -> {
                 when (event.status) {
                     NoteEvent.STATUS.ADD -> {
-                        favoriteAdapter.add(database.iNoteDao().get(event.noteId!!))
+                        favoriteAdapter.add(viewModel.database.iNoteDao().get(event.noteId!!))
                     }
                     NoteEvent.STATUS.EDIT -> {
-                        favoriteAdapter.update(event.position!!, database.iNoteDao().get(event.noteId!!))
+                        favoriteAdapter.update(event.position!!, viewModel.database.iNoteDao().get(event.noteId!!))
                     }
                     NoteEvent.STATUS.DELETE -> {
                         favoriteAdapter.remove(event.position!!)
@@ -60,7 +74,7 @@ class FavoriteFragment : BaseFragment(R.layout.favorite_fragment), IEventHandler
 
     override fun onPrepareInitView() {
         super.onPrepareInitView()
-        database = AppDatabase.getInstance(requireContext())
+        viewModel.database = AppDatabase.getInstance(requireContext())
     }
 
     override fun onInitView() {
@@ -70,7 +84,21 @@ class FavoriteFragment : BaseFragment(R.layout.favorite_fragment), IEventHandler
         setUpOnClick()
         setUpRecyclerView()
 
-        favoriteAdapter.addData(database.iNoteDao().getAll())
+        favoriteAdapter.addData(viewModel.database.iNoteDao().getAll())
+    }
+
+    override fun onObserverViewModel() {
+        super.onObserverViewModel()
+
+        lifecycleScope.launchWhenCreated {
+            viewModel.textToSpeechState.collect {
+                handleUiState(it, object : IViewListener {
+                    override fun onSuccess() {
+                        Toast.makeText(requireContext(), getString(R.string.speak_success), Toast.LENGTH_SHORT).show()
+                    }
+                })
+            }
+        }
     }
 
     private fun setUpVariables() {
@@ -78,15 +106,29 @@ class FavoriteFragment : BaseFragment(R.layout.favorite_fragment), IEventHandler
         btnAdd = requireView().findViewById(R.id.btnFavoriteAdd)
         edtSearch = requireView().findViewById(R.id.edtFavoriteSearch)
         btnFastGen = requireView().findViewById(R.id.btnFavoriteFastGenerate)
+        constRoot = requireView().findViewById(R.id.constFavoriteRoot)
     }
 
     private fun setUpOnClick() {
         favoriteAdapter.listener = object: FavoriteAdapter.IListener {
-            override fun onNoteClick(noteId: Int?, position: Int) {
-                val intent = Intent(requireContext(), NoteActivity::class.java)
-                intent.putExtra(NoteActivity.NOTE_ID, noteId)
-                intent.putExtra(NoteActivity.NOTE_POSITION, position)
-                startActivity(intent)
+            override fun onSpeak(text: String?) {
+                if (text != null) {
+                    viewModel.textToSpeech(text, requireContext())
+                } else {
+                    Toast.makeText(requireContext(), "Text is null", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onInitSelect() {
+                initSelectBar()
+            }
+
+            override fun onChangeSelect(countSelected: Int) {
+                changeSelectBar(countSelected)
+            }
+
+            override fun onEndSelect() {
+                hideSelectBar()
             }
         }
 
@@ -97,7 +139,7 @@ class FavoriteFragment : BaseFragment(R.layout.favorite_fragment), IEventHandler
 
         edtSearch.doOnTextChanged { text, start, before, count ->
             favoriteAdapter.clear()
-            favoriteAdapter.addData(database.iNoteDao().search(text.toString()))
+            favoriteAdapter.addData(viewModel.database.iNoteDao().search(text.toString()))
         }
 
         btnFastGen.setOnClickListener {
@@ -105,10 +147,87 @@ class FavoriteFragment : BaseFragment(R.layout.favorite_fragment), IEventHandler
         }
     }
 
+    private fun getMainTopBar(): AppBarLayout? {
+        return (activity as? MainActivity)?.getMainTopBar()
+    }
+
+    private fun getSelectBar(): MaterialToolbar? {
+        return (activity as? MainActivity)?.getSelectBar()
+    }
+
+    private fun initSelectBar() {
+        getSelectBar()?.apply {
+            show()
+//            getMainTopBar()?.hide()
+            btnAdd.hide()
+            btnFastGen.hide()
+            setNavigationOnClickListener {
+                hideSelectBar()
+            }
+            setOnMenuItemClickListener { menuItem ->
+                when (menuItem.itemId) {
+                    R.id.itmSelectDelete -> {
+                        showConfirmDeleteDialog()
+                        true
+                    }
+                    R.id.itmSelectChangeColor -> {
+                        true
+                    }
+                    R.id.itmSelectEdit -> {
+                        startActivity(Intent(requireContext(), NoteActivity::class.java).apply {
+                            putExtra(NoteActivity.NOTE_ID, favoriteAdapter.getSelectedNoteId().first())
+                            putExtra(NoteActivity.NOTE_POSITION, favoriteAdapter.getSelectedPosition().first())
+                        })
+                        hideSelectBar()
+                        true
+                    }
+                    else -> false
+                }
+            }
+        }
+    }
+
+    private fun showConfirmDeleteDialog() {
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(resources.getString(R.string.delete_note_title))
+            .setMessage(resources.getString(R.string.delete_note_des))
+            .setPositiveButton(resources.getString(R.string.delete)) { _, _ -> tempDelete() }
+            .show()
+    }
+
+    private fun tempDelete() {
+        val deletedNotes = favoriteAdapter.deleteSelected()
+        viewModel.deleteNotes(deletedNotes)
+        Snackbar.make(constRoot, getString(R.string.deleted), Snackbar.LENGTH_LONG)
+            .setAction(getString(R.string.undo)) {
+                favoriteAdapter.undoDeleted()
+                viewModel.addNotes(deletedNotes)
+            }
+            .show()
+    }
+
+    private fun hideSelectBar() {
+        getSelectBar()?.hide()
+        btnAdd.show()
+        btnFastGen.show()
+        favoriteAdapter.unSelectAll()
+    }
+
+    private fun changeSelectBar(countSelect: Int) {
+        getSelectBar()?.title = countSelect.toString()
+    }
+
+    private fun goToEditNoteActivity(noteId: Int?, position: Int) {
+        val intent = Intent(requireContext(), NoteActivity::class.java)
+        intent.putExtra(NoteActivity.NOTE_ID, noteId)
+        intent.putExtra(NoteActivity.NOTE_POSITION, position)
+        startActivity(intent)
+    }
+
     private fun fastGenerate(size: Int) {
         val list = getListOfRandomNote(size)
-        database.iNoteDao().insertAll(list)
-        favoriteAdapter.addData(database.iNoteDao().getLatestNotes(size))
+        viewModel.database.iNoteDao().insertAll(list)
+        favoriteAdapter.addData(viewModel.database.iNoteDao().getLatestNotes(size))
     }
 
     private fun getListOfRandomNote(size: Int): List<Note> {

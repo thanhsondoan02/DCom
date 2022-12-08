@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@color/favoriteBackground">
+    android:layout_height="wrap_content">
 
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginHorizontal="4dp"
         android:layout_marginVertical="4dp"
-        android:layout_height="wrap_content"
+        android:visibility="gone"
         app:cardCornerRadius="20dp">
 
         <RelativeLayout
@@ -19,7 +19,6 @@
             android:padding="16dp">
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tvFavoriteNoteTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
@@ -29,10 +28,8 @@
                 android:textStyle="bold" />
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tvFavoriteNoteContent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/tvFavoriteNoteTitle"
                 android:layout_marginTop="10dp"
                 android:ellipsize="end"
                 android:maxLines="4"
@@ -43,4 +40,52 @@
 
     </com.google.android.material.card.MaterialCardView>
 
-</RelativeLayout>
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/mtcFavoriteNoteCard"
+        android:layout_width="match_parent"
+        app:strokeColor="@color/note_card_color_selector"
+        android:checkable="true"
+        android:clickable="true"
+        app:strokeWidth="@dimen/unchecked_note_stroke_width"
+        android:focusable="true"
+        android:layout_height="wrap_content"
+        android:layout_margin="4dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Title, secondary and supporting text -->
+            <TextView
+                android:id="@+id/tvFavoriteNoteTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginHorizontal="16dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="@string/title"
+                android:textAppearance="?attr/textAppearanceTitleMedium"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tvFavoriteNoteContent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="16dp"
+                android:ellipsize="end"
+                android:maxLines="4"
+                android:text="@string/text_to_speech"
+                android:textAppearance="?attr/textAppearanceBodyMedium"
+                android:textColor="?android:attr/textColorSecondary"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvFavoriteNoteTitle" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+</FrameLayout>

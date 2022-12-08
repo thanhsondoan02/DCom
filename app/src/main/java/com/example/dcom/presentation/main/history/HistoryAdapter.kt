@@ -15,7 +15,7 @@ import com.example.dcom.presentation.common.recyclerview.BaseVH
 class HistoryAdapter : RecyclerView.Adapter<BaseVH>() {
 
     interface IListener {
-        fun onClickConversation(id: Int?)
+        fun onClickConversation(id: Int?, name: String?)
     }
 
     companion object {
@@ -80,7 +80,7 @@ class HistoryAdapter : RecyclerView.Adapter<BaseVH>() {
 
         init {
             itemView.setOnClickListener {
-                listener?.onClickConversation(mData[adapterPosition].conversation?.id)
+                listener?.onClickConversation(mData[adapterPosition].conversation?.id, mData[adapterPosition].conversation?.name)
             }
         }
 

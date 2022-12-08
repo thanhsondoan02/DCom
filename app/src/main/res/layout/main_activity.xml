@@ -10,30 +10,99 @@
         android:id="@+id/constMainTopBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:elevation="100dp"
+        android:elevation="4dp"
         app:layout_constraintTop_toTopOf="parent">
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnMainSetting"
-            style="?attr/materialIconButtonStyle"
-            android:layout_width="wrap_content"
-            android:contentDescription="@string/setting"
-            android:layout_height="wrap_content"
-            app:icon="@drawable/ic_baseline_settings_24"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constMainMyTopBar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone">
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvMainTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/communication"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/btnMainSetting"
-            app:layout_constraintTop_toTopOf="parent" />
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnMainSetting"
+                style="?attr/materialIconButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/setting"
+                app:icon="@drawable/ic_baseline_settings_24"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvMainTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/communication"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/btnMainSetting"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/ablMainNormalTopBar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:visibility="visible"
+            android:background="@color/transparent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_marginVertical="10dp"
+                android:layout_marginHorizontal="16dp"
+                app:cardCornerRadius="100dp"
+                style="@style/Widget.Material3.CardView.Filled"
+                app:cardBackgroundColor="?attr/colorSurface"
+                android:layout_height="match_parent" >
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnMainOptions"
+                        android:layout_width="wrap_content"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        style="@style/BlackIconButton"
+                        android:contentDescription="@string/more_option"
+                        app:icon="@drawable/ic_baseline_menu_24"
+                        android:layout_height="wrap_content" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="wrap_content"
+                        app:layout_constraintStart_toEndOf="@id/btnMainOptions"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:textColor="?attr/colorOnSurface"
+                        android:textSize="15sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:text="@string/search_in_dcom"
+                        android:layout_height="wrap_content" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/mtbMainSelectTopBar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorSurface"
+            android:fitsSystemWindows="true"
+            android:visibility="invisible"
+            app:layout_constraintTop_toTopOf="parent"
+            app:menu="@menu/menu_select_top_app_bar"
+            app:navigationContentDescription="@string/close"
+            app:navigationIcon="@drawable/ic_baseline_clear_24"
+            app:title="1" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -57,29 +126,5 @@
         android:background="?attr/colorSurface"
         app:layout_constraintBottom_toBottomOf="parent"
         app:menu="@menu/bottom_navigation_menu" />
-
-    <Button
-        android:id="@+id/btnMainBot1"
-        style="?attr/materialIconButtonFilledStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
-        android:visibility="gone"
-        app:icon="@drawable/ic_baseline_save_24"
-        app:layout_constraintBottom_toTopOf="@id/bnvMainMenu"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <Button
-        android:id="@+id/btnMainBot2"
-        style="?attr/materialIconButtonFilledStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="10dp"
-        android:visibility="gone"
-        app:icon="@drawable/ic_baseline_save_24"
-        app:layout_constraintBottom_toTopOf="@id/btnMainBot1"
-        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

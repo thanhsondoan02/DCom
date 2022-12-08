@@ -8,22 +8,24 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.dcom.R
 import com.example.dcom.database.note.Note
+import com.example.dcom.extension.getAppDimensionPixel
 import com.example.dcom.presentation.common.recyclerview.BaseVH
+import com.google.android.material.card.MaterialCardView
 
 class FavoriteAdapter : RecyclerView.Adapter<BaseVH>() {
 
     companion object {
         const val SEARCH = 0
         const val NOTE = 1
+        const val SELECT_PAYLOAD = "SELECT_PAYLOAD"
     }
 
     var listener: IListener? = null
 
     private val mData = mutableListOf<Any>()
-
-    init {
-//        mData.add(Unit)
-    }
+    private var tempDelete = mutableListOf<Pair<NoteDisplay, Int>>()
+    private var state = STATE.NORMAL
+    private var countSelected: Int = 0
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseVH {
         return when (viewType) {
@@ -44,23 +46,68 @@ class FavoriteAdapter : RecyclerView.Adapter<BaseVH>() {
     override fun getItemViewType(position: Int): Int {
         return when (mData[position]) {
             is Unit -> SEARCH
-            is Note -> NOTE
+            is NoteDisplay -> NOTE
             else -> throw IllegalArgumentException("Invalid data type")
         }
     }
 
+    fun getSelectedNoteId() = mData.filterIsInstance<NoteDisplay>().filter { it.isSelected }.map { it.note.id }
+
+    fun getSelectedPosition() = mData.filterIsInstance<NoteDisplay>().filter { it.isSelected }.map { mData.indexOf(it) }
+
+    fun deleteSelected(): List<Note> {
+        tempDelete.clear()
+        val deletedNotes: MutableList<Note> = mutableListOf()
+        for (i in mData.size - 1 downTo 0) {
+            (mData[i] as? NoteDisplay)?.let {
+                if (it.isSelected) {
+                    deletedNotes.add(it.note)
+                    remove(i)
+                    tempDelete.add(Pair(it, i))
+                }
+            }
+        }
+        state = STATE.NORMAL
+        listener?.onEndSelect()
+        return deletedNotes
+    }
+
+    fun undoDeleted() {
+        for (i in tempDelete.size - 1 downTo 0) {
+            add(tempDelete[i].first.note, tempDelete[i].second)
+        }
+        tempDelete.clear()
+    }
+
+    fun unSelectAll() {
+        mData.forEach {
+            if (it is NoteDisplay) {
+                it.isSelected = false
+            }
+        }
+        countSelected = 0
+        notifyItemRangeChanged(0, itemCount, SELECT_PAYLOAD)
+    }
+
     fun update(position: Int, note: Note) {
-        mData[position] = note
+        (mData[position] as NoteDisplay).note = note
         notifyItemChanged(position)
     }
 
     fun add(note: Note) {
-        mData.add(note)
+        mData.add(NoteDisplay(note))
         notifyItemInserted(mData.size)
     }
 
+    fun add(note: Note, position: Int) {
+        mData.add(position, NoteDisplay(note))
+        notifyItemInserted(position)
+    }
+
     fun addData(data: List<Note>) {
-        mData.addAll(data)
+        data.forEach {
+            mData.add(NoteDisplay(it))
+        }
         notifyItemRangeInserted(mData.size, data.size)
     }
 
@@ -88,22 +135,82 @@ class FavoriteAdapter : RecyclerView.Adapter<BaseVH>() {
 
         private val tvTitle: TextView = itemView.findViewById(R.id.tvFavoriteNoteTitle)
         private val tvContent: TextView = itemView.findViewById(R.id.tvFavoriteNoteContent)
+        private val mtcNoteCard: MaterialCardView = itemView.findViewById(R.id.mtcFavoriteNoteCard)
 
         init {
-            itemView.setOnClickListener {
-                listener?.onNoteClick((mData[adapterPosition] as? Note)?.id, adapterPosition)
+            mtcNoteCard.setOnClickListener {
+                when (state) {
+                    STATE.NORMAL -> {
+                        onSpeak()
+                    }
+                    STATE.SELECTING -> {
+                        onSelect()
+                    }
+                }
+            }
+
+            mtcNoteCard.setOnLongClickListener {
+                onSelect()
             }
         }
 
         override fun bind(data: Any?) {
-            data as Note
-            tvTitle.text = data.title
-            tvContent.text = data.content
+            data as NoteDisplay
+            tvTitle.text = data.note.title
+            tvContent.text = data.note.content
+            setSelectStatus(data.isSelected)
+        }
+
+        override fun bind(data: Any?, payloads: List<Any>) {
+            if (payloads.contains(SELECT_PAYLOAD)) {
+                setSelectStatus((data as NoteDisplay).isSelected)
+            }
+        }
+
+        private fun setSelectStatus(isSelected: Boolean) {
+            mtcNoteCard.isChecked = isSelected
+        }
+
+        private fun onSpeak() {
+            listener?.onSpeak((mData[adapterPosition] as? NoteDisplay)?.note?.content)
+
+        }
+
+        private fun onSelect(): Boolean {
+            mtcNoteCard.isChecked = !mtcNoteCard.isChecked
+            if (mtcNoteCard.isChecked) {
+                mtcNoteCard.strokeWidth = getAppDimensionPixel(R.dimen.checked_note_stroke_width, itemView.context)
+                if (countSelected == 0) {
+                    state = STATE.SELECTING
+                    listener?.onInitSelect()
+                }
+                countSelected++
+                (mData[adapterPosition] as? NoteDisplay)?.isSelected = true
+            } else {
+                mtcNoteCard.strokeWidth = getAppDimensionPixel(R.dimen.unchecked_note_stroke_width, itemView.context)
+                countSelected--
+                if (countSelected == 0) {
+                    state = STATE.NORMAL
+                    listener?.onEndSelect()
+                }
+                (mData[adapterPosition] as? NoteDisplay)?.isSelected = false
+            }
+            listener?.onChangeSelect(countSelected)
+            return true
         }
     }
 
+    class NoteDisplay(var note: Note, var isSelected: Boolean = false) {}
+
+    enum class STATE {
+        NORMAL, SELECTING
+    }
+
     interface IListener {
-        fun onNoteClick(noteId: Int?, position: Int)
+        fun onSpeak(text: String?)
+        fun onInitSelect()
+        fun onChangeSelect(countSelected: Int)
+        fun onEndSelect()
     }
 
 }

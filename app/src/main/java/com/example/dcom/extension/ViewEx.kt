@@ -10,6 +10,7 @@ import android.view.View
 import android.view.WindowInsets
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
+import androidx.annotation.DimenRes
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.RecyclerView
@@ -95,12 +96,12 @@ fun TextView.clearImage() {
 //    }
 //}
 //
-//fun getAppDimensionPixel(
-//    @DimenRes dimenId: Int,
-//    context: Context? = getApplication()
-//): Int {
-//    return context?.resources?.getDimensionPixelSize(dimenId) ?: -1
-//}
+fun getAppDimensionPixel(
+    @DimenRes dimenId: Int,
+    context: Context
+): Int {
+    return context.resources.getDimensionPixelSize(dimenId)
+}
 //
 //fun getAppDimension(
 //    @DimenRes dimenId: Int,

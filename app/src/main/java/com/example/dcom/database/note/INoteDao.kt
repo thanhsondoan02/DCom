@@ -46,4 +46,7 @@ interface INoteDao {
     @Query("SELECT * FROM note WHERE title LIKE '%' || :keyword || '%' OR content LIKE '%' || :keyword || '%'")
     fun search(keyword: String): List<Note>
 
+    @Query("DELETE FROM note WHERE id IN (:ids)")
+    fun deleteByIds(ids: List<Int>)
+
 }

@@ -17,6 +17,7 @@ import com.example.dcom.database.note.Note
 import com.example.dcom.extension.hideKeyboard
 import com.example.dcom.extension.showKeyboard
 import com.example.dcom.presentation.common.BaseView
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class NoteActivity : AppCompatActivity(), BaseView {
 
@@ -102,7 +103,7 @@ class NoteActivity : AppCompatActivity(), BaseView {
             if (state == STATE.EDIT) {
                 setViewState()
             } else {
-                confirmDialog().show()
+                showConfirmDeleteDialog()
             }
         }
 
@@ -183,4 +184,15 @@ class NoteActivity : AppCompatActivity(), BaseView {
 
         return dialog!!
     }
+
+    private fun showConfirmDeleteDialog() {
+        MaterialAlertDialogBuilder(this)
+            .setTitle(resources.getString(R.string.delete_note_title))
+            .setMessage(resources.getString(R.string.delete_note_des))
+            .setPositiveButton(resources.getString(R.string.delete)) { _, _ ->
+                deleteNote()
+                onBackPressed() }
+            .show()
+    }
+
 }

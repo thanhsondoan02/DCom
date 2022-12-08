@@ -62,13 +62,4 @@
         app:layout_constraintBottom_toTopOf="@id/btnCommunicationSave"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <com.example.dcom.presentation.widget.QuarterCircle
-        android:id="@+id/qcCommunicationRecording"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_alignParentEnd="true"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>

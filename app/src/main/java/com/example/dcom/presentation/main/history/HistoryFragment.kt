@@ -31,11 +31,12 @@ class HistoryFragment : BaseFragment(R.layout.history_fragment) {
 
     private fun setUpOnClick() {
         historyAdapter.listener = object: HistoryAdapter.IListener {
-            override fun onClickConversation(id: Int?) {
+            override fun onClickConversation(id: Int?, name: String?) {
                 if (id != null) {
-                    val intent = Intent(requireContext(), ConversationActivity::class.java)
-                    intent.putExtra(ConversationActivity.CONVERSATION_ID, id)
-                    startActivity(intent)
+                    startActivity(Intent(requireContext(), ConversationActivity::class.java).apply {
+                        putExtra(ConversationActivity.CONVERSATION_ID, id)
+                        putExtra(ConversationActivity.CONVERSATION_NAME, name)
+                    })
                 } else {
                     Toast.makeText(requireContext(), getString(R.string.cant_find_conversation), Toast.LENGTH_SHORT).show()
                 }

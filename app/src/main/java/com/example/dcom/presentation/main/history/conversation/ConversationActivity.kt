@@ -7,15 +7,19 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.dcom.R
 import com.example.dcom.database.AppDatabase
 import com.example.dcom.presentation.common.BaseView
+import com.google.android.material.appbar.MaterialToolbar
 
 class ConversationActivity : AppCompatActivity(), BaseView {
 
     companion object {
         const val CONVERSATION_ID = "conversation_id"
+        const val CONVERSATION_NAME = "conversation_name"
     }
 
-    private var id: Int? = null
     private lateinit var rvListMessage: RecyclerView
+    private lateinit var mtbTopBar: MaterialToolbar
+
+    private var id: Int? = null
     private val database: AppDatabase by lazy {
         AppDatabase.getInstance(this)
     }
@@ -43,10 +47,15 @@ class ConversationActivity : AppCompatActivity(), BaseView {
 
     private fun setUpVariables() {
         rvListMessage = findViewById(R.id.rvConversationHistory)
+        mtbTopBar = findViewById(R.id.mtbConversationTopBar)
+
+        mtbTopBar.title = intent.getStringExtra(CONVERSATION_NAME)
     }
 
     private fun setUpOnClick() {
-
+        mtbTopBar.setNavigationOnClickListener {
+            finish()
+        }
     }
 
     private fun setUpRecyclerView() {

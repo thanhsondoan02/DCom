@@ -54,6 +54,7 @@
     <string name="delete_conversation_title">Xoá hội thoại này?</string>
     <string name="save_conversation_title">Lưu hội thoại</string>
     <string name="delete_conversation_des">Đoạn hội thoại sẽ không còn xuất hiện ở bất kỳ đâu. Bạn có thể lưu lại đoạn hội thoại để xem lại sau nếu muốn.</string>
+    <string name="delete_note_des">Ghi chú sẽ không còn xuất hiện ở bất kỳ đâu.</string>
     <string name="deleted">Đã xóa</string>
     <string name="undo">Hoàn tác</string>
     <string name="save">Lưu</string>
@@ -66,4 +67,12 @@
     <string name="delete_conversation">Xóa đoạn hội thoại này</string>
     <string name="save_conversation">Lưu đoạn hội thoại này</string>
     <string name="cant_find_conversation">Không tìm thấy hội thoại, vui lòng thử lại sau</string>
+    <string name="talk">Phát</string>
+    <string name="close">Đóng</string>
+    <string name="change_color">Đổi màu</string>
+    <string name="more_option">Lựa chọn khác</string>
+    <string name="edit">Chỉnh sửa</string>
+    <string name="search_in_dcom">Tìm kiếm trong Dcom</string>
+    <string name="delete_note_title">Xóa ghi chú này?</string>
+    <string name="untitled">Không có tiêu đề</string>
 </resources>
