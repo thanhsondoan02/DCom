@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/itmDrawerSettings"
+        android:checkable="true"
+        android:icon="@drawable/ic_outline_settings_24"
+        android:title="@string/setting" />
+    <item
+        android:id="@+id/itmDrawerHelp"
+        android:checkable="true"
+        android:icon="@drawable/ic_baseline_help_outline_24"
+        android:title="@string/help_and_feedback" />
+    <item
+        android:id="@+id/itmDrawerStorage"
+        android:checkable="true"
+        android:icon="@drawable/ic_baseline_cloud_queue_24"
+        android:title="@string/storage" />
+
+</menu>

@@ -176,14 +176,14 @@ class CommunicationFragment: BaseFragment(R.layout.communication_fragment) {
     private fun addMineMessage(message: String?) {
         message?.let {
             if (!isTouching) scrollRecyclerViewToLastItem()
-            communicationAdapter.add(Message(-1, true, it, getCurrentTime()))
+            communicationAdapter.addAndNotify(Message(-1, true, it, getCurrentTime()))
         }
     }
 
     private fun addOtherMessage(message: String?) {
         message?.let {
             if (!isTouching) scrollRecyclerViewToLastItem()
-            communicationAdapter.add(Message(-1, false, it, getCurrentTime()))
+            communicationAdapter.addAndNotify(Message(-1, false, it, getCurrentTime()))
         }
     }
 

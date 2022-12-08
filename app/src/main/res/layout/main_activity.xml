@@ -1,130 +1,174 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
+    style="@style/Widget.Material3.DrawerLayout"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constMainTopBar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:elevation="4dp"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_height="match_parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/constMainMyTopBar"
+        <FrameLayout
+            android:id="@+id/constMainTopBar"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="gone">
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnMainSetting"
-                style="?attr/materialIconButtonStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:contentDescription="@string/setting"
-                app:icon="@drawable/ic_baseline_settings_24"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tvMainTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/communication"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@id/btnMainSetting"
-                app:layout_constraintTop_toTopOf="parent" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/ablMainNormalTopBar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:visibility="visible"
-            android:background="@color/transparent"
+            android:layout_height="wrap_content"
+            android:elevation="4dp"
             app:layout_constraintTop_toTopOf="parent">
 
-            <com.google.android.material.card.MaterialCardView
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constMainMyTopBar"
                 android:layout_width="match_parent"
-                android:layout_marginVertical="10dp"
-                android:layout_marginHorizontal="16dp"
-                app:cardCornerRadius="100dp"
-                style="@style/Widget.Material3.CardView.Filled"
-                app:cardBackgroundColor="?attr/colorSurface"
-                android:layout_height="match_parent" >
+                android:layout_height="match_parent"
+                android:visibility="gone">
 
-                <androidx.constraintlayout.widget.ConstraintLayout
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnMainSetting"
+                    style="?attr/materialIconButtonStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/setting"
+                    app:icon="@drawable/ic_baseline_settings_24"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvMainTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/communication"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/btnMainSetting"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <com.google.android.material.appbar.AppBarLayout
+                android:id="@+id/ablMainNormalTopBar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@color/transparent"
+                android:gravity="center"
+                android:visibility="visible"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.google.android.material.card.MaterialCardView
+                    style="@style/Widget.Material3.CardView.Filled"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                    app:cardBackgroundColor="?attr/colorSurface"
+                    app:cardCornerRadius="100dp">
 
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btnMainOptions"
-                        android:layout_width="wrap_content"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        style="@style/BlackIconButton"
-                        android:contentDescription="@string/more_option"
-                        app:icon="@drawable/ic_baseline_menu_24"
-                        android:layout_height="wrap_content" />
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
 
-                    <com.google.android.material.textview.MaterialTextView
-                        android:layout_width="wrap_content"
-                        app:layout_constraintStart_toEndOf="@id/btnMainOptions"
-                        app:layout_constraintTop_toTopOf="parent"
-                        android:textColor="?attr/colorOnSurface"
-                        android:textSize="15sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        android:text="@string/search_in_dcom"
-                        android:layout_height="wrap_content" />
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnMainOptions"
+                            style="@style/BlackIconButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:contentDescription="@string/more_option"
+                            app:icon="@drawable/ic_baseline_menu_24"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
 
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/search_in_dcom"
+                            android:textColor="?attr/colorOnSurface"
+                            android:textSize="15sp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/btnMainOptions"
+                            app:layout_constraintTop_toTopOf="parent" />
 
-            </com.google.android.material.card.MaterialCardView>
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnMainCommunicationLeft"
+                            style="@style/BlackIconButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:contentDescription="@string/more_option"
+                            android:src="@drawable/ic_outline_save_24"
+                            app:icon="@drawable/ic_baseline_clear_24"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toStartOf="@id/btnMainCommunicationRight"
+                            app:layout_constraintTop_toTopOf="parent" />
 
-        </com.google.android.material.appbar.AppBarLayout>
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnMainCommunicationRight"
+                            style="@style/Widget.Material3.Button.IconButton.Filled.Tonal"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:contentDescription="@string/more_option"
+                            android:gravity="center"
+                            android:src="@drawable/ic_baseline_clear_24"
+                            app:icon="@drawable/ic_outline_save_24"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
 
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/mtbMainSelectTopBar"
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+            </com.google.android.material.appbar.AppBarLayout>
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/mtbMainSelectTopBar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="?attr/colorSurface"
+                android:fitsSystemWindows="true"
+                android:visibility="invisible"
+                app:layout_constraintTop_toTopOf="parent"
+                app:menu="@menu/menu_select_top_app_bar"
+                app:navigationContentDescription="@string/close"
+                app:navigationIcon="@drawable/ic_baseline_clear_24"
+                app:title="1" />
+
+        </FrameLayout>
+
+        <com.example.dcom.presentation.widget.CustomViewPager
+            android:id="@+id/cvpMainPager"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
+            android:layout_height="0dp"
+            android:layout_above="@id/bnvMainMenu"
+            android:layout_below="@+id/constMainTopBar"
+            android:overScrollMode="never"
+            app:layout_constraintBottom_toTopOf="@id/bnvMainMenu"
+            app:layout_constraintTop_toBottomOf="@id/constMainTopBar"
+            app:layout_constraintVertical_bias="1.0"
+            tools:layout_editor_absoluteX="194dp" />
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bnvMainMenu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
             android:background="?attr/colorSurface"
-            android:fitsSystemWindows="true"
-            android:visibility="invisible"
-            app:layout_constraintTop_toTopOf="parent"
-            app:menu="@menu/menu_select_top_app_bar"
-            app:navigationContentDescription="@string/close"
-            app:navigationIcon="@drawable/ic_baseline_clear_24"
-            app:title="1" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:menu="@menu/bottom_navigation_menu" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <com.example.dcom.presentation.widget.CustomViewPager
-        android:id="@+id/cvpMainPager"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_above="@id/bnvMainMenu"
-        android:layout_below="@+id/constMainTopBar"
-        android:overScrollMode="never"
-        app:layout_constraintBottom_toTopOf="@id/bnvMainMenu"
-        app:layout_constraintTop_toBottomOf="@id/constMainTopBar"
-        app:layout_constraintVertical_bias="1.0"
-        tools:layout_editor_absoluteX="194dp" />
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/nvMainNavigationDrawer"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        app:headerLayout="@layout/navigation_drawer_header"
+        android:background="?attr/colorBackgroundFloating"
+        android:fitsSystemWindows="true"
+        app:layout_constraintStart_toStartOf="parent"
+        app:menu="@menu/navigation_drawer" />
 
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bnvMainMenu"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:background="?attr/colorSurface"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:menu="@menu/bottom_navigation_menu" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.drawerlayout.widget.DrawerLayout>

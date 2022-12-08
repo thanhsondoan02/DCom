@@ -3,9 +3,11 @@ package com.example.dcom.presentation.main
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
+import android.widget.FrameLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
 import com.example.dcom.R
 import com.example.dcom.extension.gone
 import com.example.dcom.extension.show
@@ -21,17 +23,21 @@ import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.button.MaterialButton
+import com.google.android.material.navigation.NavigationView
+
 
 class MainActivity : AppCompatActivity(), BaseView {
 
     private lateinit var cvpHomePager: CustomViewPager
     private lateinit var bnvMenu: BottomNavigationView
-    private lateinit var constTopBar: ConstraintLayout
+    private lateinit var flTopBar: FrameLayout
     private lateinit var tvTitle: TextView
     private lateinit var btnSetting: MaterialButton
-    private lateinit var tabSelectBar: MaterialToolbar
+    private lateinit var mtbSelectBar: MaterialToolbar
     private lateinit var ablNormalTopBar: AppBarLayout
     private lateinit var btnOptions: Button
+    private lateinit var drawerLayout: DrawerLayout
+    private lateinit var nvDrawer: NavigationView
 
     private lateinit var pagerAdapter: MainViewPagerAdapter
     private val fragmentList = mutableListOf<BaseFragment>()
@@ -65,11 +71,11 @@ class MainActivity : AppCompatActivity(), BaseView {
     }
 
     fun hideTopBar() {
-        constTopBar.gone()
+        flTopBar.gone()
     }
 
     fun showTopBar() {
-        constTopBar.show()
+        flTopBar.show()
     }
 
     fun getMainTopBar(): AppBarLayout {
@@ -77,18 +83,20 @@ class MainActivity : AppCompatActivity(), BaseView {
     }
 
     fun getSelectBar(): MaterialToolbar {
-        return tabSelectBar
+        return mtbSelectBar
     }
 
     private fun setUpVariables() {
         cvpHomePager = findViewById(R.id.cvpMainPager)
         bnvMenu = findViewById(R.id.bnvMainMenu)
-        constTopBar = findViewById(R.id.constMainTopBar)
+        flTopBar = findViewById(R.id.constMainTopBar)
         tvTitle = findViewById(R.id.tvMainTitle)
         btnSetting = findViewById(R.id.btnMainSetting)
-        tabSelectBar = findViewById(R.id.mtbMainSelectTopBar)
+        mtbSelectBar = findViewById(R.id.mtbMainSelectTopBar)
         ablNormalTopBar = findViewById(R.id.ablMainNormalTopBar)
         btnOptions = findViewById(R.id.btnMainOptions)
+        drawerLayout = findViewById(R.id.drawer_layout)
+        nvDrawer = findViewById(R.id.nvMainNavigationDrawer)
     }
 
     private fun setUpOnClick() {
@@ -96,13 +104,11 @@ class MainActivity : AppCompatActivity(), BaseView {
             val intent = Intent(this, SettingActivity::class.java)
             startActivity(intent)
         }
-        btnOptions.setOnClickListener {
-            startActivity(Intent(this, SettingActivity::class.java))
-        }
-        btnOptions.setOnLongClickListener {
-            // show content description
 
-            true
+        initNavigationDrawer()
+
+        btnOptions.setOnClickListener {
+            drawerLayout.openDrawer(GravityCompat.START)
         }
     }
 
@@ -143,6 +149,23 @@ class MainActivity : AppCompatActivity(), BaseView {
             adapter = pagerAdapter
             offscreenPageLimit = pagerAdapter.count
             currentItem = 0
+        }
+    }
+
+    private fun initNavigationDrawer() {
+        nvDrawer.setNavigationItemSelectedListener {
+            when (it.itemId) {
+                R.id.itmDrawerSettings -> {
+                    startActivity(Intent(this, SettingActivity::class.java))
+                }
+                R.id.itmDrawerStorage -> {
+
+                }
+                R.id.itmDrawerHelp -> {
+
+                }
+            }
+            false
         }
     }
 }

@@ -72,7 +72,9 @@
     <string name="change_color">Đổi màu</string>
     <string name="more_option">Lựa chọn khác</string>
     <string name="edit">Chỉnh sửa</string>
-    <string name="search_in_dcom">Tìm kiếm trong Dcom</string>
+    <string name="search_in_dcom">Tìm kiếm trong ứng dụng</string>
     <string name="delete_note_title">Xóa ghi chú này?</string>
     <string name="untitled">Không có tiêu đề</string>
+    <string name="help_and_feedback">Trợ giúp và phản hồi</string>
+    <string name="storage">Lưu trữ</string>
 </resources>

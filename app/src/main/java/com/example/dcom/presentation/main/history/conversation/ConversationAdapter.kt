@@ -15,6 +15,7 @@ class ConversationAdapter : RecyclerView.Adapter<BaseVH>() {
     companion object {
         const val MINE_MESSAGE = 0
         const val OTHER_MESSAGE = 1
+        const val SHAPE_PAYLOAD = "SHAPE_PAYLOAD"
     }
 
     var listener: IListener? = null
@@ -56,14 +57,20 @@ class ConversationAdapter : RecyclerView.Adapter<BaseVH>() {
         return mData
     }
 
-    fun update(position: Int, note: Message) {
-        mData[position] = note
+    fun update(position: Int, message: Message) {
+        mData[position] = message
         notifyItemChanged(position)
     }
 
-    fun add(note: Message) {
-        mData.add(note)
+    fun add(message: Message) {
+        mData.add(message)
         notifyItemInserted(mData.size)
+    }
+
+    fun addAndNotify(note: Message) {
+        mData.add(note)
+        notifyItemInserted(mData.size - 1)
+        if (mData.size > 1) notifyItemChanged(mData.size - 2, SHAPE_PAYLOAD)
     }
 
     fun addList(data: List<Message>) {
@@ -96,6 +103,12 @@ class ConversationAdapter : RecyclerView.Adapter<BaseVH>() {
             val mData = data as Message
             tvMessage.text = mData.content
             rlContainer.setBackgroundResource(getMessageBackground())
+        }
+
+        override fun bind(data: Any?, payloads: List<Any>) {
+            if (payloads.contains(SHAPE_PAYLOAD)) {
+                rlContainer.setBackgroundResource(getMessageBackground())
+            }
         }
 
         private fun getMessageBackground(): Int {
