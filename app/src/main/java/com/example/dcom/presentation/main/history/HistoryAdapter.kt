@@ -3,13 +3,13 @@ package com.example.dcom.presentation.main.history
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.dcom.R
 import com.example.dcom.database.conversation.Conversation
 import com.example.dcom.database.message.Message
 import com.example.dcom.presentation.common.recyclerview.BaseVH
+import com.google.android.material.card.MaterialCardView
 
 @Suppress("UNCHECKED_CAST")
 class HistoryAdapter : RecyclerView.Adapter<BaseVH>() {
@@ -79,12 +79,12 @@ class HistoryAdapter : RecyclerView.Adapter<BaseVH>() {
 
     inner class ConversationVH(itemView: View): BaseVH(itemView) {
 
-        private val avatar: ImageView = itemView.findViewById(R.id.ivHistoryConversationAvatar)
         private val title: TextView = itemView.findViewById(R.id.tvHistoryConversationTitle)
         private val latestMessage: TextView = itemView.findViewById(R.id.tvHistoryConversationLatestMessage)
+        private val mcvConversation: MaterialCardView = itemView.findViewById(R.id.mcvHistoryConversationCard)
 
         init {
-            itemView.setOnClickListener {
+            mcvConversation.setOnClickListener {
                 listener?.onClickConversation(mData[adapterPosition].conversation?.id, mData[adapterPosition].conversation?.name)
             }
         }

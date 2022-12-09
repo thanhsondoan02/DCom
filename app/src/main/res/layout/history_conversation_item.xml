@@ -1,54 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools">
 
     <com.google.android.material.card.MaterialCardView
-        android:id="@+id/mcvHistoryConversationAvatar"
-        android:layout_width="wrap_content"
+        android:id="@+id/mcvHistoryConversationCard"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
-        android:layout_marginVertical="8dp"
-        app:cardCornerRadius="100dp">
+        android:layout_marginVertical="4dp"
+        android:layout_marginHorizontal="8dp"
+        android:checkable="true"
+        android:clickable="true"
+        android:focusable="true"
+        app:strokeColor="@color/note_card_color_selector"
+        app:strokeWidth="1dp">
 
-        <ImageView
-            android:id="@+id/ivHistoryConversationAvatar"
-            android:layout_width="wrap_content"
-            android:layout_height="72dp"
-            android:adjustViewBounds="true"
-            tools:src="@color/gradientLightGreen" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Title, secondary and supporting text -->
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvHistoryConversationTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="16dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                tools:text="Đoạn hội thoại thứ 2 ngày 12/12/2021"
+                android:textAppearance="?attr/textAppearanceTitleMedium"
+                android:textColor="?attr/colorOnSurfaceVariant"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvHistoryConversationLatestMessage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="8dp"
+                tools:text="13:00 13/02/2022"
+                android:layout_marginBottom="16dp"
+                android:ellipsize="end"
+                android:maxLines="4"
+                android:textAppearance="?attr/textAppearanceBodyMedium"
+                android:textColor="?attr/colorOnSurfaceVariant"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvHistoryConversationTitle" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </com.google.android.material.card.MaterialCardView>
 
-    <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_centerVertical="true"
-        android:layout_toEndOf="@id/mcvHistoryConversationAvatar"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/tvHistoryConversationTitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:maxLines="1"
-            tools:text="Title"
-            android:textSize="18sp" />
-
-        <TextView
-            android:id="@+id/tvHistoryConversationLatestMessage"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:maxLines="1"
-            tools:text="Latest Message"
-            android:textSize="16sp" />
-
-
-    </LinearLayout>
-
-
-</RelativeLayout>
+</FrameLayout>
