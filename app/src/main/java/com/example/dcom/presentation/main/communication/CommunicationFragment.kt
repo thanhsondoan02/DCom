@@ -1,10 +1,8 @@
 package com.example.dcom.presentation.main.communication
 
-import android.content.Intent
 import android.os.Bundle
-import android.speech.RecognitionListener
-import android.speech.RecognizerIntent
-import android.speech.SpeechRecognizer
+import android.os.Handler
+import android.os.Looper
 import android.view.MotionEvent
 import android.view.View
 import android.view.View.OnTouchListener
@@ -42,9 +40,67 @@ class CommunicationFragment : BaseFragment(R.layout.communication_fragment) {
     private val viewModel by viewModels<CommunicationViewModel>()
     private var isListen: Boolean = true
     private var isTouching: Boolean = false
-    private var isRecording: Boolean = false
-    private var speechRecognizerIntent: Intent? = null
-    private var speechRecognizer: SpeechRecognizer? = null
+    private val recognitionManager: RecognitionManager by lazy {
+        RecognitionManager(
+            requireContext(),
+            shouldMute = false,
+            callback = object : RecognitionCallback {
+                override fun onResults(results: String) {
+//                    println("onResults callback: $results")
+                    addOtherMessage(results)
+                }
+
+                override fun onPrepared(status: RecognitionStatus) {
+                    when (status) {
+                        RecognitionStatus.SUCCESS -> {
+                            Toast.makeText(requireContext(), "Recognition is ready", Toast.LENGTH_SHORT).show()
+                        }
+                        RecognitionStatus.UNAVAILABLE -> {
+                            Toast.makeText(requireContext(), "Recognition is unavailable", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                }
+
+                override fun onBeginningOfSpeech() {
+
+                }
+
+                override fun onKeywordDetected() {
+
+                }
+
+                override fun onReadyForSpeech(params: Bundle) {
+
+                }
+
+                override fun onBufferReceived(buffer: ByteArray) {
+
+                }
+
+                override fun onRmsChanged(rmsdB: Float) {
+
+                }
+
+                override fun onPartialResults(results: List<String>) {
+
+                }
+
+                override fun onError(errorCode: Int) {
+
+                }
+
+                override fun onEvent(eventType: Int, params: Bundle) {
+
+                }
+
+                override fun onEndOfSpeech() {
+
+                }
+            }
+
+        )
+    }
+
 
     override fun onInitView() {
         super.onInitView()
@@ -53,15 +109,19 @@ class CommunicationFragment : BaseFragment(R.layout.communication_fragment) {
         setUpOnClick()
         setUpRecyclerView()
         setState(STATE.DEFAULT)
-
-        initSpeechToText()
+        recognitionManager.createRecognizer()
 
         if (isListen) {
-            isRecording = true
+            recognitionManager.startRecognition()
             viewModel.speechToText(requireContext())
         } else {
-            isRecording = false
+            recognitionManager.stopRecognition()
         }
+    }
+
+    @JvmName("getRecognitionManager1")
+    fun getRecognitionManager(): RecognitionManager {
+        return recognitionManager
     }
 
     override fun onObserverViewModel() {
@@ -91,60 +151,6 @@ class CommunicationFragment : BaseFragment(R.layout.communication_fragment) {
 //        }
     }
 
-    private fun initSpeechToText() {
-        speechRecognizer = SpeechRecognizer.createSpeechRecognizer(context)
-        speechRecognizerIntent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
-        speechRecognizerIntent!!.putExtra(
-            RecognizerIntent.EXTRA_LANGUAGE_MODEL,
-            RecognizerIntent.LANGUAGE_MODEL_FREE_FORM
-        )
-        speechRecognizerIntent!!.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "vi")
-        speechRecognizerIntent!!.putExtra(
-            RecognizerIntent.EXTRA_CALLING_PACKAGE,
-            context?.packageName
-        )
-
-        speechRecognizer!!.setRecognitionListener(object : RecognitionListener {
-            override fun onReadyForSpeech(bundle: Bundle) {}
-
-            override fun onBeginningOfSpeech() {}
-
-            override fun onRmsChanged(v: Float) {}
-
-            override fun onBufferReceived(bytes: ByteArray) {}
-
-            override fun onEndOfSpeech() {}
-
-            override fun onError(i: Int) {
-                speechRecognizer!!.startListening(speechRecognizerIntent)
-            }
-
-            override fun onResults(bundle: Bundle) {
-                val matches =
-                    bundle.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)//getting all the matches
-                //displaying the first match
-                if (matches != null) {
-                    if (isRecording) {
-                        addOtherMessage(matches[0])
-                    }
-                    speechRecognizer!!.startListening(speechRecognizerIntent)
-                }
-            }
-
-            override fun onPartialResults(bundle: Bundle) {}
-
-            override fun onEvent(i: Int, bundle: Bundle) {}
-        })
-        speechRecognizer!!.startListening(speechRecognizerIntent)
-    }
-
-    fun startListening() {
-        isRecording = true
-    }
-
-    fun stopListening() {
-        isRecording = false
-    }
 
     private fun setUpVariables() {
         btnKeyboard = requireView().findViewById(R.id.btnCommunicationKeyboard)
@@ -165,6 +171,7 @@ class CommunicationFragment : BaseFragment(R.layout.communication_fragment) {
             override fun onSpeak() {
                 val inputText = getInputText()
                 addMineMessage(inputText)
+                recognitionManager.stopRecognition()
                 viewModel.textToSpeech(inputText, requireContext(), this@CommunicationFragment)
             }
         }
@@ -181,10 +188,10 @@ class CommunicationFragment : BaseFragment(R.layout.communication_fragment) {
         switch?.setOnCheckedChangeListener { _, isChecked ->
             isListen = isChecked
             if (isListen) {
-                isRecording = true
+                recognitionManager.startRecognition()
                 viewModel.speechToText(requireContext())
             } else {
-                isRecording = false
+                recognitionManager.stopRecognition()
             }
         }
 //        }
