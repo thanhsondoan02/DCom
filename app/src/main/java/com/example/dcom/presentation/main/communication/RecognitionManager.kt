@@ -10,6 +10,7 @@ import android.speech.RecognizerIntent
 import android.speech.SpeechRecognizer
 import android.util.Log
 import androidx.core.content.getSystemService
+import java.util.*
 
 class RecognitionManager(
     private val context: Context,
@@ -23,7 +24,7 @@ class RecognitionManager(
     private val recognizerIntent by lazy {
         Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
             putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_WEB_SEARCH)
-            putExtra(RecognizerIntent.EXTRA_LANGUAGE, "vi")
+            putExtra(RecognizerIntent.EXTRA_LANGUAGE,"vi-VN")
             putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, context.packageName)
         }
     }
