@@ -25,10 +25,9 @@ import com.example.dcom.presentation.main.history.conversation.ConversationAdapt
 import com.example.dcom.presentation.widget.CustomEditText
 import com.example.dcom.thread.CommunicationViewModel
 import com.google.android.material.materialswitch.MaterialSwitch
-import java.util.*
 
 
-class CommunicationFragment: BaseFragment(R.layout.communication_fragment) {
+class CommunicationFragment : BaseFragment(R.layout.communication_fragment) {
 
     private lateinit var btnKeyboard: Button
     private lateinit var cedtInput: CustomEditText
@@ -44,6 +43,8 @@ class CommunicationFragment: BaseFragment(R.layout.communication_fragment) {
     private var isListen: Boolean = true
     private var isTouching: Boolean = false
     private var isRecording: Boolean = false
+    private var speechRecognizerIntent: Intent? = null
+    private var speechRecognizer: SpeechRecognizer? = null
 
     override fun onInitView() {
         super.onInitView()
@@ -53,9 +54,13 @@ class CommunicationFragment: BaseFragment(R.layout.communication_fragment) {
         setUpRecyclerView()
         setState(STATE.DEFAULT)
 
+        initSpeechToText()
+
         if (isListen) {
-            startListening()
+            isRecording = true
             viewModel.speechToText(requireContext())
+        } else {
+            isRecording = false
         }
     }
 
@@ -86,15 +91,20 @@ class CommunicationFragment: BaseFragment(R.layout.communication_fragment) {
 //        }
     }
 
-    private fun startListening() {
-        isRecording = true
-        val speechRecognizer = SpeechRecognizer.createSpeechRecognizer(context)
-        val speechRecognizerIntent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
-        speechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_WEB_SEARCH)
-        speechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "vi")
-        speechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, context?.packageName)
+    private fun initSpeechToText() {
+        speechRecognizer = SpeechRecognizer.createSpeechRecognizer(context)
+        speechRecognizerIntent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
+        speechRecognizerIntent!!.putExtra(
+            RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+            RecognizerIntent.LANGUAGE_MODEL_FREE_FORM
+        )
+        speechRecognizerIntent!!.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "vi")
+        speechRecognizerIntent!!.putExtra(
+            RecognizerIntent.EXTRA_CALLING_PACKAGE,
+            context?.packageName
+        )
 
-        speechRecognizer.setRecognitionListener(object : RecognitionListener {
+        speechRecognizer!!.setRecognitionListener(object : RecognitionListener {
             override fun onReadyForSpeech(bundle: Bundle) {}
 
             override fun onBeginningOfSpeech() {}
@@ -106,15 +116,18 @@ class CommunicationFragment: BaseFragment(R.layout.communication_fragment) {
             override fun onEndOfSpeech() {}
 
             override fun onError(i: Int) {
-                speechRecognizer.startListening(speechRecognizerIntent)
+                speechRecognizer!!.startListening(speechRecognizerIntent)
             }
 
             override fun onResults(bundle: Bundle) {
-                val matches = bundle.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)//getting all the matches
+                val matches =
+                    bundle.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)//getting all the matches
                 //displaying the first match
                 if (matches != null) {
-                    addOtherMessage(matches[0])
-                    speechRecognizer.startListening(speechRecognizerIntent)
+                    if (isRecording) {
+                        addOtherMessage(matches[0])
+                    }
+                    speechRecognizer!!.startListening(speechRecognizerIntent)
                 }
             }
 
@@ -122,7 +135,15 @@ class CommunicationFragment: BaseFragment(R.layout.communication_fragment) {
 
             override fun onEvent(i: Int, bundle: Bundle) {}
         })
-        speechRecognizer.startListening(speechRecognizerIntent)
+        speechRecognizer!!.startListening(speechRecognizerIntent)
+    }
+
+    fun startListening() {
+        isRecording = true
+    }
+
+    fun stopListening() {
+        isRecording = false
     }
 
     private fun setUpVariables() {
@@ -144,7 +165,7 @@ class CommunicationFragment: BaseFragment(R.layout.communication_fragment) {
             override fun onSpeak() {
                 val inputText = getInputText()
                 addMineMessage(inputText)
-                viewModel.textToSpeech(inputText, requireContext())
+                viewModel.textToSpeech(inputText, requireContext(), this@CommunicationFragment)
             }
         }
 
@@ -157,13 +178,15 @@ class CommunicationFragment: BaseFragment(R.layout.communication_fragment) {
 //                Toast.makeText(requireContext(), "Bạn cần cấp quyền ghi âm để sử dụng chức năng này", Toast.LENGTH_SHORT).show()
 //            }
 //        } else {
-            switch?.setOnCheckedChangeListener { _, isChecked ->
-                isListen = isChecked
-                if (isListen) {
-                    startListening()
-                    viewModel.speechToText(requireContext())
-                }
+        switch?.setOnCheckedChangeListener { _, isChecked ->
+            isListen = isChecked
+            if (isListen) {
+                isRecording = true
+                viewModel.speechToText(requireContext())
+            } else {
+                isRecording = false
             }
+        }
 //        }
 
         rvConversation.setOnTouchListener(RVClickHandler(rvConversation))

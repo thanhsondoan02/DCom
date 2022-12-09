@@ -5,6 +5,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.dcom.extension.loading
 import com.example.dcom.extension.success
+import com.example.dcom.presentation.main.communication.CommunicationFragment
+import com.example.dcom.presentation.widget.CustomEditText
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.onStart
@@ -19,8 +21,8 @@ class CommunicationViewModel: ViewModel() {
     val speechToTextState = _speechToTextState.asStateFlow()
 
 
-    fun textToSpeech(text: String, context: Context) {
-        val rv = TextToSpeechUseCase.TextToSpeechRV(text, context)
+    fun textToSpeech(text: String, context: Context, target: CommunicationFragment) {
+        val rv = TextToSpeechUseCase.TextToSpeechRV(text, context, target)
         viewModelScope.launch {
             TextToSpeechUseCase().invoke(rv)
                 .onStart {
@@ -42,4 +44,5 @@ class CommunicationViewModel: ViewModel() {
                 }
         }
     }
+
 }
