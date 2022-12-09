@@ -146,6 +146,7 @@ class NoteActivity : AppCompatActivity(), BaseView {
 
     private fun addNote() {
         val note = Note(edtTitle.text.toString(), edtContent.text.toString())
+        if (note.content == "" && note.title == "") return
         database.iNoteDao().insert(note)
         noteId = database.iNoteDao().getLatestNoteId()
         EventBusManager.instance?.postPending(NoteEvent(NoteEvent.STATUS.ADD, null, noteId))

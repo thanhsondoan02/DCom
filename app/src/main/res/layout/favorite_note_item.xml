@@ -23,6 +23,7 @@
             <!-- Title, secondary and supporting text -->
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/tvFavoriteNoteTitle"
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
@@ -39,7 +40,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="16dp"
                 android:layout_marginBottom="16dp"
                 android:ellipsize="end"
                 android:maxLines="4"

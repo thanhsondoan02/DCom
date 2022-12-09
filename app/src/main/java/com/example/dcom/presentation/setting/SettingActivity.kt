@@ -12,7 +12,7 @@ class SettingActivity : AppCompatActivity(), BaseView {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.setting_activity)
+        setContentView(R.layout.setting_activity2)
         onInitView()
     }
 

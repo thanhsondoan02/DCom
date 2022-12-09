@@ -127,6 +127,7 @@ class CommunicationFragment: BaseFragment(R.layout.communication_fragment) {
                 val inputText = getInputText()
                 addMineMessage(inputText)
                 viewModel.textToSpeech(inputText, requireContext())
+                cedtInput.getEditText().setText("")
             }
         }
 
@@ -267,6 +268,8 @@ class CommunicationFragment: BaseFragment(R.layout.communication_fragment) {
         // show custom edit text
         cedtInput.changeHeight(CustomEditText.DEFAULT_HEIGHT)
         cedtInput.show()
+        suggestingAdapter.clear()
+        suggestingAdapter.addItems(viewModel.searchNote(""))
 
         // update state
         this@CommunicationFragment.state = STATE.INPUT
@@ -296,6 +299,13 @@ class CommunicationFragment: BaseFragment(R.layout.communication_fragment) {
         activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         val view = LayoutInflater.from(requireContext()).inflate(R.layout.save_conversation_dialog, null, false)
         val edtTitle = view.findViewById<TextInputEditText>(R.id.edtSaveConversationTitle)
+        var isInit = true
+        edtTitle.setOnFocusChangeListener { v, hasFocus ->
+            if (hasFocus && isInit) {
+                edtTitle.setText("")
+                isInit = false
+            }
+        }
         MaterialAlertDialogBuilder(requireContext()).setView(view)
             .setTitle(resources.getString(R.string.save_conversation_title))
             .setPositiveButton(resources.getString(R.string.save)) { _, _ -> save(edtTitle.text.toString()) }
