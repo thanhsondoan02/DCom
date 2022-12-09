@@ -1,0 +1,18 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/itmNoteDone"
+        android:icon="@drawable/ic_round_done_24"
+        android:title="@string/done"
+        android:contentDescription="@string/done"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/itmNoteDelete"
+        android:icon="@drawable/ic_baseline_delete_outline_24"
+        android:title="@string/delete"
+        android:contentDescription="@string/delete"
+        app:showAsAction="ifRoom" />
+
+</menu>

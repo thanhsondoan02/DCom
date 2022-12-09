@@ -8,12 +8,16 @@
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/mtbSettingTopBar"
+        android:elevation="3dp"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorSurface"
         app:layout_constraintTop_toTopOf="parent"
-        app:navigationIcon="@drawable/ic_round_arrow_back_24"
         app:navigationContentDescription="@string/go_back"
-        app:title="@string/settings" />
+        app:navigationIcon="@drawable/ic_round_arrow_back_24"
+        app:navigationIconTint="?attr/colorOnSurface"
+        app:title="@string/settings"
+        app:titleTextColor="?attr/colorOnSurface" />
 
     <LinearLayout
         android:layout_width="match_parent"

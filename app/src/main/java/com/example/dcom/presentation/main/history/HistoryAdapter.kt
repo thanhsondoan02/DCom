@@ -52,9 +52,14 @@ class HistoryAdapter : RecyclerView.Adapter<BaseVH>() {
         return CONVERSATION
     }
 
-    fun addData(data: List<ConversationDisplay>) {
+    fun addItems(data: List<ConversationDisplay>) {
         mData.addAll(data)
         notifyItemRangeInserted(mData.size, data.size)
+    }
+
+    fun addItem(data: ConversationDisplay) {
+        mData.add(data)
+        notifyItemInserted(mData.size)
     }
 
 //    inner class CommonVH(itemView: View): BaseVH(itemView) {
@@ -95,7 +100,7 @@ class HistoryAdapter : RecyclerView.Adapter<BaseVH>() {
         var conversation: Conversation? = null
         var latestMessage: Message? = null
 
-        constructor(conversation: Conversation?, latestMessage: Message?) {
+        constructor(conversation: Conversation?, latestMessage: Message? = null) {
             this.conversation = conversation
             this.latestMessage = latestMessage
         }

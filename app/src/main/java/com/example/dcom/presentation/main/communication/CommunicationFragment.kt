@@ -9,6 +9,7 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.updateLayoutParams
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -38,6 +39,11 @@ class CommunicationFragment: BaseFragment(R.layout.communication_fragment) {
         ConversationAdapter()
     }
 
+    private val suggestingAdapter by lazy {
+        SuggestingAdapter()
+    }
+
+    private var tempText: String = ""
     private var state: STATE = STATE.DEFAULT
     private val viewModel by viewModels<CommunicationViewModel>()
     private var isTouching: Boolean = false
@@ -48,6 +54,7 @@ class CommunicationFragment: BaseFragment(R.layout.communication_fragment) {
         setUpVariables()
         setUpOnClick()
         setUpRecyclerView()
+        setUpCustomEditText()
         setState(STATE.DEFAULT)
 
         viewModel.speechToText(requireContext())
@@ -141,6 +148,33 @@ class CommunicationFragment: BaseFragment(R.layout.communication_fragment) {
         rvConversation.layoutManager = LinearLayoutManager(requireContext())
         setAdapterListener()
         rvConversation.adapter = communicationAdapter
+
+
+    }
+
+    private fun setUpCustomEditText() {
+        // init suggest recycler view
+        cedtInput.apply {
+            getRecyclerView().layoutManager = LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
+            getRecyclerView().adapter = suggestingAdapter.apply {
+                listener = object : SuggestingAdapter.IListener {
+                    override fun onNoteClick(text: String) {
+                        cedtInput.addSuggestText(text, tempText)
+                    }
+                }
+            }
+
+            // first show all notes
+            suggestingAdapter.clear()
+            suggestingAdapter.addItems(viewModel.searchNote(""))
+
+            // search note
+            getEditText().doOnTextChanged { text, start, before, count ->
+                tempText = text.toString().substring(start, start + count)
+                suggestingAdapter.clear()
+                suggestingAdapter.addItems(viewModel.searchNote(tempText))
+            }
+        }
     }
 
     private fun setAdapterListener() {
@@ -195,32 +229,47 @@ class CommunicationFragment: BaseFragment(R.layout.communication_fragment) {
         when (state) {
             STATE.DEFAULT -> {
                 if (this@CommunicationFragment.state == STATE.DEFAULT) return
-                hideKeyboard(requireView())
-                cedtInput.changeHeight(CustomEditText.HIDE_HEIGHT)
-                (activity as MainActivity).showBottomNav()
-                btnKeyboard.show()
-                btnSave.show()
-                btnDelete.show()
-                this@CommunicationFragment.state = STATE.DEFAULT
+                hideCustomEditText()
             }
             STATE.INPUT -> {
-                (activity as MainActivity).hideBottomNav()
-                btnKeyboard.hide()
-                btnSave.hide()
-                btnDelete.hide()
-                cedtInput.changeHeight(CustomEditText.DEFAULT_HEIGHT)
-                this@CommunicationFragment.state = STATE.INPUT
+                showCustomEditText()
             }
-            STATE.FULL -> { // hide all
-                hideKeyboard(requireView())
-                cedtInput.changeHeight(CustomEditText.HIDE_HEIGHT)
-                (activity as MainActivity).hideBottomNav()
-                btnKeyboard.hide()
-                btnSave.hide()
-                btnDelete.hide()
-                this@CommunicationFragment.state = STATE.FULL
+            STATE.FULL -> { // deprecated
             }
         }
+    }
+
+    private fun hideCustomEditText() {
+
+        // hide custom edit text
+        hideKeyboard(requireView())
+        cedtInput.changeHeight(CustomEditText.HIDE_HEIGHT)
+        cedtInput.hide()
+
+        // show other views
+        (activity as MainActivity).showBottomNav()
+        btnKeyboard.show()
+        btnSave.show()
+        btnDelete.show()
+
+        // update state
+        this@CommunicationFragment.state = STATE.DEFAULT
+    }
+
+    private fun showCustomEditText() {
+
+        // hide other views
+        (activity as MainActivity).hideBottomNav()
+        btnKeyboard.hide()
+        btnSave.hide()
+        btnDelete.hide()
+
+        // show custom edit text
+        cedtInput.changeHeight(CustomEditText.DEFAULT_HEIGHT)
+        cedtInput.show()
+
+        // update state
+        this@CommunicationFragment.state = STATE.INPUT
     }
 
     private fun showConfirmDeleteDialog() {

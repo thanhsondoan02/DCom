@@ -84,7 +84,7 @@ class FavoriteFragment : BaseFragment(R.layout.favorite_fragment), IEventHandler
         setUpOnClick()
         setUpRecyclerView()
 
-        favoriteAdapter.addData(viewModel.database.iNoteDao().getAll())
+        favoriteAdapter.addItems(viewModel.database.iNoteDao().getAll())
     }
 
     override fun onObserverViewModel() {
@@ -139,7 +139,7 @@ class FavoriteFragment : BaseFragment(R.layout.favorite_fragment), IEventHandler
 
         edtSearch.doOnTextChanged { text, start, before, count ->
             favoriteAdapter.clear()
-            favoriteAdapter.addData(viewModel.database.iNoteDao().search(text.toString()))
+            favoriteAdapter.addItems(viewModel.database.iNoteDao().search(text.toString()))
         }
 
         btnFastGen.setOnClickListener {
@@ -227,7 +227,7 @@ class FavoriteFragment : BaseFragment(R.layout.favorite_fragment), IEventHandler
     private fun fastGenerate(size: Int) {
         val list = getListOfRandomNote(size)
         viewModel.database.iNoteDao().insertAll(list)
-        favoriteAdapter.addData(viewModel.database.iNoteDao().getLatestNotes(size))
+        favoriteAdapter.addItems(viewModel.database.iNoteDao().getLatestNotes(size))
     }
 
     private fun getListOfRandomNote(size: Int): List<Note> {

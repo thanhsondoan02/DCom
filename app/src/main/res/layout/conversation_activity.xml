@@ -10,9 +10,14 @@
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/mtbConversationTopBar"
         android:layout_width="match_parent"
+        android:elevation="3dp"
         android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorSurface"
+        app:layout_constraintTop_toTopOf="parent"
+        app:navigationContentDescription="@string/go_back"
         app:navigationIcon="@drawable/ic_round_arrow_back_24"
-        app:navigationContentDescription="@string/go_back" />
+        app:navigationIconTint="?attr/colorOnSurface"
+        app:titleTextColor="?attr/colorOnSurface" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvConversationHistory"

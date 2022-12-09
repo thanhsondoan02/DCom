@@ -35,7 +35,7 @@
     <string name="des_114">Cứu hỏa</string>
     <string name="des_115">Cấp cứu</string>
     <string name="dial_pad">Quay số</string>
-    <string name="title">Title</string>
+    <string name="title">Tiêu đề</string>
     <string name="text_to_speech_hint">Enter text to be spoken here</string>
     <string name="cancel">Hủy</string>
     <string name="select">Chọn</string>
@@ -45,7 +45,7 @@
     <string name="history">Lịch sử</string>
     <string name="type_your_reply_here">Nhập câu trả lời của bạn vào đây…</string>
     <string name="clear_type_text">Xóa</string>
-    <string name="start_typing">Bắt đầu nhập</string>
+    <string name="content">Nội dung</string>
     <string name="search_note">Tìm ghi chú</string>
     <string name="delete_note">Xóa ghi chú</string>
     <string name="delete">Xóa</string>
@@ -77,4 +77,5 @@
     <string name="untitled">Không có tiêu đề</string>
     <string name="help_and_feedback">Trợ giúp và phản hồi</string>
     <string name="storage">Lưu trữ</string>
+    <string name="done">Xong</string>
 </resources>

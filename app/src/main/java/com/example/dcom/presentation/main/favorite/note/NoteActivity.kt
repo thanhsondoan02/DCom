@@ -6,9 +6,9 @@ import android.os.Bundle
 import android.view.Gravity
 import android.view.WindowManager
 import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageButton
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.AppCompatEditText
+import androidx.core.view.get
 import com.example.dcom.R
 import com.example.dcom.base.event.EventBusManager
 import com.example.dcom.base.event.NoteEvent
@@ -17,6 +17,7 @@ import com.example.dcom.database.note.Note
 import com.example.dcom.extension.hideKeyboard
 import com.example.dcom.extension.showKeyboard
 import com.example.dcom.presentation.common.BaseView
+import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class NoteActivity : AppCompatActivity(), BaseView {
@@ -26,10 +27,11 @@ class NoteActivity : AppCompatActivity(), BaseView {
         const val NOTE_POSITION = "NOTE_POSITION"
     }
 
-    private lateinit var btnBack: ImageButton
-    private lateinit var edtTitle: EditText
-    private lateinit var edtContent: EditText
-    private lateinit var btnDelete: ImageButton
+//    private lateinit var btnBack: ImageButton
+    private lateinit var edtTitle: AppCompatEditText
+    private lateinit var edtContent: AppCompatEditText
+    private lateinit var mtbTopBar: MaterialToolbar
+//    private lateinit var btnDelete: ImageButton
 
     private var state = STATE.VIEW
     private var noteId: Int = -1
@@ -40,7 +42,7 @@ class NoteActivity : AppCompatActivity(), BaseView {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.note_activity)
+        setContentView(R.layout.note_activity2)
 
         database = AppDatabase.getInstance(this)
 
@@ -64,7 +66,7 @@ class NoteActivity : AppCompatActivity(), BaseView {
         setUpListener()
 
         if (noteId == -1) {
-            edtContent.requestFocus()
+            edtTitle.requestFocus()
             showKeyboard(window.decorView.rootView)
             setEditState()
         } else {
@@ -72,18 +74,18 @@ class NoteActivity : AppCompatActivity(), BaseView {
                 edtTitle.setText(it.title)
                 edtContent.setText(it.content)
             }
+            setViewState()
         }
     }
 
     private fun setUpVariables() {
-        btnBack = findViewById(R.id.btnNoteBack)
         edtTitle = findViewById(R.id.edtNoteTitle)
         edtContent = findViewById(R.id.edtNoteContent)
-        btnDelete = findViewById(R.id.btnNoteDelete)
+        mtbTopBar = findViewById(R.id.mtbNoteTopBar)
     }
 
     private fun setUpListener() {
-        btnBack.setOnClickListener {
+        mtbTopBar.setNavigationOnClickListener {
             onBackPressed()
         }
 
@@ -99,18 +101,25 @@ class NoteActivity : AppCompatActivity(), BaseView {
             }
         }
 
-        btnDelete.setOnClickListener {
-            if (state == STATE.EDIT) {
-                setViewState()
-            } else {
-                showConfirmDeleteDialog()
+        mtbTopBar.setOnMenuItemClickListener {
+            when (it.itemId) {
+                R.id.itmNoteDone -> {
+                    setViewState()
+                    true
+                }
+                R.id.itmNoteDelete -> {
+                    showConfirmDeleteDialog()
+                    true
+                }
+                else -> false
             }
         }
 
     }
 
     private fun setViewState() {
-        btnDelete.setImageResource(R.drawable.ic_round_delete_24)
+        mtbTopBar.menu[0].isVisible = false
+        mtbTopBar.menu[1].isVisible = true
         edtContent.clearFocus()
         edtTitle.clearFocus()
         hideKeyboard(window.decorView.rootView)
@@ -118,7 +127,8 @@ class NoteActivity : AppCompatActivity(), BaseView {
     }
 
     private fun setEditState() {
-        btnDelete.setImageResource(R.drawable.ic_round_done_24)
+        mtbTopBar.menu[0].isVisible = true
+        mtbTopBar.menu[1].isVisible = false
         state = STATE.EDIT
     }
 

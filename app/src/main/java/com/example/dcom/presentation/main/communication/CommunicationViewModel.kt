@@ -3,9 +3,12 @@ package com.example.dcom.presentation.main.communication
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.dcom.base.event.ComversationEvent
+import com.example.dcom.base.event.EventBusManager
 import com.example.dcom.database.AppDatabase
 import com.example.dcom.database.conversation.Conversation
 import com.example.dcom.database.message.Message
+import com.example.dcom.database.note.Note
 import com.example.dcom.extension.loading
 import com.example.dcom.extension.success
 import com.example.dcom.thread.FlowResult
@@ -24,7 +27,7 @@ class CommunicationViewModel: ViewModel() {
     private val _speechToTextState = MutableStateFlow(FlowResult.newInstance<String>())
     val speechToTextState = _speechToTextState.asStateFlow()
 
-    var database: AppDatabase? = null
+    lateinit var database: AppDatabase
     var createdTime: Long? = null
 
     fun textToSpeech(text: String, context: Context) {
@@ -58,10 +61,16 @@ class CommunicationViewModel: ViewModel() {
     fun saveNewConversation(list: List<Message>, name: String) {
         database?.iConversationDao()?.apply {
             insertConversation(Conversation(name, createdTime ?: System.currentTimeMillis()))
+            val id = getLatestConversation().id
             list.forEach {
-                it.conversationId = getLatestConversation().id
+                it.conversationId = id
             }
             insertMessages(list)
+            EventBusManager.instance?.postPending(ComversationEvent(ComversationEvent.STATUS.ADD, -1, id))
         }
+    }
+
+    fun searchNote(keyword: String): List<Note> {
+        return database.iNoteDao().search(keyword)
     }
 }

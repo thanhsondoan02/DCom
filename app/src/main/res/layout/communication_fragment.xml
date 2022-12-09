@@ -20,6 +20,7 @@
     <com.example.dcom.presentation.widget.CustomEditText
         android:id="@+id/cedtCommunicationInput"
         android:layout_width="match_parent"
+        android:visibility="invisible"
         android:layout_height="1dp"
         app:layout_constraintBottom_toBottomOf="parent" />
 

@@ -78,7 +78,13 @@
     </style>
 
     <style name="BlackIconButton" parent="Widget.Material3.Button.IconButton">
-        <item name="iconTint">?attr/colorOnSurface</item>
+        <item name="iconTint">?attr/colorOnSurfaceVariant</item>
+    </style>
+
+    <style name="SuggestIconButton" parent="Widget.Material3.Button.IconButton.Filled.Tonal">
+        <item name="backgroundTint">?attr/colorSurface</item>
+        <item name="iconTint">?attr/colorPrimary</item>
+        <item name="elevation">1dp</item>
     </style>
 
 </resources>

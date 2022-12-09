@@ -103,7 +103,7 @@ class FavoriteAdapter : RecyclerView.Adapter<BaseVH>() {
         notifyItemInserted(position)
     }
 
-    fun addData(data: List<Note>) {
+    fun addItems(data: List<Note>) {
         data.forEach {
             mData.add(NoteDisplay(it))
         }

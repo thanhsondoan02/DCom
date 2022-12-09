@@ -85,33 +85,44 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/search_in_dcom"
-                            android:textColor="?attr/colorOnSurface"
+                            android:textColor="?attr/colorOnSurfaceVariant"
                             android:textSize="15sp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toEndOf="@id/btnMainOptions"
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <com.google.android.material.button.MaterialButton
-                            android:id="@+id/btnMainCommunicationLeft"
+                            android:id="@+id/btnMainCommunicationMore"
                             style="@style/BlackIconButton"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:contentDescription="@string/more_option"
-                            android:src="@drawable/ic_outline_save_24"
-                            app:icon="@drawable/ic_baseline_clear_24"
+                            android:gravity="center"
+                            app:icon="@drawable/ic_baseline_more_vert_24"
                             app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toStartOf="@id/btnMainCommunicationRight"
+                            app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <com.google.android.material.button.MaterialButton
-                            android:id="@+id/btnMainCommunicationRight"
-                            style="@style/Widget.Material3.Button.IconButton.Filled.Tonal"
+                            android:id="@+id/btnMainFavoriteMore"
+                            style="@style/BlackIconButton"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:contentDescription="@string/more_option"
                             android:gravity="center"
-                            android:src="@drawable/ic_baseline_clear_24"
-                            app:icon="@drawable/ic_outline_save_24"
+                            app:icon="@drawable/ic_baseline_more_vert_24"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnMainHistoryMore"
+                            style="@style/BlackIconButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:contentDescription="@string/more_option"
+                            android:gravity="center"
+                            app:icon="@drawable/ic_baseline_more_vert_24"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />

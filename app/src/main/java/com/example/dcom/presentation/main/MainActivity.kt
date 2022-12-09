@@ -38,6 +38,9 @@ class MainActivity : AppCompatActivity(), BaseView {
     private lateinit var btnOptions: Button
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var nvDrawer: NavigationView
+    private lateinit var btnCommunicationMore: Button
+    private lateinit var btnFavoriteMore: Button
+    private lateinit var btnHistoryMore: Button
 
     private lateinit var pagerAdapter: MainViewPagerAdapter
     private val fragmentList = mutableListOf<BaseFragment>()
@@ -86,6 +89,18 @@ class MainActivity : AppCompatActivity(), BaseView {
         return mtbSelectBar
     }
 
+    fun btnCommunicationMore(): Button {
+        return btnCommunicationMore
+    }
+
+    fun btnFavoriteMore(): Button {
+        return btnFavoriteMore
+    }
+
+    fun btnHistoryMore(): Button {
+        return btnHistoryMore
+    }
+
     private fun setUpVariables() {
         cvpHomePager = findViewById(R.id.cvpMainPager)
         bnvMenu = findViewById(R.id.bnvMainMenu)
@@ -97,6 +112,9 @@ class MainActivity : AppCompatActivity(), BaseView {
         btnOptions = findViewById(R.id.btnMainOptions)
         drawerLayout = findViewById(R.id.drawer_layout)
         nvDrawer = findViewById(R.id.nvMainNavigationDrawer)
+        btnCommunicationMore = findViewById(R.id.btnMainCommunicationMore)
+        btnFavoriteMore = findViewById(R.id.btnMainFavoriteMore)
+        btnHistoryMore = findViewById(R.id.btnMainHistoryMore)
     }
 
     private fun setUpOnClick() {

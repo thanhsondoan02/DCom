@@ -43,4 +43,7 @@ interface IConversationDao {
     @Query("SELECT * FROM message WHERE conversation_id = :conversationId")
     fun getAllMessageInConversation(conversationId: Int): List<Message>
 
+    @Query("SELECT * FROM conversation WHERE id = :conversationId")
+    fun getConversationById(conversationId: Int): Conversation
+
 }
