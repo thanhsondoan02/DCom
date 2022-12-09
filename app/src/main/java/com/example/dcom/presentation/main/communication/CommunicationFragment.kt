@@ -86,6 +86,7 @@ class CommunicationFragment : BaseFragment(R.layout.communication_fragment) {
                 }
 
                 override fun onError(errorCode: Int) {
+                    println("onError callback: $errorCode")
 
                 }
 
