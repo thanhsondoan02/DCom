@@ -11,7 +11,7 @@ import com.example.dcom.base.event.IEvent
 import com.example.dcom.base.event.IEventHandler
 import com.example.dcom.database.AppDatabase
 import com.example.dcom.presentation.common.BaseFragment
-import com.example.dcom.presentation.main.history.conversation.ConversationActivity
+import com.example.dcom.presentation.conversation.ConversationActivity
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 

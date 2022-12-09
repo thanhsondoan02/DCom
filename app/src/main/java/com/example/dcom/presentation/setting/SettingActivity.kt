@@ -1,4 +1,4 @@
-package com.example.dcom.presentation
+package com.example.dcom.presentation.setting
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity

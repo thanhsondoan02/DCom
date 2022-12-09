@@ -19,8 +19,8 @@ import com.example.dcom.database.AppDatabase
 import com.example.dcom.database.message.Message
 import com.example.dcom.extension.*
 import com.example.dcom.presentation.common.BaseFragment
+import com.example.dcom.presentation.conversation.ConversationAdapter
 import com.example.dcom.presentation.main.MainActivity
-import com.example.dcom.presentation.main.history.conversation.ConversationAdapter
 import com.example.dcom.presentation.widget.CustomEditText
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar

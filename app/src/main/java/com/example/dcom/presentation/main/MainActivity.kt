@@ -11,13 +11,12 @@ import androidx.drawerlayout.widget.DrawerLayout
 import com.example.dcom.R
 import com.example.dcom.extension.gone
 import com.example.dcom.extension.show
-import com.example.dcom.presentation.SettingActivity
 import com.example.dcom.presentation.common.BaseFragment
 import com.example.dcom.presentation.common.BaseView
 import com.example.dcom.presentation.main.communication.CommunicationFragment
 import com.example.dcom.presentation.main.favorite.FavoriteFragment
 import com.example.dcom.presentation.main.history.HistoryFragment
-import com.example.dcom.presentation.main.setting.SettingFragment
+import com.example.dcom.presentation.setting.SettingActivity
 import com.example.dcom.presentation.widget.CustomViewPager
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.appbar.MaterialToolbar
@@ -47,7 +46,6 @@ class MainActivity : AppCompatActivity(), BaseView {
     private var communicationFragment = CommunicationFragment()
     private var favoriteFragment = FavoriteFragment()
     private var historyFragment = HistoryFragment()
-    private var settingFragment = SettingFragment()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -159,7 +157,6 @@ class MainActivity : AppCompatActivity(), BaseView {
         fragmentList.add(communicationFragment)
         fragmentList.add(favoriteFragment)
         fragmentList.add(historyFragment)
-        fragmentList.add(settingFragment)
         pagerAdapter.addListFragment(fragmentList)
 
         cvpHomePager.apply {

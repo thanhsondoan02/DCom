@@ -1,4 +1,4 @@
-package com.example.dcom.presentation.main.history.conversation
+package com.example.dcom.presentation.conversation
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity

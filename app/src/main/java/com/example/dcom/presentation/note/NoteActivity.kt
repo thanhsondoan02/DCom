@@ -1,4 +1,4 @@
-package com.example.dcom.presentation.main.favorite.note
+package com.example.dcom.presentation.note
 
 import android.annotation.SuppressLint
 import android.app.Dialog

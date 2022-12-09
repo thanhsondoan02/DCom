@@ -1,4 +1,4 @@
-package com.example.dcom.presentation.main.history.conversation
+package com.example.dcom.presentation.conversation
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater

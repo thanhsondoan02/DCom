@@ -23,7 +23,7 @@ import com.example.dcom.extension.hide
 import com.example.dcom.extension.show
 import com.example.dcom.presentation.common.BaseFragment
 import com.example.dcom.presentation.main.MainActivity
-import com.example.dcom.presentation.main.favorite.note.NoteActivity
+import com.example.dcom.presentation.note.NoteActivity
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
