@@ -3,6 +3,7 @@ package com.example.dcom.presentation.main.communication
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.view.View.OnTouchListener
@@ -86,7 +87,7 @@ class CommunicationFragment : BaseFragment(R.layout.communication_fragment) {
                 }
 
                 override fun onError(errorCode: Int) {
-                    println("onError callback: $errorCode")
+                    Log.d("Duc", "onErrorcallback: $errorCode")
 
                 }
 
