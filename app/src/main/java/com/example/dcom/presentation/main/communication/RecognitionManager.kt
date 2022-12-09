@@ -101,6 +101,9 @@ class RecognitionManager(
 
     override fun onError(errorCode: Int) {
         callback?.onError(errorCode)
+        if(isActivated) {
+            startRecognition()
+        }
     }
 
     override fun onEvent(eventType: Int, params: Bundle) {
