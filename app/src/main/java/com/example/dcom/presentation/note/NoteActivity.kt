@@ -69,7 +69,7 @@ class NoteActivity : AppCompatActivity(), BaseView {
         setUpListener()
 
         if (noteId == -1) {
-            edtTitle.requestFocus()
+            edtContent.requestFocus()
             showKeyboard(window.decorView.rootView)
             setEditState()
         } else {

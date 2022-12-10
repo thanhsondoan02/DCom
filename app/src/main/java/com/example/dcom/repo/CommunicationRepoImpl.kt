@@ -26,7 +26,7 @@ class CommunicationRepoImpl: ICommunicationRepo {
     override fun listen(context: Context): String {
         // TODO
         Thread.sleep(5000)
-        val listString =  listOf("Hello", "How are you", "I am fine", "Thank you")
+        val listString =  listOf("Xin chào", "Bạn có khỏe không", "Tôi khỏe", "Cảm ơn bạn", "Tạm biệt")
         return listString.random()
     }
 }

@@ -64,6 +64,7 @@ class CommunicationViewModel: ViewModel() {
     }
 
     fun saveNewConversation(list: List<Message>, name: String) {
+        database.iConversationDao().deleteMessageInConversation(-1)
         database.iConversationDao().apply {
             insertConversation(Conversation(name, createdTime!!))
             val id = getLatestConversation().id

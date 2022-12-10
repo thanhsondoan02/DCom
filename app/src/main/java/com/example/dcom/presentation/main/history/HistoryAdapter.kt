@@ -127,7 +127,6 @@ class HistoryAdapter : RecyclerView.Adapter<BaseVH>() {
         state = STATE.NORMAL
     }
 
-    @Deprecated("")
     fun unSelectAll() {
         mData.forEach {
             it.isSelected = false

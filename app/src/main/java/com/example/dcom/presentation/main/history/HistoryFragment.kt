@@ -126,6 +126,10 @@ class HistoryFragment : BaseFragment(R.layout.history_fragment), IEventHandler {
                         historyAdapter.selectAll()
                         true
                     }
+                    R.id.itmSelectNone -> {
+                        historyAdapter.unSelectAll()
+                        true
+                    }
                     R.id.itmSelectEdit -> {
                         showEditTitleDialog()
                         true
@@ -159,21 +163,27 @@ class HistoryFragment : BaseFragment(R.layout.history_fragment), IEventHandler {
     private fun changeSelectBar(countSelect: Int) {
         getSelectBar()?.title = countSelect.toString()
         getSelectBar()?.menu?.findItem(R.id.itmSelectEdit)?.isVisible = countSelect == 1
+
+        if (countSelect == historyAdapter.itemCount) {
+            showButtonSelectNone()
+        } else {
+            showButtonSelectAll()
+        }
+
+        getSelectBar()?.menu?.findItem(R.id.itmSelectDelete)?.isVisible = countSelect != 0
     }
 
     private fun showButtonSelectAll() {
-        getSelectBar()?.apply {
-            menu.findItem(R.id.itmSelectAll).isVisible = true
-            menu.findItem(R.id.itmSelectDelete).isVisible = true
-            menu.findItem(R.id.itmSelectNone).isVisible = false
+        getSelectBar()?.menu?.apply {
+            findItem(R.id.itmSelectAll).isVisible = true
+            findItem(R.id.itmSelectNone).isVisible = findItem(R.id.itmSelectAll).isVisible == false
         }
     }
 
     private fun showButtonSelectNone() {
-        getSelectBar()?.apply {
-            menu.findItem(R.id.itmSelectAll).isVisible = false
-            menu.findItem(R.id.itmSelectDelete).isVisible = false
-            menu.findItem(R.id.itmSelectNone).isVisible = true
+        getSelectBar()?.menu?.apply {
+            findItem(R.id.itmSelectAll).isVisible = false
+            findItem(R.id.itmSelectNone).isVisible = findItem(R.id.itmSelectAll).isVisible == false
         }
     }
 
