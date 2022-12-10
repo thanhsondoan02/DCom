@@ -1,11 +1,14 @@
 package com.example.dcom.presentation.main
 
+import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.example.dcom.R
@@ -29,6 +32,8 @@ import com.google.android.material.navigation.NavigationView
 
 
 class MainActivity : AppCompatActivity(), BaseView {
+
+    var isRecordGranted = false
 
     private lateinit var cvpHomePager: CustomViewPager
     private lateinit var bnvMenu: BottomNavigationView
@@ -56,9 +61,8 @@ class MainActivity : AppCompatActivity(), BaseView {
         startActivity(Intent(this, ChangeThemeActivity::class.java))
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_activity)
-
+        askRecordAudioPermission()
         onInitView()
-
         initBottomNavigation()
     }
 
@@ -205,4 +209,18 @@ class MainActivity : AppCompatActivity(), BaseView {
             false
         }
     }
+
+    private fun askRecordAudioPermission() {
+        if (!isRecordAudioPermissionGranted()) {
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.RECORD_AUDIO), 1)
+        }
+        isRecordGranted = isRecordAudioPermissionGranted()
+    }
+
+    fun isRecordAudioPermissionGranted(): Boolean {
+        return (ActivityCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO)
+                == PackageManager.PERMISSION_GRANTED
+                )
+    }
+
 }
