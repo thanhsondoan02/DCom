@@ -25,6 +25,7 @@ fun getStringByIdName(context: Context, idName: String?): String {
 
 const val THEME_KEY = "suck"
 
+const val THEME_TOAST_KEY = "theme_toast_key"
 
 fun deleteCache(context: Context) {
     try {

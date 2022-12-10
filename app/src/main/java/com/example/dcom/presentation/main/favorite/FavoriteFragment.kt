@@ -1,5 +1,6 @@
 package com.example.dcom.presentation.main.favorite
 
+import android.content.Context
 import android.content.Intent
 import android.widget.Button
 import android.widget.EditText
@@ -19,6 +20,7 @@ import com.example.dcom.extension.gone
 import com.example.dcom.extension.handleUiState
 import com.example.dcom.extension.show
 import com.example.dcom.presentation.common.BaseFragment
+import com.example.dcom.presentation.common.THEME_TOAST_KEY
 import com.example.dcom.presentation.main.MainActivity
 import com.example.dcom.presentation.main.communication.CommunicationFragment
 import com.example.dcom.presentation.note.NoteActivity
@@ -107,7 +109,15 @@ class FavoriteFragment : BaseFragment(R.layout.favorite_fragment), IEventHandler
             viewModel.textToSpeechState.collect {
                 handleUiState(it, object : IViewListener {
                     override fun onSuccess() {
-                        Toast.makeText(requireContext(), getString(R.string.speak_success), Toast.LENGTH_SHORT).show()
+                        if (isThemeChange()) {
+                            val sharedPref = activity?.getSharedPreferences(THEME_TOAST_KEY, Context.MODE_PRIVATE) ?: return
+                            with (sharedPref.edit()) {
+                                putBoolean(THEME_TOAST_KEY, false)
+                                apply()
+                            }
+                        } else {
+                            Toast.makeText(requireContext(), getString(R.string.speak_success), Toast.LENGTH_SHORT).show()
+                        }
                     }
                 })
             }
@@ -117,6 +127,11 @@ class FavoriteFragment : BaseFragment(R.layout.favorite_fragment), IEventHandler
     override fun onPause() {
         super.onPause()
         hideSelectBar()
+    }
+
+    private fun isThemeChange(): Boolean {
+        val sharedPref = activity?.getSharedPreferences(THEME_TOAST_KEY, Context.MODE_PRIVATE) ?: return false
+        return sharedPref.getBoolean(THEME_TOAST_KEY, false)
     }
 
     private fun setUpVariables() {

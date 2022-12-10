@@ -16,6 +16,7 @@ import com.example.dcom.base.event.EventBusManager
 import com.example.dcom.database.AppDatabase
 import com.example.dcom.presentation.common.BaseView
 import com.example.dcom.presentation.common.THEME_KEY
+import com.example.dcom.presentation.common.THEME_TOAST_KEY
 import com.example.dcom.presentation.common.emptyDatabase
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.card.MaterialCardView
@@ -184,6 +185,13 @@ class SettingActivity : AppCompatActivity(), BaseView {
 
     private fun updateTheme() {
         startActivity(Intent(this, ChangeThemeActivity::class.java))
+
+        // save preference for favorite fragment
+        val sharedPref = getSharedPreferences(THEME_TOAST_KEY, Context.MODE_PRIVATE) ?: return
+        with (sharedPref.edit()) {
+            putBoolean(THEME_TOAST_KEY, true)
+            apply()
+        }
     }
 
 }
