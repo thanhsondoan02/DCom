@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.dcom.R
 import com.example.dcom.base.event.DeleteDatabaseEvent
 import com.example.dcom.base.event.EventBusManager
+import com.example.dcom.database.AppDatabase
 import com.example.dcom.presentation.common.BaseView
 import com.example.dcom.presentation.common.THEME_KEY
 import com.example.dcom.presentation.common.emptyDatabase
@@ -65,8 +66,8 @@ class SettingActivity : AppCompatActivity(), BaseView {
     }
 
     private fun updateStorageText() {
-        val storage = 2.34
-        tvStorage.text = getString(R.string.storage_example).replace("0", storage.toString())
+        val storage = ((AppDatabase.getInstance(this).getStorageSize() * 30.0 / 1024).toString() + "0000").substring(0, 4)
+        tvStorage.text = getString(R.string.storage_example).replace("0", storage)
     }
 
     private fun bytesToMeg(bytes: Long): Long {
@@ -174,7 +175,10 @@ class SettingActivity : AppCompatActivity(), BaseView {
         MaterialAlertDialogBuilder(this)
             .setTitle(resources.getString(R.string.delete_database_title))
             .setMessage(resources.getString(R.string.delete_database_des))
-            .setPositiveButton(resources.getString(R.string.delete)) { _, _ -> clearAppData() }
+            .setPositiveButton(resources.getString(R.string.delete)) { _, _ ->
+                clearAppData()
+                updateStorageText()
+            }
             .show()
     }
 

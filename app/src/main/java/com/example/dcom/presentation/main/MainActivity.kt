@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.viewpager.widget.ViewPager
 import com.example.dcom.R
 import com.example.dcom.extension.gone
 import com.example.dcom.extension.show
@@ -87,6 +88,10 @@ class MainActivity : AppCompatActivity(), BaseView {
 
     fun showTopBar() {
         flTopBar.show()
+    }
+
+    fun getViewPager(): ViewPager {
+        return cvpHomePager
     }
 
     fun getMainTopBar(): AppBarLayout {

@@ -49,4 +49,7 @@ interface INoteDao {
     @Query("DELETE FROM note WHERE id IN (:ids)")
     fun deleteByIds(ids: List<Int>)
 
+    @Query("SELECT COUNT(*) FROM note")
+    fun count(): Int
+
 }
