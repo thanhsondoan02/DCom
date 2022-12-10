@@ -2,10 +2,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/itmSelectChangeColor"
-        android:icon="@drawable/ic_outline_color_lens_24"
-        android:title="@string/change_color"
-        android:contentDescription="@string/change_color"
+        android:id="@+id/itmSelectEdit"
+        android:icon="@drawable/ic_outline_edit_24"
+        android:title="@string/edit"
+        android:contentDescription="@string/edit"
         app:showAsAction="ifRoom" />
 
     <item
@@ -16,10 +16,18 @@
         app:showAsAction="ifRoom" />
 
     <item
-        android:id="@+id/itmSelectEdit"
-        android:icon="@drawable/ic_outline_edit_24"
-        android:title="@string/edit"
-        android:contentDescription="@string/edit"
+        android:id="@+id/itmSelectAll"
+        android:icon="@drawable/ic_baseline_select_all_24"
+        android:title="@string/select_all"
+        android:contentDescription="@string/select_all"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/itmSelectNone"
+        android:icon="@drawable/ic_baseline_deselect_24"
+        android:visible="false"
+        android:title="@string/select_all"
+        android:contentDescription="@string/select_all"
         app:showAsAction="ifRoom" />
 
     <item

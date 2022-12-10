@@ -17,10 +17,7 @@ import com.example.dcom.base.event.IEventHandler
 import com.example.dcom.base.event.NoteEvent
 import com.example.dcom.database.AppDatabase
 import com.example.dcom.database.note.Note
-import com.example.dcom.extension.IViewListener
-import com.example.dcom.extension.handleUiState
-import com.example.dcom.extension.hide
-import com.example.dcom.extension.show
+import com.example.dcom.extension.*
 import com.example.dcom.presentation.common.BaseFragment
 import com.example.dcom.presentation.main.MainActivity
 import com.example.dcom.presentation.note.NoteActivity
@@ -158,7 +155,6 @@ class FavoriteFragment : BaseFragment(R.layout.favorite_fragment), IEventHandler
     private fun initSelectBar() {
         getSelectBar()?.apply {
             show()
-//            getMainTopBar()?.hide()
             btnAdd.hide()
             btnFastGen.hide()
             setNavigationOnClickListener {
@@ -170,7 +166,8 @@ class FavoriteFragment : BaseFragment(R.layout.favorite_fragment), IEventHandler
                         showConfirmDeleteDialog()
                         true
                     }
-                    R.id.itmSelectChangeColor -> {
+                    R.id.itmSelectAll -> {
+                        favoriteAdapter.selectAll()
                         true
                     }
                     R.id.itmSelectEdit -> {
@@ -207,7 +204,7 @@ class FavoriteFragment : BaseFragment(R.layout.favorite_fragment), IEventHandler
     }
 
     private fun hideSelectBar() {
-        getSelectBar()?.hide()
+        getSelectBar()?.gone()
         btnAdd.show()
         btnFastGen.show()
         favoriteAdapter.unSelectAll()

@@ -12,16 +12,17 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:background="@color/transparent"
-        app:layout_constraintBottom_toTopOf="@id/cedtCommunicationInput"
+        app:layout_constraintBottom_toTopOf="@id/btnCommunicationKeyboard"
         app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginBottom="4dp"
         app:layout_constraintVertical_bias="0.0"
         tools:layout_editor_absoluteX="0dp" />
 
     <com.example.dcom.presentation.widget.CustomEditText
         android:id="@+id/cedtCommunicationInput"
         android:layout_width="match_parent"
-        android:visibility="invisible"
         android:layout_height="1dp"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent" />
 
     <Button
@@ -29,12 +30,12 @@
         style="?attr/materialIconButtonFilledStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginBottom="4dp"
         android:contentDescription="@string/text_to_speech"
         app:cardCornerRadius="100dp"
         app:icon="@drawable/ic_baseline_keyboard_24"
-        app:layout_constraintBottom_toBottomOf="@id/rvCommunicationConversation"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <Button
@@ -42,25 +43,23 @@
         style="?attr/materialIconButtonFilledStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="6dp"
         android:contentDescription="@string/save_conversation"
         app:cardCornerRadius="100dp"
         app:icon="@drawable/ic_baseline_save_24"
-        app:layout_constraintBottom_toTopOf="@id/btnCommunicationKeyboard"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintBottom_toBottomOf="@id/btnCommunicationKeyboard"
+        app:layout_constraintEnd_toStartOf="@id/btnCommunicationKeyboard"
+        app:layout_constraintTop_toTopOf="@id/btnCommunicationKeyboard" />
 
     <Button
         android:id="@+id/btnCommunicationDelete"
         style="?attr/materialIconButtonFilledStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="6dp"
         android:contentDescription="@string/delete_conversation"
         app:cardCornerRadius="100dp"
         app:icon="@drawable/ic_round_delete_24"
-        app:layout_constraintBottom_toTopOf="@id/btnCommunicationSave"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintBottom_toBottomOf="@id/btnCommunicationKeyboard"
+        app:layout_constraintEnd_toStartOf="@id/btnCommunicationSave"
+        app:layout_constraintTop_toTopOf="@id/btnCommunicationKeyboard" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -50,6 +50,13 @@ class FavoriteAdapter : RecyclerView.Adapter<BaseVH>() {
         }
     }
 
+    fun selectAll() {
+        mData.filterIsInstance<NoteDisplay>().forEach { it.isSelected = true }
+        countSelected = mData.filterIsInstance<NoteDisplay>().size
+        notifyItemRangeChanged(0, itemCount, SELECT_PAYLOAD)
+        listener?.onChangeSelect(countSelected)
+    }
+
     fun getSelectedNoteId() = mData.filterIsInstance<NoteDisplay>().filter { it.isSelected }.map { it.note.id }
 
     fun getSelectedPosition() = mData.filterIsInstance<NoteDisplay>().filter { it.isSelected }.map { mData.indexOf(it) }
@@ -86,6 +93,7 @@ class FavoriteAdapter : RecyclerView.Adapter<BaseVH>() {
         }
         countSelected = 0
         notifyItemRangeChanged(0, itemCount, SELECT_PAYLOAD)
+        state = STATE.NORMAL
     }
 
     fun update(position: Int, note: Note) {
@@ -172,7 +180,6 @@ class FavoriteAdapter : RecyclerView.Adapter<BaseVH>() {
 
         private fun onSpeak() {
             listener?.onSpeak((mData[adapterPosition] as? NoteDisplay)?.note?.content)
-
         }
 
         private fun onSelect(): Boolean {
