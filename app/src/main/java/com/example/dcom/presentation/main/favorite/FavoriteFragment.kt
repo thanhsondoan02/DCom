@@ -1,7 +1,6 @@
 package com.example.dcom.presentation.main.favorite
 
 import android.content.Intent
-import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
@@ -26,10 +25,6 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
-import java.io.File
-import java.io.FileInputStream
-import java.util.*
-import kotlin.collections.HashMap
 import kotlin.math.min
 
 class FavoriteFragment : BaseFragment(R.layout.favorite_fragment), IEventHandler {
@@ -248,44 +243,24 @@ class FavoriteFragment : BaseFragment(R.layout.favorite_fragment), IEventHandler
 
     private fun fastGenerate(size: Int) {
         val list = getFrequentlyUsed(size)
-        Log.d("Duc", "fastGenerate: $list")
-        viewModel.database.iNoteDao().insertAll(list)
-        favoriteAdapter.addItems(viewModel.database.iNoteDao().getLatestNotes(size))
+        if (list.isEmpty()) {
+            Toast.makeText(requireContext(), getString(R.string.no_frequently_used), Toast.LENGTH_SHORT).show()
+        } else {
+            viewModel.database.iNoteDao().insertAll(list)
+            favoriteAdapter.addItems(viewModel.database.iNoteDao().getLatestNotes(list.size))
+        }
     }
 
     private fun getFrequentlyUsed(size: Int): List<Note> {
         val sortedMap = CommunicationFragment.frequentlyMap.toList().sortedByDescending { (_, value) -> value }.toMap()
         val list: MutableList<Note> = mutableListOf()
-        Log.d("Duc", "getFrequentlyUsed: $sortedMap")
         for (i in 0 until min(size, sortedMap.size)) {
-            list.add(Note(sortedMap.keys.elementAt(i), sortedMap.keys.elementAt(i)))
+            list.add(Note("", sortedMap.keys.elementAt(i)))
         }
         return list
     }
 
-    private fun getRandomTitle(lengthMin: Int, lengthMax: Int): String {
-        val length = (lengthMin..lengthMax).random()
-        val chars = ('a'..'z') + ('A'..'Z') + ('0'..'9') + ' '
-        return (1..length)
-            .map { chars.random() }
-            .joinToString("")
-    }
-
     private fun setUpRecyclerView() {
-//        rvContent.layoutManager = object: CustomGridLayoutManager() {
-//            override fun getMaxItemHorizontalByViewType(viewType: Int): Int {
-//                return when (viewType) {
-//                    FavoriteAdapter.SEARCH -> 1
-//                    FavoriteAdapter.NOTE -> 2
-//                    else -> throw IllegalArgumentException("Invalid view type")
-//                }
-//            }
-//
-//            override fun getItemViewType(adapterPosition: Int): Int {
-//                return favoriteAdapter.getItemViewType(adapterPosition)
-//            }
-//        }.getGridLayoutManager(requireContext())
-
         rvContent.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
 
         rvContent.adapter = favoriteAdapter

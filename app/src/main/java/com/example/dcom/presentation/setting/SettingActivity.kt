@@ -143,17 +143,17 @@ class SettingActivity : AppCompatActivity(), BaseView {
                 R.id.rbDark -> {
                     dialog.dismiss()
                     saveTheme(0)
-                    updateTheme(0)
+                    updateTheme()
                 }
                 R.id.rbLight -> {
                     dialog.dismiss()
                     saveTheme(1)
-                    updateTheme(1)
+                    updateTheme()
                 }
                 R.id.rbSystem -> {
                     dialog.dismiss()
                     saveTheme(2)
-                    updateTheme(2)
+                    updateTheme()
                 }
             }
             updateThemeText()
@@ -166,15 +166,12 @@ class SettingActivity : AppCompatActivity(), BaseView {
             putInt(THEME_KEY, theme)
             apply()
         }
-        val theme = getMyTheme()
-        print(theme)
     }
 
     private fun getMyTheme(): Int {
         val sharedPref = getSharedPreferences(THEME_KEY, Context.MODE_PRIVATE) ?: return 2
         return sharedPref.getInt(THEME_KEY, 2)
     }
-
 
     private fun showConfirmDeleteDialog() {
         MaterialAlertDialogBuilder(this)
@@ -184,7 +181,7 @@ class SettingActivity : AppCompatActivity(), BaseView {
             .show()
     }
 
-    private fun updateTheme(theme: Int) {
+    private fun updateTheme() {
         startActivity(Intent(this, ChangeThemeActivity::class.java))
     }
 
