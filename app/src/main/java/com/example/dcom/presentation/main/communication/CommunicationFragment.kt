@@ -1,6 +1,11 @@
 package com.example.dcom.presentation.main.communication
 
 import android.annotation.SuppressLint
+import android.content.Intent
+import android.os.Bundle
+import android.speech.RecognitionListener
+import android.speech.RecognizerIntent
+import android.speech.SpeechRecognizer
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -32,8 +37,8 @@ import java.io.FileInputStream
 import java.io.FileOutputStream
 import java.util.*
 
-class CommunicationFragment: BaseFragment(R.layout.communication_fragment) {
-    companion object{
+class CommunicationFragment : BaseFragment(R.layout.communication_fragment) {
+    companion object {
         val frequentlyMap = HashMap<String, Int>()
     }
 
@@ -43,6 +48,7 @@ class CommunicationFragment: BaseFragment(R.layout.communication_fragment) {
     private lateinit var cedtInput: CustomEditText
     private lateinit var rvConversation: RecyclerView
     private lateinit var constRoot: ConstraintLayout
+    private var isRecognitionActivated: Boolean = false
 
     private val communicationAdapter by lazy {
         ConversationAdapter()
@@ -60,6 +66,20 @@ class CommunicationFragment: BaseFragment(R.layout.communication_fragment) {
         requireContext().getExternalFilesDir(null).toString() + "/Frequently/frequently.properties"
     }
     private val properties = Properties()
+    private val speechRecognizer by lazy {
+        SpeechRecognizer.createSpeechRecognizer(requireContext())
+    }
+    private val speechRecognizerIntent by lazy {
+        Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
+            putExtra(
+                RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+                RecognizerIntent.LANGUAGE_MODEL_FREE_FORM
+            )
+            putExtra(RecognizerIntent.EXTRA_LANGUAGE, "vi-VN")
+            putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, context?.packageName)
+            putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 1)
+        }
+    }
 
     override fun onInitView() {
         super.onInitView()
@@ -70,8 +90,54 @@ class CommunicationFragment: BaseFragment(R.layout.communication_fragment) {
         setUpCustomEditText()
         setState(STATE.DEFAULT)
         setUpSuggesting()
+        createRecognizer()
+        startRecognition()
 
         viewModel.speechToText(requireContext())
+    }
+
+    private fun createRecognizer() {
+        speechRecognizer.setRecognitionListener(object : RecognitionListener {
+            override fun onReadyForSpeech(bundle: Bundle) {}
+
+            override fun onBeginningOfSpeech() {}
+
+            override fun onRmsChanged(v: Float) {}
+
+            override fun onBufferReceived(bytes: ByteArray) {}
+
+            override fun onEndOfSpeech() {}
+
+            override fun onError(i: Int) {
+                if (isRecognitionActivated) {
+                    startRecognition()
+                }
+            }
+
+            override fun onResults(bundle: Bundle) {
+                val matches = bundle.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)
+                if (matches != null) {
+                    addOtherMessage(matches[0])
+                }
+                if (isRecognitionActivated) {
+                    startRecognition()
+                }
+            }
+
+            override fun onPartialResults(bundle: Bundle) {}
+
+            override fun onEvent(i: Int, bundle: Bundle) {}
+        })
+    }
+
+    fun startRecognition() {
+        isRecognitionActivated = true
+        speechRecognizer.startListening(speechRecognizerIntent)
+    }
+
+    fun stopRecognition() {
+        isRecognitionActivated = false
+        speechRecognizer.stopListening()
     }
 
     override fun onObserverViewModel() {
@@ -84,7 +150,11 @@ class CommunicationFragment: BaseFragment(R.layout.communication_fragment) {
                         if (viewModel.createdTime == null) {
                             viewModel.createdTime = System.currentTimeMillis()
                         }
-                        Toast.makeText(requireContext(), getString(R.string.speak_success), Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            requireContext(),
+                            getString(R.string.speak_success),
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                 })
             }
@@ -97,14 +167,15 @@ class CommunicationFragment: BaseFragment(R.layout.communication_fragment) {
                         if (viewModel.createdTime == null) {
                             viewModel.createdTime = System.currentTimeMillis()
                         }
-                        addOtherMessage(it.data)
+//                        addOtherMessage(it.data)
                         viewModel.speechToText(requireContext())
                     }
                 })
             }
         }
     }
-    private fun setUpSuggesting(){
+
+    private fun setUpSuggesting() {
         val frequentlyFile = requireContext().getExternalFilesDir(null).toString() + "/Frequently"
         val frequentlyFileDir = File(frequentlyFile)
         if (!frequentlyFileDir.exists()) {
@@ -134,7 +205,7 @@ class CommunicationFragment: BaseFragment(R.layout.communication_fragment) {
         }
     }
 
-    private fun saveFrequency(){
+    private fun saveFrequency() {
         properties.clear()
         for (key in frequentlyMap.keys) {
             properties.setProperty(key, frequentlyMap[key].toString())
@@ -164,13 +235,18 @@ class CommunicationFragment: BaseFragment(R.layout.communication_fragment) {
 
             override fun onSpeak() {
                 val inputText = getInputText().trim()
+                stopRecognition()
                 if (inputText.isEmpty()) {
-                    Toast.makeText(requireContext(), getString(R.string.input_empty), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        requireContext(),
+                        getString(R.string.input_empty),
+                        Toast.LENGTH_SHORT
+                    ).show()
                     return
                 }
                 frequentlyMap[inputText] = frequentlyMap[inputText]?.plus(1) ?: 1
                 addMineMessage(inputText)
-                viewModel.textToSpeech(inputText, requireContext())
+                viewModel.textToSpeech(inputText, requireContext(), this@CommunicationFragment)
                 cedtInput.getEditText().setText("")
             }
         }
@@ -200,7 +276,8 @@ class CommunicationFragment: BaseFragment(R.layout.communication_fragment) {
     private fun setUpCustomEditText() {
         // init suggest recycler view
         cedtInput.apply {
-            getRecyclerView().layoutManager = LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
+            getRecyclerView().layoutManager =
+                LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
             getRecyclerView().adapter = suggestingAdapter.apply {
                 listener = object : SuggestingAdapter.IListener {
                     override fun onNoteClick(text: String) {
@@ -342,12 +419,17 @@ class CommunicationFragment: BaseFragment(R.layout.communication_fragment) {
     @SuppressLint("SetTextI18n")
     private fun showSaveDialog() {
         activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
-        val view = LayoutInflater.from(requireContext()).inflate(R.layout.save_conversation_dialog, null, false)
+        val view = LayoutInflater.from(requireContext())
+            .inflate(R.layout.save_conversation_dialog, null, false)
         val edtTitle = view.findViewById<TextInputEditText>(R.id.edtSaveConversationTitle)
 
         // set current time
         viewModel.setCreateTime()
-        edtTitle.setText(getString(R.string.conversation_title_example) + " " + convertTime(viewModel.createdTime))
+        edtTitle.setText(
+            getString(R.string.conversation_title_example) + " " + convertTime(
+                viewModel.createdTime
+            )
+        )
 
         var isInit = true
         edtTitle.setOnFocusChangeListener { v, hasFocus ->

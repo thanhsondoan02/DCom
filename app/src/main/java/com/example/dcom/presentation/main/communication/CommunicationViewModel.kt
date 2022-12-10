@@ -1,6 +1,8 @@
 package com.example.dcom.presentation.main.communication
 
 import android.content.Context
+import android.os.Handler
+import android.os.Looper
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.dcom.base.event.ConversationEvent
@@ -11,6 +13,7 @@ import com.example.dcom.database.message.Message
 import com.example.dcom.database.note.Note
 import com.example.dcom.extension.loading
 import com.example.dcom.extension.success
+import com.example.dcom.repo.ICommunicationRepoCallback
 import com.example.dcom.thread.FlowResult
 import com.example.dcom.thread.SpeechToTextUseCase
 import com.example.dcom.thread.TextToSpeechUseCase
@@ -26,12 +29,26 @@ class CommunicationViewModel: ViewModel() {
 
     private val _speechToTextState = MutableStateFlow(FlowResult.newInstance<String>())
     val speechToTextState = _speechToTextState.asStateFlow()
+    private val mainHandler: Handler = Handler(Looper.getMainLooper())
+
 
     lateinit var database: AppDatabase
     var createdTime: Long = 0
 
-    fun textToSpeech(text: String, context: Context) {
-        val rv = TextToSpeechUseCase.TextToSpeechRV(text, context)
+    fun textToSpeech(text: String, context: Context, target: CommunicationFragment) {
+        val rv = TextToSpeechUseCase.TextToSpeechRV(text, context, callback = object : ICommunicationRepoCallback{
+            override fun onSpeakStart(){
+                mainHandler.post {
+                    target.stopRecognition()
+                }
+            }
+            override fun onSpeakSuccess() {
+                mainHandler.post {
+                    target.startRecognition()
+                }
+            }
+
+        })
         viewModelScope.launch {
             TextToSpeechUseCase().invoke(rv)
                 .onStart {

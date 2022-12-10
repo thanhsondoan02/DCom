@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.dcom.extension.loading
 import com.example.dcom.extension.success
+import com.example.dcom.repo.ICommunicationRepoCallback
 import com.example.dcom.thread.FlowResult
 import com.example.dcom.thread.TextToSpeechUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -18,7 +19,15 @@ class SearchViewModel: ViewModel() {
     val textToSpeechState = _textToSpeechState.asStateFlow()
 
     fun textToSpeech(text: String, context: Context) {
-        val rv = TextToSpeechUseCase.TextToSpeechRV(text, context)
+        val rv = TextToSpeechUseCase.TextToSpeechRV(text, context, callback = object :
+            ICommunicationRepoCallback {
+            override fun onSpeakStart(){
+
+            }
+            override fun onSpeakSuccess() {
+
+            }
+        })
         viewModelScope.launch {
             TextToSpeechUseCase().invoke(rv)
                 .onStart {
