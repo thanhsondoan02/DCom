@@ -1,6 +1,8 @@
 package com.example.dcom.presentation.main.communication
 
 import android.annotation.SuppressLint
+import android.os.Environment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -27,8 +29,16 @@ import com.example.dcom.presentation.widget.CustomEditText
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
+import java.io.File
+import java.io.FileInputStream
+import java.io.FileOutputStream
+import java.util.*
+import kotlin.collections.HashMap
 
 class CommunicationFragment: BaseFragment(R.layout.communication_fragment) {
+    companion object{
+        val frequentlyMap = HashMap<String, Int>()
+    }
 
     private lateinit var btnKeyboard: Button
     private lateinit var btnDelete: Button
@@ -49,6 +59,10 @@ class CommunicationFragment: BaseFragment(R.layout.communication_fragment) {
     private var state: STATE = STATE.DEFAULT
     private val viewModel by viewModels<CommunicationViewModel>()
     private var isTouching: Boolean = false
+    private val frequentlyFileDirPath by lazy {
+        requireContext().getExternalFilesDir(null).toString() + "/Frequently/frequently.properties"
+    }
+    private val properties = Properties()
 
     override fun onInitView() {
         super.onInitView()
@@ -58,6 +72,7 @@ class CommunicationFragment: BaseFragment(R.layout.communication_fragment) {
         setUpRecyclerView()
         setUpCustomEditText()
         setState(STATE.DEFAULT)
+        setUpSuggesting()
 
         viewModel.speechToText(requireContext())
     }
@@ -90,6 +105,22 @@ class CommunicationFragment: BaseFragment(R.layout.communication_fragment) {
                     }
                 })
             }
+        }
+    }
+    private fun setUpSuggesting(){
+        val frequentlyFile = requireContext().getExternalFilesDir(null).toString() + "/Frequently"
+        val frequentlyFileDir = File(frequentlyFile)
+        if (!frequentlyFileDir.exists()) {
+            frequentlyFileDir.mkdir()
+        }
+        val frequentlyFilePath = "$frequentlyFile/frequently.properties"
+        val frequentlyFileDirPath = File(frequentlyFilePath)
+        if (!frequentlyFileDirPath.exists()) {
+            frequentlyFileDirPath.createNewFile()
+        }
+        properties.load(FileInputStream(frequentlyFileDirPath))
+        for (key in properties.stringPropertyNames()) {
+            frequentlyMap[key] = properties.getProperty(key).toInt()
         }
     }
 
@@ -126,7 +157,8 @@ class CommunicationFragment: BaseFragment(R.layout.communication_fragment) {
             }
 
             override fun onSpeak() {
-                val inputText = getInputText()
+                val inputText = getInputText().trim()
+                frequentlyMap[inputText] = frequentlyMap[inputText]?.plus(1) ?: 1
                 addMineMessage(inputText)
                 viewModel.textToSpeech(inputText, requireContext())
                 cedtInput.getEditText().setText("")
@@ -323,6 +355,12 @@ class CommunicationFragment: BaseFragment(R.layout.communication_fragment) {
     private fun save(title: String) {
         val list = communicationAdapter.getAllData()
         viewModel.saveNewConversation(list, title)
+
+        properties.clear()
+        for (key in frequentlyMap.keys) {
+            properties.setProperty(key, frequentlyMap[key].toString())
+        }
+        properties.store(FileOutputStream(frequentlyFileDirPath), null)
         communicationAdapter.clear()
         Toast.makeText(requireContext(), getString(R.string.saved), Toast.LENGTH_SHORT).show()
     }
