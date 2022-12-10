@@ -55,7 +55,12 @@ class CommunicationViewModel: ViewModel() {
     }
 
     fun saveTempConversation(list: List<Message>) {
+        database.iConversationDao().deleteMessageInConversation(-1)
         database.iConversationDao().insertMessages(list)
+    }
+
+    fun getTempConversation(): List<Message> {
+        return database.iConversationDao().getAllMessageInConversation(-1)
     }
 
     fun saveNewConversation(list: List<Message>, name: String) {

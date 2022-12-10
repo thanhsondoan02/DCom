@@ -2,7 +2,6 @@ package com.example.dcom.presentation.setting
 
 import android.content.Context
 import android.content.Intent
-import android.net.TrafficStats
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.WindowManager
@@ -66,9 +65,7 @@ class SettingActivity : AppCompatActivity(), BaseView {
     }
 
     private fun updateStorageText() {
-//        val storage = bytesToMeg(TrafficStats.getTotalRxBytes() + TrafficStats.getTotalTxBytes())
-        // get total cache in MB
-        val storage = TrafficStats.getTotalRxBytes()
+        val storage = 2.34
         tvStorage.text = getString(R.string.storage_example).replace("0", storage.toString())
     }
 

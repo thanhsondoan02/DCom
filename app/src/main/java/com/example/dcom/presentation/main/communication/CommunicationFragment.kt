@@ -1,8 +1,6 @@
 package com.example.dcom.presentation.main.communication
 
 import android.annotation.SuppressLint
-import android.os.Environment
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -33,7 +31,6 @@ import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
 import java.util.*
-import kotlin.collections.HashMap
 
 class CommunicationFragment: BaseFragment(R.layout.communication_fragment) {
     companion object{
@@ -167,6 +164,10 @@ class CommunicationFragment: BaseFragment(R.layout.communication_fragment) {
 
             override fun onSpeak() {
                 val inputText = getInputText().trim()
+                if (inputText.isEmpty()) {
+                    Toast.makeText(requireContext(), getString(R.string.input_empty), Toast.LENGTH_SHORT).show()
+                    return
+                }
                 frequentlyMap[inputText] = frequentlyMap[inputText]?.plus(1) ?: 1
                 addMineMessage(inputText)
                 viewModel.textToSpeech(inputText, requireContext())
@@ -193,7 +194,7 @@ class CommunicationFragment: BaseFragment(R.layout.communication_fragment) {
         setAdapterListener()
         rvConversation.adapter = communicationAdapter
 
-
+        communicationAdapter.addList(viewModel.getTempConversation())
     }
 
     private fun setUpCustomEditText() {

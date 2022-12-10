@@ -100,4 +100,5 @@
     <string name="delete_database_title">Xóa dữ liệu ứng dụng</string>
     <string name="speak">Phát</string>
     <string name="no_frequently_used">Chưa có dữ liệu</string>
+    <string name="input_empty">Không thể phát nội dung trống</string>
 </resources>
