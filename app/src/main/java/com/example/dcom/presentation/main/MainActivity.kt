@@ -17,6 +17,7 @@ import com.example.dcom.presentation.main.communication.CommunicationFragment
 import com.example.dcom.presentation.main.favorite.FavoriteFragment
 import com.example.dcom.presentation.main.history.HistoryFragment
 import com.example.dcom.presentation.search.SearchActivity
+import com.example.dcom.presentation.setting.ChangeThemeActivity
 import com.example.dcom.presentation.setting.SettingActivity
 import com.example.dcom.presentation.widget.CustomViewPager
 import com.google.android.material.appbar.AppBarLayout
@@ -51,6 +52,7 @@ class MainActivity : AppCompatActivity(), BaseView {
     private var historyFragment = HistoryFragment()
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        startActivity(Intent(this, ChangeThemeActivity::class.java))
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_activity)
 

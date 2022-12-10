@@ -7,10 +7,7 @@ import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.dcom.R
-import com.example.dcom.base.event.ConversationEvent
-import com.example.dcom.base.event.EventBusManager
-import com.example.dcom.base.event.IEvent
-import com.example.dcom.base.event.IEventHandler
+import com.example.dcom.base.event.*
 import com.example.dcom.database.AppDatabase
 import com.example.dcom.database.conversation.Conversation
 import com.example.dcom.database.message.Message
@@ -64,6 +61,13 @@ class HistoryFragment : BaseFragment(R.layout.history_fragment), IEventHandler {
                     }
                 }
                 EventBusManager.instance?.removeSticky(event)
+            }
+
+            is DeleteDatabaseEvent -> {
+                if (!event.isFavorite) {
+                    historyAdapter.clear()
+                    EventBusManager.instance?.removeSticky(event)
+                }
             }
         }
     }

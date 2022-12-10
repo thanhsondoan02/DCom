@@ -11,10 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.dcom.R
-import com.example.dcom.base.event.EventBusManager
-import com.example.dcom.base.event.IEvent
-import com.example.dcom.base.event.IEventHandler
-import com.example.dcom.base.event.NoteEvent
+import com.example.dcom.base.event.*
 import com.example.dcom.database.AppDatabase
 import com.example.dcom.database.note.Note
 import com.example.dcom.extension.*
@@ -65,6 +62,14 @@ class FavoriteFragment : BaseFragment(R.layout.favorite_fragment), IEventHandler
                     }
                 }
                 EventBusManager.instance?.removeSticky(event)
+            }
+
+            is DeleteDatabaseEvent -> {
+                if (event.isFavorite) {
+                    favoriteAdapter.clear()
+                    EventBusManager.instance?.removeSticky(event)
+                    EventBusManager.instance?.postPending(DeleteDatabaseEvent(isFavorite = false))
+                }
             }
         }
     }

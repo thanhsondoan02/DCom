@@ -11,3 +11,5 @@ class ConversationEvent(val status: STATUS, val position: Int, val id: Int) : IE
         ADD, EDIT, DELETE
     }
 }
+
+class DeleteDatabaseEvent(val isFavorite: Boolean) : IEvent {}

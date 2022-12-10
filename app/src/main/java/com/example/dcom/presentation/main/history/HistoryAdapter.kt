@@ -41,6 +41,11 @@ class HistoryAdapter : RecyclerView.Adapter<BaseVH>() {
         return CONVERSATION
     }
 
+    fun clear() {
+        mData.clear()
+        notifyDataSetChanged()
+    }
+
     fun selectAll() {
         mData.filterIsInstance<ConversationDisplay>().forEach { it.isSelected = true }
         countSelected = mData.filterIsInstance<ConversationDisplay>().size

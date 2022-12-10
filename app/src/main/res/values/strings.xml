@@ -87,4 +87,15 @@
     <string name="fast_sentence">Mẫu câu nhanh</string>
     <string name="select_all">Chọn tất cả</string>
     <string name="update_conversation_title">Sửa tiêu đề hội thoại</string>
+    <string name="storage_example">Đã sử dụng 0 MB </string>
+    <string name="clear_all_data">Xóa dữ liệu</string>
+    <string name="notifications_settings">Cài đặt thông báo</string>
+    <string name="setting_other">Cài đặt khác</string>
+    <string name="auto_mode">Chế độ tự động</string>
+    <string name="auto_mode_des">Tự động cập nhật mẫu câu nhanh theo tần suất sử dụng</string>
+    <string name="clear_all_data_success">Xóa dữ liệu thành công</string>
+    <string name="dark">Tối</string>
+    <string name="light">Sáng</string>
+    <string name="delete_database_des">Toàn bộ dữ liệu về mẫu câu nhanh và hội thoại sẽ bị xóa và không thể khôi phục</string>
+    <string name="delete_database_title">Xóa dữ liệu ứng dụng</string>
 </resources>
