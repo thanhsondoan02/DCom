@@ -1,0 +1,12 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/itmSearchClear"
+        android:contentDescription="@string/clear_type_text"
+        android:icon="@drawable/ic_baseline_clear_24"
+        android:title="@string/clear_type_text"
+        android:visible="false"
+        app:showAsAction="ifRoom" />
+
+</menu>

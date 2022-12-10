@@ -6,7 +6,7 @@ class NoteEvent(val status: STATUS, val position: Int?, val noteId: Int?) : IEve
     }
 }
 
-class ComversationEvent(val status: STATUS, val position: Int, val id: Int) : IEvent {
+class ConversationEvent(val status: STATUS, val position: Int, val id: Int) : IEvent {
     enum class STATUS {
         ADD, EDIT, DELETE
     }

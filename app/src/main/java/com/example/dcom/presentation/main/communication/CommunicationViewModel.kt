@@ -3,7 +3,7 @@ package com.example.dcom.presentation.main.communication
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.dcom.base.event.ComversationEvent
+import com.example.dcom.base.event.ConversationEvent
 import com.example.dcom.base.event.EventBusManager
 import com.example.dcom.database.AppDatabase
 import com.example.dcom.database.conversation.Conversation
@@ -66,7 +66,7 @@ class CommunicationViewModel: ViewModel() {
                 it.conversationId = id
             }
             insertMessages(list)
-            EventBusManager.instance?.postPending(ComversationEvent(ComversationEvent.STATUS.ADD, -1, id))
+            EventBusManager.instance?.postPending(ConversationEvent(ConversationEvent.STATUS.ADD, -1, id))
         }
     }
 

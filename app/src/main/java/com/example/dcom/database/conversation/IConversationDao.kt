@@ -70,4 +70,7 @@ interface IConversationDao {
     @Query("SELECT * FROM message WHERE conversation_id IN (:conversationIds)")
     fun getMessagesByConversationIds(conversationIds: List<Int>): List<Message>
 
+    @Query("SELECT * FROM conversation WHERE name LIKE '%' || :name || '%'")
+    fun searchConversationByName(name: String): List<Conversation>
+
 }

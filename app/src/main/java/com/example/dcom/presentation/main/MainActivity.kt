@@ -16,12 +16,14 @@ import com.example.dcom.presentation.common.BaseView
 import com.example.dcom.presentation.main.communication.CommunicationFragment
 import com.example.dcom.presentation.main.favorite.FavoriteFragment
 import com.example.dcom.presentation.main.history.HistoryFragment
+import com.example.dcom.presentation.search.SearchActivity
 import com.example.dcom.presentation.setting.SettingActivity
 import com.example.dcom.presentation.widget.CustomViewPager
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.button.MaterialButton
+import com.google.android.material.card.MaterialCardView
 import com.google.android.material.navigation.NavigationView
 
 
@@ -40,6 +42,7 @@ class MainActivity : AppCompatActivity(), BaseView {
     private lateinit var btnCommunicationMore: Button
     private lateinit var btnFavoriteMore: Button
     private lateinit var btnHistoryMore: Button
+    private lateinit var mcvSearchCard: MaterialCardView
 
     private lateinit var pagerAdapter: MainViewPagerAdapter
     private val fragmentList = mutableListOf<BaseFragment>()
@@ -113,6 +116,7 @@ class MainActivity : AppCompatActivity(), BaseView {
         btnCommunicationMore = findViewById(R.id.btnMainCommunicationMore)
         btnFavoriteMore = findViewById(R.id.btnMainFavoriteMore)
         btnHistoryMore = findViewById(R.id.btnMainHistoryMore)
+        mcvSearchCard = findViewById(R.id.mcvMainSearchCard)
     }
 
     private fun setUpOnClick() {
@@ -125,6 +129,10 @@ class MainActivity : AppCompatActivity(), BaseView {
 
         btnOptions.setOnClickListener {
             drawerLayout.openDrawer(GravityCompat.START)
+        }
+
+        mcvSearchCard.setOnClickListener {
+            startActivity(Intent(this, SearchActivity::class.java))
         }
     }
 

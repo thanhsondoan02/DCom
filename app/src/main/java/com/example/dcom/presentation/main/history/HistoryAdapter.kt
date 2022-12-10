@@ -53,6 +53,22 @@ class HistoryAdapter : RecyclerView.Adapter<BaseVH>() {
         notifyItemChanged(position)
     }
 
+    fun updateTitleById(id: Int, title: String) {
+        println("updateTitleById $id $title")
+        mData.find { it.conversation.id == id }?.let {
+            it.conversation.name = title
+            notifyItemChanged(mData.indexOf(it))
+        }
+    }
+
+    fun removeById(id: Int) {
+        mData.find { it.conversation.id == id }?.let {
+            val index = mData.indexOf(it)
+            mData.remove(it)
+            notifyItemRemoved(index)
+        }
+    }
+
     fun getSelectedConversation() = mData.filterIsInstance<ConversationDisplay>().filter { it.isSelected }
 
     fun getSelectedConversationTitle() = mData.filterIsInstance<ConversationDisplay>().filter { it.isSelected }.map { it.conversation.name }

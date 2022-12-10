@@ -159,7 +159,7 @@ class NoteActivity : AppCompatActivity(), BaseView {
 
     private fun deleteNote() {
         database.iNoteDao().deleteById(noteId)
-        EventBusManager.instance?.postPending(NoteEvent(NoteEvent.STATUS.DELETE, notePosition, null))
+        EventBusManager.instance?.postPending(NoteEvent(NoteEvent.STATUS.DELETE, notePosition, noteId))
         isDelete = true
     }
 

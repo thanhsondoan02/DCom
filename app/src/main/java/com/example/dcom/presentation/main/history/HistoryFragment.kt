@@ -7,7 +7,7 @@ import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.dcom.R
-import com.example.dcom.base.event.ComversationEvent
+import com.example.dcom.base.event.ConversationEvent
 import com.example.dcom.base.event.EventBusManager
 import com.example.dcom.base.event.IEvent
 import com.example.dcom.base.event.IEventHandler
@@ -47,14 +47,20 @@ class HistoryFragment : BaseFragment(R.layout.history_fragment), IEventHandler {
     @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
     override fun onEvent(event: IEvent) {
         when (event) {
-            is ComversationEvent -> {
+            is ConversationEvent -> {
                 when (event.status) {
-                    ComversationEvent.STATUS.ADD -> {
+                    ConversationEvent.STATUS.ADD -> {
                         historyAdapter.addItem(HistoryAdapter.ConversationDisplay(database.iConversationDao().getConversationById(event.id)))
+                        EventBusManager.instance?.removeSticky(event)
                     }
-                    ComversationEvent.STATUS.EDIT -> {
+                    ConversationEvent.STATUS.EDIT -> {
+                        val newTitle = database.iConversationDao().getConversationById(event.id).name
+                        historyAdapter.updateTitleById(event.id, newTitle)
+                        EventBusManager.instance?.removeSticky(event)
                     }
-                    ComversationEvent.STATUS.DELETE -> {
+                    ConversationEvent.STATUS.DELETE -> {
+                        historyAdapter.removeById(event.id)
+                        EventBusManager.instance?.removeSticky(event)
                     }
                 }
                 EventBusManager.instance?.removeSticky(event)
@@ -80,7 +86,6 @@ class HistoryFragment : BaseFragment(R.layout.history_fragment), IEventHandler {
                 if (id != null) {
                     startActivity(Intent(requireContext(), ConversationActivity::class.java).apply {
                         putExtra(ConversationActivity.CONVERSATION_ID, id)
-                        putExtra(ConversationActivity.CONVERSATION_NAME, name)
                     })
                 } else {
                     Toast.makeText(requireContext(), getString(R.string.cant_find_conversation), Toast.LENGTH_SHORT).show()
