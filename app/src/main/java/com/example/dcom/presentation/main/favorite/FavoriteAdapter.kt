@@ -96,6 +96,17 @@ class FavoriteAdapter : RecyclerView.Adapter<BaseVH>() {
         state = STATE.NORMAL
     }
 
+    fun selectNone() {
+        mData.forEach {
+            if (it is NoteDisplay) {
+                it.isSelected = false
+            }
+        }
+        countSelected = 0
+        notifyItemRangeChanged(0, itemCount, SELECT_PAYLOAD)
+        listener?.onChangeSelect(countSelected)
+    }
+
     fun update(position: Int, note: Note) {
         (mData[position] as NoteDisplay).note = note
         notifyItemChanged(position)

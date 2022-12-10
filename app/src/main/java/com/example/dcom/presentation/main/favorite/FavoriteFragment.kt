@@ -183,6 +183,10 @@ class FavoriteFragment : BaseFragment(R.layout.favorite_fragment), IEventHandler
                         hideSelectBar()
                         true
                     }
+                    R.id.itmSelectNone -> {
+                        favoriteAdapter.selectNone()
+                        true
+                    }
                     else -> false
                 }
             }
@@ -217,6 +221,15 @@ class FavoriteFragment : BaseFragment(R.layout.favorite_fragment), IEventHandler
 
     private fun changeSelectBar(countSelect: Int) {
         getSelectBar()?.title = countSelect.toString()
+
+        // only show edit if select 1
+        getSelectBar()?.menu?.findItem(R.id.itmSelectEdit)?.isVisible = countSelect == 1
+
+        // only show select none if select all
+        getSelectBar()?.menu?.apply {
+            findItem(R.id.itmSelectNone)?.isVisible = countSelect == favoriteAdapter.itemCount
+            findItem(R.id.itmSelectAll)?.isVisible = findItem(R.id.itmSelectNone)?.isVisible == false
+        }
     }
 
     private fun goToEditNoteActivity(noteId: Int?, position: Int) {
