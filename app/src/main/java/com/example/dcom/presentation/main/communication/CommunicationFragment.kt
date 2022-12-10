@@ -414,6 +414,7 @@ class CommunicationFragment : BaseFragment(R.layout.communication_fragment) {
                 communicationAdapter.addList(deletedMessages, 0)
             }
             .show()
+        viewModel.deleteTempConversation()
     }
 
     @SuppressLint("SetTextI18n")

@@ -31,4 +31,8 @@ abstract class AppDatabase : RoomDatabase() {
         }
     }
 
+    fun getStorageSize(): Int {
+        return iNoteDao().count() + iConversationDao().countMessage() + iConversationDao().countConversation()
+    }
+
 }

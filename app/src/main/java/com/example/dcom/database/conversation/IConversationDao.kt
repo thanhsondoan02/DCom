@@ -73,4 +73,10 @@ interface IConversationDao {
     @Query("SELECT * FROM conversation WHERE name LIKE '%' || :name || '%'")
     fun searchConversationByName(name: String): List<Conversation>
 
+    @Query("SELECT COUNT(*) FROM conversation")
+    fun countConversation(): Int
+
+    @Query("SELECT COUNT(*) FROM message")
+    fun countMessage(): Int
+
 }

@@ -71,8 +71,12 @@ class CommunicationViewModel: ViewModel() {
         }
     }
 
-    fun saveTempConversation(list: List<Message>) {
+    fun deleteTempConversation() {
         database.iConversationDao().deleteMessageInConversation(-1)
+    }
+
+    fun saveTempConversation(list: List<Message>) {
+        deleteTempConversation()
         database.iConversationDao().insertMessages(list)
     }
 
@@ -81,7 +85,7 @@ class CommunicationViewModel: ViewModel() {
     }
 
     fun saveNewConversation(list: List<Message>, name: String) {
-        database.iConversationDao().deleteMessageInConversation(-1)
+        deleteTempConversation()
         database.iConversationDao().apply {
             insertConversation(Conversation(name, createdTime!!))
             val id = getLatestConversation().id
