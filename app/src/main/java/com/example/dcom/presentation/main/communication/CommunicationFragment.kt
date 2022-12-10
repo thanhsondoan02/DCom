@@ -126,6 +126,7 @@ class CommunicationFragment: BaseFragment(R.layout.communication_fragment) {
 
     override fun onPause() {
         super.onPause()
+        saveFrequency()
         saveTempConversation()
     }
 
@@ -134,6 +135,14 @@ class CommunicationFragment: BaseFragment(R.layout.communication_fragment) {
         if (list.isNotEmpty()) {
             viewModel.saveTempConversation(list)
         }
+    }
+
+    private fun saveFrequency(){
+        properties.clear()
+        for (key in frequentlyMap.keys) {
+            properties.setProperty(key, frequentlyMap[key].toString())
+        }
+        properties.store(FileOutputStream(frequentlyFileDirPath), null)
     }
 
     private fun setUpVariables() {
