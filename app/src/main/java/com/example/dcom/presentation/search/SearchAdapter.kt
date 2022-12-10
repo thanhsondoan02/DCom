@@ -104,6 +104,13 @@ class SearchAdapter: RecyclerView.Adapter<BaseVH>() {
                     listener?.onNoteClick(note, adapterPosition)
                 }
             }
+
+            itemView.setOnLongClickListener {
+                mData.getOrNull(adapterPosition)?.note?.let { note ->
+                    listener?.onNoteLongClick(note, adapterPosition)
+                }
+                true
+            }
         }
 
         override fun bind(data: Any?) {
@@ -136,6 +143,7 @@ class SearchAdapter: RecyclerView.Adapter<BaseVH>() {
     interface IListener {
         fun onConversationClick(conversation: Conversation, position: Int)
         fun onNoteClick(note: Note?, position: Int)
+        fun onNoteLongClick(note: Note?, position: Int)
     }
 
 }

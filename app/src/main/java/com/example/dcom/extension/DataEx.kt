@@ -1,5 +1,6 @@
 package com.example.dcom.extension
 
+import android.app.Activity
 import androidx.fragment.app.Fragment
 import com.example.dcom.thread.FlowResult
 import com.example.dcom.thread.UI_STATE
@@ -19,6 +20,26 @@ fun <DATA> MutableStateFlow<FlowResult<DATA>>.loading(message: String? = null) {
 
 fun <DATA> MutableStateFlow<FlowResult<DATA>>.initial() {
     this.value = FlowResult.newInstance<DATA>().initial()
+}
+
+fun <T> Activity.handleUiState(
+    flowResult: FlowResult<T>,
+    listener: IViewListener? = null
+) {
+    when (flowResult.getUiState()) {
+        UI_STATE.INITIAL -> {
+            listener?.onInitial()
+        }
+        UI_STATE.LOADING -> {
+            listener?.onLoading()
+        }
+        UI_STATE.FAILURE -> {
+            listener?.onFailure()
+        }
+        UI_STATE.SUCCESS -> {
+            listener?.onSuccess()
+        }
+    }
 }
 
 fun <T> Fragment.handleUiState(

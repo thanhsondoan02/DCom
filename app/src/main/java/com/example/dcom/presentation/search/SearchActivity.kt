@@ -3,8 +3,11 @@ package com.example.dcom.presentation.search
 import android.content.Intent
 import android.os.Bundle
 import android.widget.EditText
+import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doOnTextChanged
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.dcom.R
@@ -12,6 +15,8 @@ import com.example.dcom.base.event.*
 import com.example.dcom.database.AppDatabase
 import com.example.dcom.database.conversation.Conversation
 import com.example.dcom.database.note.Note
+import com.example.dcom.extension.IViewListener
+import com.example.dcom.extension.handleUiState
 import com.example.dcom.presentation.common.BaseView
 import com.example.dcom.presentation.conversation.ConversationActivity
 import com.example.dcom.presentation.note.NoteActivity
@@ -30,6 +35,8 @@ class SearchActivity : AppCompatActivity(), BaseView, IEventHandler {
         SearchAdapter()
     }
 
+    private val viewModel by viewModels<SearchViewModel>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.search_activity)
@@ -38,6 +45,7 @@ class SearchActivity : AppCompatActivity(), BaseView, IEventHandler {
 
         onPrepareInitView()
         onInitView()
+        onObserverViewModel()
     }
 
     override fun onInitView() {
@@ -54,6 +62,20 @@ class SearchActivity : AppCompatActivity(), BaseView, IEventHandler {
     override fun onStop() {
         super.onStop()
         EventBusManager.instance?.unregister(this)
+    }
+
+    override fun onObserverViewModel() {
+        super.onObserverViewModel()
+
+        lifecycleScope.launchWhenCreated {
+            viewModel.textToSpeechState.collect {
+                handleUiState(it, object : IViewListener {
+                    override fun onSuccess() {
+                        Toast.makeText(this@SearchActivity, getString(R.string.speak_success), Toast.LENGTH_SHORT).show()
+                    }
+                })
+            }
+        }
     }
 
     @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
@@ -123,6 +145,10 @@ class SearchActivity : AppCompatActivity(), BaseView, IEventHandler {
                 }
 
                 override fun onNoteClick(note: Note?, position: Int) {
+                    speak(note?.content)
+                }
+
+                override fun onNoteLongClick(note: Note?, position: Int) {
                     startActivity(Intent(this@SearchActivity, NoteActivity::class.java).apply {
                         putExtra(NoteActivity.NOTE_ID, note?.id)
                         putExtra(NoteActivity.NOTE_POSITION, position)
@@ -132,6 +158,14 @@ class SearchActivity : AppCompatActivity(), BaseView, IEventHandler {
         }
         rvContent.layoutManager = LinearLayoutManager(this)
         showSearchResult("")
+    }
+
+    private fun speak(text: String?) {
+        if (text != null) {
+            viewModel.textToSpeech(text, this)
+        } else {
+            Toast.makeText(this, "Text is null", Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun showSearchResult(keyword: String) {
