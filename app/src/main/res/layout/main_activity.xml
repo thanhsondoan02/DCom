@@ -138,7 +138,20 @@
             </com.google.android.material.appbar.AppBarLayout>
 
             <com.google.android.material.appbar.MaterialToolbar
-                android:id="@+id/mtbMainSelectTopBar"
+                android:id="@+id/mtbMainSelectTopBarFavorite"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="?attr/colorSurface"
+                android:fitsSystemWindows="true"
+                android:visibility="invisible"
+                app:layout_constraintTop_toTopOf="parent"
+                app:menu="@menu/menu_select_top_app_bar"
+                app:navigationContentDescription="@string/close"
+                app:navigationIcon="@drawable/ic_baseline_clear_24"
+                app:title="1" />
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/mtbMainSelectTopBarHistory"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:background="?attr/colorSurface"

@@ -35,7 +35,8 @@ class MainActivity : AppCompatActivity(), BaseView {
     private lateinit var flTopBar: FrameLayout
     private lateinit var tvTitle: TextView
     private lateinit var btnSetting: MaterialButton
-    private lateinit var mtbSelectBar: MaterialToolbar
+    private lateinit var mtbSelectBarFavorite: MaterialToolbar
+    private lateinit var mtbSelectBarHistory: MaterialToolbar
     private lateinit var ablNormalTopBar: AppBarLayout
     private lateinit var btnOptions: Button
     private lateinit var drawerLayout: DrawerLayout
@@ -88,8 +89,12 @@ class MainActivity : AppCompatActivity(), BaseView {
         return ablNormalTopBar
     }
 
-    fun getSelectBar(): MaterialToolbar {
-        return mtbSelectBar
+    fun getSelectBarFavorite(): MaterialToolbar {
+        return mtbSelectBarFavorite
+    }
+
+    fun getSelectBarHistory(): MaterialToolbar {
+        return mtbSelectBarHistory
     }
 
     fun btnCommunicationMore(): Button {
@@ -110,7 +115,8 @@ class MainActivity : AppCompatActivity(), BaseView {
         flTopBar = findViewById(R.id.constMainTopBar)
         tvTitle = findViewById(R.id.tvMainTitle)
         btnSetting = findViewById(R.id.btnMainSetting)
-        mtbSelectBar = findViewById(R.id.mtbMainSelectTopBar)
+        mtbSelectBarFavorite= findViewById(R.id.mtbMainSelectTopBarFavorite)
+        mtbSelectBarHistory= findViewById(R.id.mtbMainSelectTopBarHistory)
         ablNormalTopBar = findViewById(R.id.ablMainNormalTopBar)
         btnOptions = findViewById(R.id.btnMainOptions)
         drawerLayout = findViewById(R.id.drawer_layout)
@@ -142,16 +148,22 @@ class MainActivity : AppCompatActivity(), BaseView {
         bnvMenu.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.itmCommunication -> {
+                    favoriteFragment.hideSelectBar()
+                    historyFragment.hideSelectBar()
                     cvpHomePager.setCurrentItem(0, false)
                     tvTitle.text = getString(R.string.communication)
                     true
                 }
                 R.id.itmFavorite -> {
+                    favoriteFragment.hideSelectBar()
+                    historyFragment.hideSelectBar()
                     cvpHomePager.setCurrentItem(1, false)
                     tvTitle.text = getString(R.string.favorite)
                     true
                 }
                 R.id.itmHistory -> {
+                    favoriteFragment.hideSelectBar()
+                    historyFragment.hideSelectBar()
                     cvpHomePager.setCurrentItem(2, false)
                     tvTitle.text = getString(R.string.history)
                     true

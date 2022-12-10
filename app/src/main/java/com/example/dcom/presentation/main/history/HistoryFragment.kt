@@ -80,6 +80,10 @@ class HistoryFragment : BaseFragment(R.layout.history_fragment), IEventHandler {
         setUpRecyclerView()
     }
 
+//    fun unSelectedAll() {
+//        historyAdapter.unSelectAllAndChangeState()
+//    }
+
     private fun setUpVariables() {
         rvContent = requireView().findViewById(R.id.rvHistoryContent)
     }
@@ -155,22 +159,25 @@ class HistoryFragment : BaseFragment(R.layout.history_fragment), IEventHandler {
             .show()
     }
 
-    private fun hideSelectBar() {
+    fun hideSelectBar() {
         getSelectBar()?.gone()
         historyAdapter.unSelectAllAndChangeState()
     }
 
     private fun changeSelectBar(countSelect: Int) {
         getSelectBar()?.title = countSelect.toString()
+
+        // only show edit if select 1
         getSelectBar()?.menu?.findItem(R.id.itmSelectEdit)?.isVisible = countSelect == 1
 
-        if (countSelect == historyAdapter.itemCount) {
-            showButtonSelectNone()
-        } else {
-            showButtonSelectAll()
-        }
+        // only show delete if select > 0
+        getSelectBar()?.menu?.findItem(R.id.itmSelectDelete)?.isVisible = countSelect > 0
 
-        getSelectBar()?.menu?.findItem(R.id.itmSelectDelete)?.isVisible = countSelect != 0
+        // only show select none if select all
+        getSelectBar()?.menu?.apply {
+            findItem(R.id.itmSelectNone)?.isVisible = countSelect == historyAdapter.itemCount
+            findItem(R.id.itmSelectAll)?.isVisible = findItem(R.id.itmSelectNone)?.isVisible == false
+        }
     }
 
     private fun showButtonSelectAll() {
@@ -188,7 +195,7 @@ class HistoryFragment : BaseFragment(R.layout.history_fragment), IEventHandler {
     }
 
     private fun getSelectBar(): MaterialToolbar? {
-        return (activity as? MainActivity)?.getSelectBar()
+        return (activity as? MainActivity)?.getSelectBarHistory()
     }
 
     private fun showConfirmDeleteDialog() {

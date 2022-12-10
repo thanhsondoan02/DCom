@@ -14,7 +14,10 @@ import com.example.dcom.R
 import com.example.dcom.base.event.*
 import com.example.dcom.database.AppDatabase
 import com.example.dcom.database.note.Note
-import com.example.dcom.extension.*
+import com.example.dcom.extension.IViewListener
+import com.example.dcom.extension.gone
+import com.example.dcom.extension.handleUiState
+import com.example.dcom.extension.show
 import com.example.dcom.presentation.common.BaseFragment
 import com.example.dcom.presentation.main.MainActivity
 import com.example.dcom.presentation.main.communication.CommunicationFragment
@@ -105,6 +108,11 @@ class FavoriteFragment : BaseFragment(R.layout.favorite_fragment), IEventHandler
         }
     }
 
+    override fun onPause() {
+        super.onPause()
+        hideSelectBar()
+    }
+
     private fun setUpVariables() {
         rvContent = requireView().findViewById(R.id.rvFavoriteContent)
         btnAdd = requireView().findViewById(R.id.btnFavoriteAdd)
@@ -156,14 +164,12 @@ class FavoriteFragment : BaseFragment(R.layout.favorite_fragment), IEventHandler
     }
 
     private fun getSelectBar(): MaterialToolbar? {
-        return (activity as? MainActivity)?.getSelectBar()
+        return (activity as? MainActivity)?.getSelectBarFavorite()
     }
 
     private fun initSelectBar() {
         getSelectBar()?.apply {
             show()
-            btnAdd.hide()
-            btnFastGen.hide()
             setNavigationOnClickListener {
                 hideSelectBar()
             }
@@ -214,10 +220,8 @@ class FavoriteFragment : BaseFragment(R.layout.favorite_fragment), IEventHandler
             .show()
     }
 
-    private fun hideSelectBar() {
+    fun hideSelectBar() {
         getSelectBar()?.gone()
-        btnAdd.show()
-        btnFastGen.show()
         favoriteAdapter.unSelectAll()
     }
 
@@ -226,6 +230,9 @@ class FavoriteFragment : BaseFragment(R.layout.favorite_fragment), IEventHandler
 
         // only show edit if select 1
         getSelectBar()?.menu?.findItem(R.id.itmSelectEdit)?.isVisible = countSelect == 1
+
+        // only show delete if select > 0
+        getSelectBar()?.menu?.findItem(R.id.itmSelectDelete)?.isVisible = countSelect > 0
 
         // only show select none if select all
         getSelectBar()?.menu?.apply {
