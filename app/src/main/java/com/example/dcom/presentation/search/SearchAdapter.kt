@@ -81,10 +81,40 @@ class SearchAdapter: RecyclerView.Adapter<BaseVH>() {
         }
     }
 
+    fun removeNoteById(id: Int) {
+        mData.find { it.note?.id == id }?.let {
+            val position = mData.indexOf(it)
+            mData.remove(it)
+            notifyItemRemoved(position)
+        }
+    }
+
+    fun removeConversationById(id: Int) {
+        mData.find { it.conversation?.id == id }?.let {
+            val position = mData.indexOf(it)
+            mData.remove(it)
+            notifyItemRemoved(position)
+        }
+    }
+
     fun updateById(id: Int, item: SearchDisplay) {
         mData.find { it.conversation?.id == id || it.note?.id == id }?.let {
             it.conversation = item.conversation
             it.note = item.note
+            notifyItemChanged(mData.indexOf(it))
+        }
+    }
+
+    fun updateNoteById(id: Int, item: SearchDisplay) {
+        mData.find { it.note?.id == id }?.let {
+            it.note = item.note
+            notifyItemChanged(mData.indexOf(it))
+        }
+    }
+
+    fun updateConversationById(id: Int, item: SearchDisplay) {
+        mData.find { it.conversation?.id == id }?.let {
+            it.conversation = item.conversation
             notifyItemChanged(mData.indexOf(it))
         }
     }

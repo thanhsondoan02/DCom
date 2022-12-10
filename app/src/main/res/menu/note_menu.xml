@@ -2,6 +2,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/itmNoteSpeak"
+        android:icon="@drawable/ic_outline_volume_up_24"
+        android:title="@string/speak"
+        android:contentDescription="@string/speak"
+        app:showAsAction="ifRoom" />
+
+    <item
         android:id="@+id/itmNoteDone"
         android:icon="@drawable/ic_round_done_24"
         android:title="@string/done"

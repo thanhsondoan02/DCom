@@ -86,10 +86,10 @@ class SearchActivity : AppCompatActivity(), BaseView, IEventHandler {
                     NoteEvent.STATUS.ADD -> {
                     }
                     NoteEvent.STATUS.EDIT -> {
-                        adapter.updateById(event.noteId!!, SearchAdapter.SearchDisplay(note = database.iNoteDao().get(event.noteId)))
+                        adapter.updateNoteById(event.noteId!!, SearchAdapter.SearchDisplay(note = database.iNoteDao().get(event.noteId)))
                     }
                     NoteEvent.STATUS.DELETE -> {
-                        adapter.removeById(event.noteId!!)
+                        adapter.removeNoteById(event.noteId!!)
                     }
                 }
                 EventBusManager.instance?.removeSticky(event)
@@ -99,10 +99,10 @@ class SearchActivity : AppCompatActivity(), BaseView, IEventHandler {
                     ConversationEvent.STATUS.ADD -> {
                     }
                     ConversationEvent.STATUS.EDIT -> {
-                        adapter.updateById(event.id, SearchAdapter.SearchDisplay(conversation = database.iConversationDao().getConversationById(event.id)))
+                        adapter.updateConversationById(event.id, SearchAdapter.SearchDisplay(conversation = database.iConversationDao().getConversationById(event.id)))
                     }
                     ConversationEvent.STATUS.DELETE -> {
-                        adapter.removeById(event.id)
+                        adapter.removeConversationById(event.id)
                     }
                 }
                 EventBusManager.instance?.removeSticky(event)

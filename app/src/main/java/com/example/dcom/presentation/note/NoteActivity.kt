@@ -6,9 +6,9 @@ import android.os.Bundle
 import android.view.Gravity
 import android.view.WindowManager
 import android.widget.Button
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatEditText
-import androidx.core.view.get
 import com.example.dcom.R
 import com.example.dcom.base.event.EventBusManager
 import com.example.dcom.base.event.NoteEvent
@@ -17,6 +17,7 @@ import com.example.dcom.database.note.Note
 import com.example.dcom.extension.hideKeyboard
 import com.example.dcom.extension.showKeyboard
 import com.example.dcom.presentation.common.BaseView
+import com.example.dcom.presentation.search.SearchViewModel
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
@@ -39,6 +40,8 @@ class NoteActivity : AppCompatActivity(), BaseView {
     private lateinit var database: AppDatabase
     private var dialog: Dialog? = null
     private var isDelete = false
+
+    private val viewModel by viewModels<SearchViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -111,6 +114,10 @@ class NoteActivity : AppCompatActivity(), BaseView {
                     showConfirmDeleteDialog()
                     true
                 }
+                R.id.itmNoteSpeak -> {
+                    viewModel.textToSpeech(edtContent.text.toString(), this@NoteActivity)
+                    true
+                }
                 else -> false
             }
         }
@@ -118,8 +125,8 @@ class NoteActivity : AppCompatActivity(), BaseView {
     }
 
     private fun setViewState() {
-        mtbTopBar.menu[0].isVisible = false
-        mtbTopBar.menu[1].isVisible = true
+        mtbTopBar.menu.findItem(R.id.itmNoteDone).isVisible = false
+        mtbTopBar.menu.findItem(R.id.itmNoteDelete).isVisible = true
         edtContent.clearFocus()
         edtTitle.clearFocus()
         hideKeyboard(window.decorView.rootView)
@@ -127,8 +134,8 @@ class NoteActivity : AppCompatActivity(), BaseView {
     }
 
     private fun setEditState() {
-        mtbTopBar.menu[0].isVisible = true
-        mtbTopBar.menu[1].isVisible = false
+        mtbTopBar.menu.findItem(R.id.itmNoteDone).isVisible = true
+        mtbTopBar.menu.findItem(R.id.itmNoteDelete).isVisible = false
         state = STATE.EDIT
     }
 

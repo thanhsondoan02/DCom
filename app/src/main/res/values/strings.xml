@@ -98,4 +98,5 @@
     <string name="light">Sáng</string>
     <string name="delete_database_des">Toàn bộ dữ liệu về mẫu câu nhanh và hội thoại sẽ bị xóa và không thể khôi phục</string>
     <string name="delete_database_title">Xóa dữ liệu ứng dụng</string>
+    <string name="speak">Phát</string>
 </resources>
