@@ -78,6 +78,12 @@ class HistoryFragment : BaseFragment(R.layout.history_fragment), IEventHandler {
         setUpVariables()
         setUpOnClick()
         setUpRecyclerView()
+
+        (activity as MainActivity).listenerHistory = object : MainActivity.IListenerHistory {
+            override fun onPageChangeHistory(position: Int) {
+                hideSelectBar()
+            }
+        }
     }
 
 //    fun unSelectedAll() {

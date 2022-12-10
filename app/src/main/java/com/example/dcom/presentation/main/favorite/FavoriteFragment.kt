@@ -92,6 +92,12 @@ class FavoriteFragment : BaseFragment(R.layout.favorite_fragment), IEventHandler
         setUpRecyclerView()
 
         favoriteAdapter.addItems(viewModel.database.iNoteDao().getAll())
+
+        (activity as MainActivity).listenerFavorite = object : MainActivity.IListenerFavorite {
+            override fun onPageChangeFavorite(position: Int) {
+                hideSelectBar()
+            }
+        }
     }
 
     override fun onObserverViewModel() {

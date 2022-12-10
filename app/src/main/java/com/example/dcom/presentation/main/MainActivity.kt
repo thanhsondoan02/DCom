@@ -36,6 +36,10 @@ class MainActivity : AppCompatActivity(), BaseView {
 
     var isRecordGranted = false
 
+    var listenerCommunication: IListenerCommunication? = null
+    var listenerFavorite: IListenerFavorite? = null
+    var listenerHistory: IListenerHistory? = null
+
     private lateinit var cvpHomePager: CustomViewPager
     private lateinit var bnvMenu: BottomNavigationView
     private lateinit var flTopBar: FrameLayout
@@ -196,6 +200,26 @@ class MainActivity : AppCompatActivity(), BaseView {
             offscreenPageLimit = pagerAdapter.count
             currentItem = 0
         }
+
+        getViewPager().addOnPageChangeListener(
+            object : ViewPager.OnPageChangeListener {
+                override fun onPageScrolled(
+                    position: Int,
+                    positionOffset: Float,
+                    positionOffsetPixels: Int
+                ) {
+                }
+
+                override fun onPageSelected(position: Int) {
+                    listenerCommunication?.onPageChangeCommunication(position)
+                    listenerFavorite?.onPageChangeFavorite(position)
+                    listenerHistory?.onPageChangeHistory(position)
+                }
+
+                override fun onPageScrollStateChanged(state: Int) {
+                }
+            }
+        )
     }
 
     private fun initNavigationDrawer() {
@@ -226,6 +250,18 @@ class MainActivity : AppCompatActivity(), BaseView {
         return (ActivityCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO)
                 == PackageManager.PERMISSION_GRANTED
                 )
+    }
+
+    interface IListenerCommunication {
+        fun onPageChangeCommunication(position: Int)
+    }
+
+    interface IListenerFavorite {
+        fun onPageChangeFavorite(position: Int)
+    }
+
+    interface IListenerHistory {
+        fun onPageChangeHistory(position: Int)
     }
 
 }

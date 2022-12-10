@@ -20,7 +20,6 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.viewpager.widget.ViewPager
 import com.example.dcom.R
 import com.example.dcom.database.AppDatabase
 import com.example.dcom.database.message.Message
@@ -96,27 +95,15 @@ class CommunicationFragment : BaseFragment(R.layout.communication_fragment) {
 
         viewModel.speechToText(requireContext())
 
-        (activity as MainActivity).getViewPager().addOnPageChangeListener(
-            object : ViewPager.OnPageChangeListener {
-                override fun onPageScrolled(
-                    position: Int,
-                    positionOffset: Float,
-                    positionOffsetPixels: Int
-                ) {
-                }
-
-                override fun onPageSelected(position: Int) {
-                    if (position == 0) {
-                        startRecognition()
-                    } else {
-                        stopRecognition()
-                    }
-                }
-
-                override fun onPageScrollStateChanged(state: Int) {
+        (activity as MainActivity).listenerCommunication = object: MainActivity.IListenerCommunication {
+            override fun onPageChangeCommunication(position: Int) {
+                if (position == 0) {
+                    startRecognition()
+                } else {
+                    stopRecognition()
                 }
             }
-        )
+        }
     }
 
     private fun createRecognizer() {
