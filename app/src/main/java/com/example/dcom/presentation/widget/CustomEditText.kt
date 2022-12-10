@@ -40,8 +40,15 @@ class CustomEditText @JvmOverloads constructor(
     }
 
     fun addSuggestText(text: String, tempText: String) {
-        val newText = edtInput.text.toString().replace(tempText, "")
+        // get last position of temp text
+        val lastPosition = edtInput.text.toString().lastIndexOf(tempText)
+        // get text before temp text
+        var newText = ""
+        if (lastPosition >= 0) {
+            newText = edtInput.text.toString().substring(0, lastPosition)
+        }
         edtInput.setText("$newText $text ")
+        edtInput.setSelection(edtInput.text.toString().length)
     }
 
     fun getText(): String = edtInput.text.toString()
