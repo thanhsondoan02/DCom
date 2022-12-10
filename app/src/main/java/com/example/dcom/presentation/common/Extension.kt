@@ -8,6 +8,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.io.File
+import java.text.SimpleDateFormat
+import java.util.*
 
 fun Context.resIdByName(resIdName: String?, resType: String): Int {
     resIdName?.let {
@@ -57,3 +59,11 @@ fun Activity.emptyDatabase() {
         AppDatabase.getInstance(this@emptyDatabase).clearAllTables()
     }
 }
+
+// convert time long to hh:mm dd/MM/yyyy
+fun convertTime(time: Long): String {
+    val date = Date(time)
+    val format = SimpleDateFormat("hh:mm dd/MM/yyyy", Locale.getDefault())
+    return format.format(date)
+}
+

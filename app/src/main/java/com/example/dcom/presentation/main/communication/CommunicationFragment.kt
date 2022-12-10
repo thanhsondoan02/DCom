@@ -1,5 +1,6 @@
 package com.example.dcom.presentation.main.communication
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -19,6 +20,7 @@ import com.example.dcom.database.AppDatabase
 import com.example.dcom.database.message.Message
 import com.example.dcom.extension.*
 import com.example.dcom.presentation.common.BaseFragment
+import com.example.dcom.presentation.common.convertTime
 import com.example.dcom.presentation.conversation.ConversationAdapter
 import com.example.dcom.presentation.main.MainActivity
 import com.example.dcom.presentation.widget.CustomEditText
@@ -295,10 +297,16 @@ class CommunicationFragment: BaseFragment(R.layout.communication_fragment) {
             .show()
     }
 
+    @SuppressLint("SetTextI18n")
     private fun showSaveDialog() {
         activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         val view = LayoutInflater.from(requireContext()).inflate(R.layout.save_conversation_dialog, null, false)
         val edtTitle = view.findViewById<TextInputEditText>(R.id.edtSaveConversationTitle)
+
+        // set current time
+        viewModel.setCreateTime()
+        edtTitle.setText(getString(R.string.conversation_title_example) + " " + convertTime(viewModel.createdTime))
+
         var isInit = true
         edtTitle.setOnFocusChangeListener { v, hasFocus ->
             if (hasFocus && isInit) {

@@ -28,7 +28,7 @@ class CommunicationViewModel: ViewModel() {
     val speechToTextState = _speechToTextState.asStateFlow()
 
     lateinit var database: AppDatabase
-    var createdTime: Long? = null
+    var createdTime: Long = 0
 
     fun textToSpeech(text: String, context: Context) {
         val rv = TextToSpeechUseCase.TextToSpeechRV(text, context)
@@ -55,12 +55,12 @@ class CommunicationViewModel: ViewModel() {
     }
 
     fun saveTempConversation(list: List<Message>) {
-        database?.iConversationDao()?.insertMessages(list)
+        database.iConversationDao().insertMessages(list)
     }
 
     fun saveNewConversation(list: List<Message>, name: String) {
-        database?.iConversationDao()?.apply {
-            insertConversation(Conversation(name, createdTime ?: System.currentTimeMillis()))
+        database.iConversationDao().apply {
+            insertConversation(Conversation(name, createdTime!!))
             val id = getLatestConversation().id
             list.forEach {
                 it.conversationId = id
@@ -68,6 +68,10 @@ class CommunicationViewModel: ViewModel() {
             insertMessages(list)
             EventBusManager.instance?.postPending(ConversationEvent(ConversationEvent.STATUS.ADD, -1, id))
         }
+    }
+
+    fun setCreateTime() {
+        createdTime = System.currentTimeMillis()
     }
 
     fun searchNote(keyword: String): List<Note> {

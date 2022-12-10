@@ -1,5 +1,6 @@
 package com.example.dcom.presentation.main.history
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -7,6 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.dcom.R
 import com.example.dcom.database.conversation.Conversation
+import com.example.dcom.presentation.common.convertTime
 import com.example.dcom.presentation.common.recyclerview.BaseVH
 import com.google.android.material.card.MaterialCardView
 
@@ -41,6 +43,7 @@ class HistoryAdapter : RecyclerView.Adapter<BaseVH>() {
         return CONVERSATION
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun clear() {
         mData.clear()
         notifyDataSetChanged()
@@ -180,6 +183,7 @@ class HistoryAdapter : RecyclerView.Adapter<BaseVH>() {
         override fun bind(data: Any?) {
             data as ConversationDisplay
             title.text = data.conversation.name
+            latestMessage.text = convertTime(data.conversation.createdTime)
             setSelectStatus(data.isSelected)
         }
 
