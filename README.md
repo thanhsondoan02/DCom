@@ -1,3 +1,18 @@
 # DCom
 
 ![Imgur Image](https://imgur.com/apcuTnd.png)
+![Imgur Image](https://imgur.com/wMzQW6c.png)
+![Imgur Image](https://imgur.com/62hnkOY.png)
+![Imgur Image](https://imgur.com/dPRgzzg.png)
+![Imgur Image](https://imgur.com/VaVg0hM.png)
+![Imgur Image](https://imgur.com/wEBNlMY.png)
+![Imgur Image](https://imgur.com/zwMIpW9.png)
+![Imgur Image](https://imgur.com/p9vI49D.png)
+![Imgur Image](https://imgur.com/nlq78Nj.png)
+![Imgur Image](https://imgur.com/nlq78Nj.png)
+![Imgur Image](https://imgur.com/p6wHI1U.png)
+![Imgur Image](https://imgur.com/HPOnwBB.png)
+![Imgur Image](https://imgur.com/fa1C0M3.png)
+![Imgur Image](https://imgur.com/gBPAx0v.png)
+![Imgur Image](https://imgur.com/2HrrBts.png)
+![Imgur Image](.png)
